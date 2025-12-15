@@ -1,40 +1,94 @@
 {%- comment -%}
-  Brands Page Template (List Layout)
+  Brands Page Template (The Collective) - Synced with Drafts V2/BrandsIndex.tsx
 {%- endcomment -%}
 
-<div class="page-header">
-  <h1>Brands</h1>
-</div>
+<div class="brands-index max-w-[1400px] mx-auto py-20 px-6 md:px-12 bg-white">
+  <header class="mb-20 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tighter text-black">THE CØLLECTIVE</h1>
+    <p class="text-brand-dark/60 max-w-2xl mx-auto text-lg font-light">
+      A federation of independent creative houses operating under the Pay The DØLLS protocol.
+    </p>
+  </header>
 
-<div class="page-content text-center" style="max-width: 800px;">
-  
-  <!-- Brand List -->
-  <div style="display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem;">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     
-    <!-- Brand 1: Pay The Dolls -->
-    <a href="/collections/pay-the-dolls" style="border: 1px solid var(--border); padding: 3rem; transition: all 0.3s ease; display: block;" class="brand-item">
-      <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">PAY THE DØLLS™</h2>
-      <p style="font-size: 1.1rem; opacity: 0.7;">The core brand under the PAY THE DØLLS™ platform.</p>
-      <span class="btn mt-m">View Collection</span>
+    <!-- Brand 1: PAY THE DØLLS -->
+    <a href="/collections/all" class="group cursor-pointer relative aspect-[3/4] overflow-hidden border border-brand-border bg-brand-light transition-all hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] duration-500 block">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-90"
+             style="background-image: url('https://paythedolls.com/cdn/shop/files/79dc1ab5c42b45f3aec4dacb4dc071f0.png?v=1765779185&width=800');">
+        </div>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 transition-opacity duration-300 opacity-20 group-hover:opacity-10 bg-brand-neon"></div>
+
+        <!-- Content -->
+        <div class="absolute inset-0 p-8 flex flex-col justify-between text-white z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+            <div class="text-xl font-bold tracking-widest border-b border-white/20 pb-2 w-fit">
+                PTD™
+            </div>
+          
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <h2 class="text-3xl font-bold mb-2">PAY THE DØLLS™</h2>
+                <p class="text-sm font-light opacity-90 mb-4">Cultural Commerce Platform</p>
+                <span class="inline-block px-4 py-2 border border-white/40 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
+                  Enter Shop
+                </span>
+            </div>
+        </div>
     </a>
-    
-    <!-- Placeholder: Coming Soon -->
-    <div style="border: 1px dashed var(--border); padding: 3rem; background: var(--off-white); opacity: 0.7;">
-      <h2 style="font-size: 1.5rem; font-weight: 400; color: #888;">Coming Soon</h2>
-      <p>Verse Capital™</p>
-    </div>
-    
-  </div>
-  
-  <div style="opacity: 0.6; font-style: italic;">
-    <p>Additional brands and collaborations launching soon.</p>
-  </div>
-  
-</div>
 
-<style>
-.brand-item:hover {
-  border-color: var(--mint) !important;
-  transform: translateY(-2px);
-}
-</style>
+    <!-- Brand 2: STuDiØ ZØ -->
+    <a href="/pages/studio-zo-print-lab" class="group cursor-pointer relative aspect-[3/4] overflow-hidden border border-brand-border bg-brand-light transition-all hover:shadow-[0_0_20px_rgba(0,255,136,0.4)] duration-500 block">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-90"
+             style="background-image: url('https://images.unsplash.com/photo-1544211086-635e957388d0?q=80&w=2787&auto=format&fit=crop');">
+        </div>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 transition-opacity duration-300 opacity-20 group-hover:opacity-10 bg-black"></div>
+
+        <!-- Content -->
+        <div class="absolute inset-0 p-8 flex flex-col justify-between text-white z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+            <div class="text-xl font-bold tracking-widest border-b border-white/20 pb-2 w-fit">
+                ZØ
+            </div>
+          
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <h2 class="text-3xl font-bold mb-2">STuDiØ ZØ</h2>
+                <p class="text-sm font-light opacity-90 mb-4">Art. Design. Entropy.</p>
+                <span class="inline-block px-4 py-2 border border-white/40 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
+                  Enter Shop
+                </span>
+            </div>
+        </div>
+    </a>
+
+    <!-- Brand 3: Wildcard (Coming Soon) -->
+    <div class="group cursor-not-allowed relative aspect-[3/4] overflow-hidden border border-brand-border bg-brand-light transition-all duration-500 grayscale opacity-70 hover:opacity-100 hover:grayscale-0">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-90"
+             style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');">
+        </div>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 transition-opacity duration-300 opacity-20 group-hover:opacity-10 bg-black"></div>
+
+        <!-- Content -->
+        <div class="absolute inset-0 p-8 flex flex-col justify-between text-white z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+            <div class="text-xl font-bold tracking-widest border-b border-white/20 pb-2 w-fit">
+                WMI
+            </div>
+          
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <h2 class="text-3xl font-bold mb-2">Wildcard Magic Items</h2>
+                <p class="text-sm font-light opacity-90 mb-4">Artifacts for the Digital Age</p>
+                <span class="inline-block px-4 py-2 border border-white/40 text-xs tracking-widest uppercase">
+                  Coming Soon
+                </span>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</div>
