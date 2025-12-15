@@ -1,0 +1,5 @@
+{
+  "name": "Shopify Product Page Visualizer",
+  "description": "A React visualization of a liquid product template including a Liquid export file.",
+  "requestFramePermissions": []
+}
