@@ -27,6 +27,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-dark': '#123524',
+            'brand-neon': '#00FF88',
+            'brand-light': 'rgba(0, 255, 136, 0.08)',
+            'brand-border': 'rgba(0, 255, 136, 0.2)',
+          }
+        }
+      }
+    }
+  </script>
+
   <!-- Avenir Font (using system font stack as fallback) -->
   <style>
     @font-face {

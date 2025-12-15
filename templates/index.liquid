@@ -1,65 +1,63 @@
-{{ 'homepage-v3.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Homepage V3 (Tailwind Refactor)
+  Preserves existing layout: Hero, Explainer, Quick Index Grid
+{%- endcomment -%}
 
 <!-- HERO SECTION -->
-<section class="hero-v3">
-    <h1>PAY THE DØLLS™</h1>
-    <p class="tagline">Like Amazon, but for DØLLs</p>
-    <p class="subtitle">Cultural commerce, routed correctly.</p>
-    <div class="hero-actions">
-        <a href="/collections" class="hero-btn">Shop Now</a>
-        <a href="/pages/brands" class="hero-btn hero-btn-secondary">View Brands</a>
+<section class="hero-v3 min-h-screen flex flex-col justify-center items-center text-center px-12 pt-32 pb-24 bg-gradient-to-b from-white to-[#F8FFF8] relative">
+    <!-- Background element -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,136,0.03)_0%,transparent_70%)] pointer-events-none"></div>
+
+    <h1 class="text-[clamp(36px,5vw,72px)] font-extrabold tracking-[-1px] leading-[1.1] text-black mb-6">PAY THE DØLLS™</h1>
+    <p class="tagline text-[clamp(22px,3.5vw,36px)] font-semibold text-black mb-4 tracking-[0.5px]">Like Amazon, but for DØLLs</p>
+    <p class="subtitle text-[clamp(15px,1.8vw,20px)] text-[#666] max-w-[680px] mx-auto mb-14 leading-[1.8]">Cultural commerce, routed correctly.</p>
+    
+    <div class="hero-actions flex gap-4 flex-wrap justify-center relative z-10">
+        <a href="/collections" class="hero-btn bg-brand-neon text-black px-11 py-5 text-[13px] font-bold tracking-[1.5px] uppercase rounded-[2px] transition-all duration-300 hover:bg-[#00dd77] hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(0,255,136,0.2)] hover:shadow-[0_6px_28px_rgba(0,255,136,0.3)]">Shop Now</a>
+        <a href="/pages/brands" class="hero-btn hero-btn-secondary bg-transparent text-brand-dark border-[1.5px] border-brand-dark px-11 py-5 text-[13px] font-bold tracking-[1.5px] uppercase rounded-[2px] transition-all duration-300 hover:bg-brand-dark hover:text-white hover:-translate-y-0.5">View Brands</a>
     </div>
 </section>
 
 <!-- EXPLAINER SECTION -->
-<section class="explainer-section">
+<section class="explainer-section py-24 px-12 text-center max-w-[900px] mx-auto">
     <div class="explainer-content">
-        <h2>PAY THE DØLLS™ is a trans-owned cultural commerce platform.</h2>
-        <p>We create products, objects, and brands that move capital directly to creators.</p>
-        <p style="margin-top: 1.5rem;">Buy something. Participate.</p>
+        <h2 class="text-[clamp(24px,3vw,32px)] font-bold text-black mb-6">PAY THE DØLLS™ is a trans-owned cultural commerce platform.</h2>
+        <p class="text-[clamp(18px,2vw,24px)] leading-[1.8] text-[#555]">We create products, objects, and brands that move capital directly to creators.</p>
+        <p class="mt-6 text-[clamp(18px,2vw,24px)] leading-[1.8] text-[#555] font-semibold">Buy something. Participate.</p>
     </div>
 </section>
 
 <!-- QUICK INDEX GRID -->
-<section class="quick-index-grid">
-    <a href="/collections" class="index-item">
+<section class="quick-index-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 min-h-[50vh] border-t border-brand-border">
+    <a href="/collections" class="index-item group flex flex-col justify-between p-10 border-b md:border-b-0 md:border-r border-brand-border transition-all duration-400 hover:bg-brand-light relative">
         <div>
-            <h3>SHOP</h3>
-            <span>Browse products</span>
+            <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-brand-dark">SHOP</h3>
+            <span class="text-sm text-[#666] tracking-wide uppercase">Browse products</span>
         </div>
-        <div class="index-arrow">→</div>
+        <div class="index-arrow text-3xl font-light text-brand-dark mt-8 transition-transform duration-300 group-hover:translate-x-2">→</div>
     </a>
     
-    <a href="/pages/brands" class="index-item">
+    <a href="/pages/brands" class="index-item group flex flex-col justify-between p-10 border-b md:border-b-0 md:border-r border-brand-border transition-all duration-400 hover:bg-brand-light relative">
         <div>
-            <h3>BRANDS</h3>
-            <span>View brand system</span>
+            <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-brand-dark">BRANDS</h3>
+            <span class="text-sm text-[#666] tracking-wide uppercase">View brand system</span>
         </div>
-        <div class="index-arrow">→</div>
+        <div class="index-arrow text-3xl font-light text-brand-dark mt-8 transition-transform duration-300 group-hover:translate-x-2">→</div>
     </a>
     
-    <a href="/pages/verse-capital" class="index-item">
+    <a href="/pages/verse-capital" class="index-item group flex flex-col justify-between p-10 border-b md:border-b-0 md:border-r border-brand-border transition-all duration-400 hover:bg-brand-light relative">
         <div>
-            <h3>VERSE CAP</h3>
-            <span>How capital flows</span>
+            <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-brand-dark">VERSE CAP</h3>
+            <span class="text-sm text-[#666] tracking-wide uppercase">How capital flows</span>
         </div>
-        <div class="index-arrow">→</div>
+        <div class="index-arrow text-3xl font-light text-brand-dark mt-8 transition-transform duration-300 group-hover:translate-x-2">→</div>
     </a>
     
-    <a href="/pages/submit" class="index-item">
+    <a href="/pages/submit" class="index-item group flex flex-col justify-between p-10 border-brand-border transition-all duration-400 hover:bg-brand-light relative">
         <div>
-            <h3>SUBMIT</h3>
-            <span>Bring us ideas</span>
+            <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-brand-dark">SUBMIT</h3>
+            <span class="text-sm text-[#666] tracking-wide uppercase">Bring us ideas</span>
         </div>
-        <div class="index-arrow">→</div>
+        <div class="index-arrow text-3xl font-light text-brand-dark mt-8 transition-transform duration-300 group-hover:translate-x-2">→</div>
     </a>
 </section>
-
-<!-- FOOTER -->
-<footer class="footer-minimal">
-    <div>© PAY THE DØLLS™</div>
-    <div class="footer-links">
-        <a href="https://instagram.com/paythedolls" target="_blank">Instagram</a>
-        <a href="/pages/contact">Contact</a>
-    </div>
-</footer>

@@ -1,28 +1,23 @@
 {%- comment -%}
-  Footer Section
+  Footer Section (Tailwind Refactor)
   Logo, tagline, social links, and copyright
 {%- endcomment -%}
 
-{%- assign footer_menu = linklists[section.settings.menu] -%}
+<footer class="footer-minimal bg-white border-t border-brand-border py-16 px-12 text-center">
+    <div class="mb-6 font-bold tracking-widest text-sm text-black">© PAY THE DØLLS™</div>
+    <div class="mb-2 text-lg font-semibold tracking-wide text-black">Like Amazon, But For DØLLs</div>
+    <div class="text-xs text-[#666] tracking-widest uppercase mb-8">A STuDiØ ZØ Project · Powered by Verse Capital</div>
 
-<footer>
-    <p>© PAY THE DØLLS™</p>
-    <p>Like Amazon, But For DØLLs</p>
-    <p>A STuDiØ ZØ Project · Powered by Verse Capital</p>
+    <div class="footer-links flex justify-center gap-8">
+        <a href="https://instagram.com/paythedolls" target="_blank" class="text-xs font-bold tracking-[1.5px] uppercase text-brand-dark hover:text-brand-neon transition-colors">Instagram</a>
+        <a href="/pages/contact" class="text-xs font-bold tracking-[1.5px] uppercase text-brand-dark hover:text-brand-neon transition-colors">Contact</a>
+    </div>
 </footer>
 
 {% schema %}
 {
   "name": "Footer",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Footer menu",
-      "default": "footer"
-    }
-  ],
+  "settings": [],
   "presets": []
 }
 {% endschema %}
-
