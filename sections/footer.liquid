@@ -5,39 +5,10 @@
 
 {%- assign footer_menu = linklists[section.settings.menu] -%}
 
-<footer class="footer" role="contentinfo">
-  <div class="footer__logo">
-    <span class="logo logo--small">PAY THE DØLLS™</span>
-  </div>
-  
-  <p class="footer__tagline">Like Amazon, But For DØLLs</p>
-  <p class="footer__tagline">A STuDiØ ZØ Project · Powered by Verse Capital</p>
-  
-  <div class="footer__links">
-    {%- for link in footer_menu.links -%}
-      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}{% if link.url contains 'http' %} target="_blank" rel="noopener"{% endif %}>
-        {{ link.title }}
-      </a>
-    {%- endfor -%}
-    
-    {%- comment -%} Social links fallback if menu is empty {%- endcomment -%}
-    {%- if footer_menu.links.size == 0 -%}
-      {%- if settings.social_instagram_link != blank -%}
-        <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-      {%- endif -%}
-      {%- if settings.social_twitter_link != blank -%}
-        <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" aria-label="X (Twitter)">X</a>
-      {%- endif -%}
-      {%- if settings.social_tiktok_link != blank -%}
-        <a href="{{ settings.social_tiktok_link }}" target="_blank" rel="noopener" aria-label="TikTok">TikTok</a>
-      {%- endif -%}
-      <a href="/pages/contact">Contact</a>
-    {%- endif -%}
-  </div>
-  
-  <p class="footer__copyright">
-    © {{ 'now' | date: '%Y' }} {{ shop.name }}. All systems operational.
-  </p>
+<footer>
+    <p>© PAY THE DØLLS™</p>
+    <p>Like Amazon, But For DØLLs</p>
+    <p>A STuDiØ ZØ Project · Powered by Verse Capital</p>
 </footer>
 
 {% schema %}
