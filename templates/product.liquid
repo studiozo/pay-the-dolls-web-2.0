@@ -1,26 +1,36 @@
 {%- comment -%}
-  Product Template (V3 Specification + SEO Context)
+  Product Template (V3 Specification + SEO Context) - Synced with Drafts V2
 {%- endcomment -%}
 
 <div class="product-container">
-    <!-- Product Images -->
+    <!-- Product Images (Left Column) -->
     <div class="product-images">
         <div class="main-image">
-            <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | escape }}" id="MainImage">
+            <img 
+                src="{{ product.featured_image | image_url: width: 1200 }}" 
+                alt="{{ product.featured_image.alt | escape }}" 
+                id="MainImage"
+            >
         </div>
         {%- if product.images.size > 1 -%}
         <div class="thumbnail-grid">
             {%- for image in product.images -%}
-            <div class="thumbnail">
-                <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" onclick="updateMainImage('{{ image | image_url: width: 1200 }}')">
-            </div>
+            <button 
+                type="button"
+                class="thumbnail {% if image.id == product.featured_image.id %}active{% endif %}"
+                onclick="updateMainImage('{{ image | image_url: width: 1200 }}', this)"
+                aria-label="View image {{ forloop.index }}"
+            >
+                <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}">
+            </button>
             {%- endfor -%}
         </div>
         {%- endif -%}
     </div>
 
-    <!-- Product Info -->
+    <!-- Product Info (Right Column) -->
     <div class="product-info">
+        <!-- Breadcrumb -->
         <div class="breadcrumb">
             <a href="/">Home</a> / <a href="/collections">Shop</a> / {{ product.title }}
         </div>
@@ -53,9 +63,14 @@
                     <label class="option-label">{{ option.name }}</label>
                     <div class="option-buttons">
                         {%- for value in option.values -%}
-                            <div class="option-btn {% if option.selected_value == value %}selected{% endif %}" data-value="{{ value | escape }}" onclick="selectOption(this, '{{ option.name }}')">
+                            <button 
+                                type="button"
+                                class="option-btn {% if option.selected_value == value %}selected{% endif %}" 
+                                data-value="{{ value | escape }}" 
+                                onclick="selectOption(this, '{{ option.name }}')"
+                            >
                                 {{ value }}
-                            </div>
+                            </button>
                         {%- endfor -%}
                     </div>
                 </div>
@@ -83,11 +98,53 @@
         <div class="product-description">
             <div class="description-section">
                 <h3>Details</h3>
-                <!-- Placeholder for dynamic details if available, or static -->
+                <!-- Dynamic or Static Details. Matching React structure: -->
                 <ul>
                     <li><strong>Vendor:</strong> {{ product.vendor }}</li>
                     <li><strong>Type:</strong> {{ product.type }}</li>
+                    {% if product.metafields.custom.details %}
+                        {{ product.metafields.custom.details }}
+                    {% else %}
+                        <!-- Fallback details if metafields missing, to match look -->
+                        <li><strong>Fabric:</strong> 100% Polyester</li>
+                        <li><strong>Fit:</strong> Loose, relaxed</li>
+                    {% endif %}
                 </ul>
+            </div>
+
+            <div class="description-section">
+                <h3>Care Instructions</h3>
+                <ul>
+                    <li>Machine wash at 30°C (gentle cycle)</li>
+                    <li>Do not bleach</li>
+                    <li>Tumble dry low</li>
+                    <li>Iron at low temperature</li>
+                </ul>
+            </div>
+
+            <div class="description-section">
+                <h3>Size Chart</h3>
+                <div class="size-chart">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th>Length (in/cm)</th>
+                                <th>Waist (in/cm)</th>
+                                <th>Hip (in/cm)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Static mock data matching React component for visual parity -->
+                            <tr><td>S</td><td>18.1 / 46</td><td>11.8 / 30</td><td>20.5 / 52</td></tr>
+                            <tr><td>M</td><td>18.9 / 48</td><td>12.2 / 31</td><td>21.3 / 54</td></tr>
+                            <tr><td>L</td><td>19.7 / 50</td><td>12.6 / 32</td><td>22.0 / 56</td></tr>
+                            <tr><td>XL</td><td>20.5 / 52</td><td>13.0 / 33</td><td>22.8 / 58</td></tr>
+                            <tr><td>2XL</td><td>21.3 / 54</td><td>13.4 / 34</td><td>23.6 / 60</td></tr>
+                            <tr><td>3XL</td><td>22.0 / 56</td><td>13.8 / 35</td><td>24.4 / 62</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -106,8 +163,14 @@
 </div>
 
 <script>
-    function updateMainImage(src) {
+    function updateMainImage(src, thumbnail) {
         document.getElementById('MainImage').src = src;
+        
+        // Update active class
+        if (thumbnail) {
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
     }
 
     function changeQty(delta) {
