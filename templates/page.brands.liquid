@@ -1,0 +1,40 @@
+{%- comment -%}
+  Brands Page Template (List Layout)
+{%- endcomment -%}
+
+<div class="page-header">
+  <h1>Brands</h1>
+</div>
+
+<div class="page-content text-center" style="max-width: 800px;">
+  
+  <!-- Brand List -->
+  <div style="display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem;">
+    
+    <!-- Brand 1: Pay The Dolls -->
+    <a href="/collections/pay-the-dolls" style="border: 1px solid var(--border); padding: 3rem; transition: all 0.3s ease; display: block;" class="brand-item">
+      <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">PAY THE DØLLS™</h2>
+      <p style="font-size: 1.1rem; opacity: 0.7;">The core brand under the PAY THE DØLLS™ platform.</p>
+      <span class="btn mt-m">View Collection</span>
+    </a>
+    
+    <!-- Placeholder: Coming Soon -->
+    <div style="border: 1px dashed var(--border); padding: 3rem; background: var(--off-white); opacity: 0.7;">
+      <h2 style="font-size: 1.5rem; font-weight: 400; color: #888;">Coming Soon</h2>
+      <p>Verse Capital™</p>
+    </div>
+    
+  </div>
+  
+  <div style="opacity: 0.6; font-style: italic;">
+    <p>Additional brands and collaborations launching soon.</p>
+  </div>
+  
+</div>
+
+<style>
+.brand-item:hover {
+  border-color: var(--mint) !important;
+  transform: translateY(-2px);
+}
+</style>

@@ -1,0 +1,182 @@
+/* SHOP COLLECTIONS V2 */
+/* Spec: Mint Green Accents, Avenir Only (No Serif) */
+
+:root {
+    --phthalo: #123524;
+    --mint: #00FF88;
+    --white: #FFFFFF;
+    --off-white: #FAFAFA;
+    --border: #E0E0E0;
+    --font-primary: 'Avenir', -apple-system, sans-serif;
+}
+
+/* --- LAYOUT --- */
+.shop-page-header {
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.shop-page-header h1 {
+    font-family: var(--font-primary);
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.shop-page-header p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.7;
+    font-family: var(--font-primary);
+}
+
+.collections-grid-section {
+    padding-bottom: 8rem;
+}
+
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* --- COLLECTION CARD --- */
+.collection-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 350px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.collection-card h2 {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    letter-spacing: 0.03em;
+    transition: color 0.3s ease;
+}
+
+.collection-card p {
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 300;
+    opacity: 0.7;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 280px;
+    transition: color 0.3s ease;
+}
+
+.btn-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    color: var(--phthalo);
+    transition: color 0.2s ease;
+}
+
+/* --- HOVER STATES --- */
+.collection-card:hover {
+    background: var(--mint);
+    border-color: var(--mint);
+    color: var(--phthalo);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 255, 136, 0.3);
+}
+
+.collection-card:hover h2,
+.collection-card:hover p {
+    color: var(--phthalo) !important;
+    opacity: 1;
+}
+
+.collection-card:hover .btn-link {
+    color: var(--phthalo);
+}
+
+/* --- SECONDARY SECTION (SHOP BY BRAND) --- */
+.shop-by-brand {
+    text-align: center;
+    margin: 8rem 0 4rem;
+    padding: 0 1.5rem;
+}
+
+.shop-by-brand h3 {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 4rem;
+}
+
+.brand-focus-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 5rem 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.brand-focus-card:hover {
+    border-color: var(--mint);
+    transform: translateY(-6px);
+}
+
+.brand-focus-card h2 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.brand-focus-card .tagline {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.cta-arrow {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid currentColor;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+    .shop-page-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .shop-page-header p {
+        font-size: 1rem;
+    }
+
+    .shop-page-header {
+        margin-bottom: 3rem;
+        padding-top: 4rem;
+    }
+}

@@ -1,0 +1,151 @@
+{%- comment -%}
+  Individual DØLL Storefront Page Template
+  For individual creator storefronts at /pages/dolls-[name]
+{%- endcomment -%}
+
+<div class="doll-storefront">
+  <div class="doll-header">
+    <div class="doll-header__content">
+      <h1 class="doll-header__name">{{ page.title | remove: "DØLL: " }}</h1>
+      
+      {%- if page.metafields.doll.pronouns -%}
+        <p class="doll-header__pronouns">{{ page.metafields.doll.pronouns }}</p>
+      {%- endif -%}
+      
+      {%- if page.metafields.doll.location -%}
+        <p class="doll-header__location">{{ page.metafields.doll.location }}</p>
+      {%- endif -%}
+      
+      <div class="doll-header__bio">
+        {{ page.content }}
+      </div>
+      
+      {%- if page.metafields.doll.categories -%}
+        <div class="doll-header__categories">
+          {%- assign categories = page.metafields.doll.categories | split: ',' -%}
+          {%- for category in categories -%}
+            <span class="badge">{{ category | strip }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      
+      <div class="doll-header__social">
+        {%- if page.metafields.doll.instagram -%}
+          <a href="https://instagram.com/{{ page.metafields.doll.instagram }}" target="_blank" rel="noopener" class="link">Instagram</a>
+        {%- endif -%}
+        {%- if page.metafields.doll.twitter -%}
+          <a href="https://twitter.com/{{ page.metafields.doll.twitter }}" target="_blank" rel="noopener" class="link">X</a>
+        {%- endif -%}
+        {%- if page.metafields.doll.tiktok -%}
+          <a href="https://tiktok.com/@{{ page.metafields.doll.tiktok }}" target="_blank" rel="noopener" class="link">TikTok</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <div class="section-header">
+      <h2>Shop {{ page.title | remove: "DØLL: " | split: " " | first }}'s Products</h2>
+    </div>
+    
+    {%- if page.metafields.doll.collection -%}
+      {%- assign doll_collection = collections[page.metafields.doll.collection] -%}
+      {%- if doll_collection.products.size > 0 -%}
+        <div class="collection-grid" style="padding: 0;">
+          {%- for product in doll_collection.products limit: 12 -%}
+            <div class="product-card">
+              <a href="{{ product.url }}">
+                <div class="product-card__image">
+                  {%- if product.featured_image -%}
+                    <img src="{{ product.featured_image | image_url: width: 600 }}" 
+                         alt="{{ product.featured_image.alt | escape }}"
+                         loading="lazy">
+                  {%- else -%}
+                    <div class="product-card__placeholder"></div>
+                  {%- endif -%}
+                </div>
+                <div class="product-card__info">
+                  <h3 class="product-card__title">{{ product.title }}</h3>
+                  <p class="product-card__price">{{ product.price | money }}</p>
+                </div>
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="text-center" style="padding: var(--space-xxl);">
+          <h3 style="font-size: 24px; margin-bottom: var(--space-m);">THE DØLLS ARE COOKING.</h3>
+          <p class="text-muted">Products coming soon...</p>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="text-center" style="padding: var(--space-xxl);">
+        <h3 style="font-size: 24px; margin-bottom: var(--space-m);">THE DØLLS ARE COOKING.</h3>
+        <p class="text-muted">Products coming soon...</p>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .doll-storefront {
+    padding-top: 100px;
+  }
+  
+  .doll-header {
+    background: linear-gradient(180deg, var(--white) 0%, var(--light-gray) 100%);
+    padding: 80px 48px;
+    text-align: center;
+  }
+  
+  .doll-header__content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .doll-header__name {
+    font-size: clamp(40px, 7vw, 72px);
+    margin-bottom: var(--space-s);
+  }
+  
+  .doll-header__pronouns {
+    font-size: 14px;
+    color: var(--phthalo-green);
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .doll-header__location {
+    font-size: 14px;
+    color: var(--medium-gray);
+    margin-bottom: var(--space-m);
+  }
+  
+  .doll-header__bio {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: var(--space-l);
+  }
+  
+  .doll-header__categories {
+    display: flex;
+    gap: var(--space-s);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-l);
+  }
+  
+  .doll-header__social {
+    display: flex;
+    gap: var(--space-l);
+    justify-content: center;
+  }
+  
+  @media (max-width: 768px) {
+    .doll-header {
+      padding: 60px 24px;
+    }
+  }
+</style>

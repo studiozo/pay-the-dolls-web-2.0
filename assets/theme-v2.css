@@ -1,0 +1,89 @@
+/* PAY THE DØLLS™ V2 Global Styles */
+
+:root {
+    /* Colors */
+    --phthalo: #123524;
+    --mint: #00FF88;
+    --white: #FFFFFF;
+    --off-white: #FAFAFA;
+    --black: #000000;
+    --border: #E0E0E0;
+
+    /* Typography */
+    --font-primary: 'Avenir', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* Spacing */
+    --section-padding: 8rem 3rem;
+    --section-padding-mobile: 4rem 1.5rem;
+
+    /* Transitions */
+    --transition-default: all 0.3s ease;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--phthalo);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--white);
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
+    /* Avenir Medium/Demibold feel */
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-default);
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Button Base */
+.btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 1px solid var(--phthalo);
+    background: transparent;
+    color: var(--phthalo);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition-default);
+}
+
+.btn:hover {
+    background: var(--mint);
+    border-color: var(--mint);
+    color: var(--phthalo);
+}

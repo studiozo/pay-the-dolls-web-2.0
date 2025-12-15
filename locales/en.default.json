@@ -1,0 +1,81 @@
+{
+    "general": {
+        "accessibility": {
+            "skip_to_content": "Skip to content",
+            "close": "Close",
+            "menu": "Menu"
+        },
+        "meta": {
+            "tags": "Tagged \"{{ tags }}\"",
+            "page": "Page {{ page }}"
+        }
+    },
+    "products": {
+        "product": {
+            "add_to_cart": "Add to Cart",
+            "added_to_cart": "Added!",
+            "sold_out": "Sold Out",
+            "unavailable": "Unavailable",
+            "quantity": "Quantity",
+            "description": "Description",
+            "price": "Price",
+            "compare_at_price": "Compare at",
+            "from_price_html": "From {{ price }}"
+        }
+    },
+    "collections": {
+        "general": {
+            "no_products": "No products yet. Check back soon!",
+            "items_count": "{{ count }} products"
+        },
+        "sorting": {
+            "title": "Sort by",
+            "featured": "Featured",
+            "best_selling": "Best Selling",
+            "price_ascending": "Price: Low to High",
+            "price_descending": "Price: High to Low",
+            "title_ascending": "A-Z",
+            "title_descending": "Z-A",
+            "date_ascending": "Oldest",
+            "date_descending": "Newest"
+        }
+    },
+    "cart": {
+        "general": {
+            "title": "Your Cart",
+            "empty": "Your cart is empty",
+            "continue_shopping": "Continue Shopping",
+            "checkout": "Checkout",
+            "subtotal": "Subtotal",
+            "shipping_note": "Shipping and taxes calculated at checkout.",
+            "remove": "Remove",
+            "update": "Update"
+        }
+    },
+    "layout": {
+        "header": {
+            "menu": "Menu",
+            "cart": "Cart",
+            "account": "Account",
+            "search": "Search"
+        },
+        "footer": {
+            "copyright": "© {{ year }} {{ shop_name }}. All systems operational."
+        }
+    },
+    "404": {
+        "title": "Page Not Found",
+        "subtext": "The page you're looking for doesn't exist.",
+        "link": "Continue Shopping"
+    },
+    "search": {
+        "title": "Search",
+        "placeholder": "Search products...",
+        "no_results": "No results for \"{{ terms }}\"",
+        "results_count": "{{ count }} results for \"{{ terms }}\""
+    },
+    "date_formats": {
+        "month_day_year": "%B %d, %Y",
+        "short": "%m/%d/%Y"
+    }
+}

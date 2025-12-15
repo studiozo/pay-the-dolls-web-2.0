@@ -1,0 +1,132 @@
+{%- comment -%}
+  Categories Grid Section
+  8 category cards linking to collections
+{%- endcomment -%}
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Shop By Category</h2>
+    <p class="section-subtitle">EVERYTHING A DØLL NEEDS</p>
+  </div>
+  
+  <div class="grid grid--4 grid--auto">
+    {%- for block in section.blocks -%}
+      {%- assign collection_handle = block.settings.title | handleize -%}
+      {%- assign link_url = block.settings.link | default: '/collections/' | append: collection_handle -%}
+      <a href="{{ link_url }}" class="card card--category">
+        <div class="card__icon">{{ block.settings.icon }}</div>
+        <h3 class="card__title">{{ block.settings.title }}</h3>
+        <p class="card__text">{{ block.settings.description }}</p>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categories Grid",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji)",
+          "default": "👕"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Merch"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Apparel, accessories, and wearable art from emerging DØLLs"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories Grid",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "icon": "👕",
+            "title": "TØPS",
+            "description": "Shirts, tanks, and tops from DØLLs. Wear the culture."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "🏠",
+            "title": "Home",
+            "description": "Mugs, towels, and home goods for your DØLL lifestyle"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "🖼️",
+            "title": "Prints",
+            "description": "Art prints, posters, and wall art from DØLL artists"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "🎨",
+            "title": "Art",
+            "description": "Originals, digital works, and installations"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "💄",
+            "title": "Beauty & Wellness",
+            "description": "Makeup, skincare, fragrances, and wellness products"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "🎵",
+            "title": "Music",
+            "description": "Vinyl, digital releases, merch, and concert tickets"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "✨",
+            "title": "Services",
+            "description": "Styling, creative direction, consultations, and coaching"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "icon": "🎪",
+            "title": "Experiences",
+            "description": "Events, performances, workshops, and community access"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

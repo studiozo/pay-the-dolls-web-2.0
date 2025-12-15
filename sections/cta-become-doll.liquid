@@ -1,0 +1,51 @@
+{%- comment -%}
+  Become a DØLL CTA Section
+  Benefits list and apply button
+{%- endcomment -%}
+
+<section class="section" style="background: linear-gradient(180deg, var(--light-gray) 0%, var(--white) 100%);">
+  <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+    <h2 class="section-title mb-m">Become a DØLL</h2>
+    
+    <p class="text-large text-muted mb-l">
+      Join the marketplace. Launch your storefront. Keep 70-80% of every sale. Get funded by Verse Capital. Build your brand with STuDiØ ZØ support.
+    </p>
+    
+    <ul class="benefits-list text-left mb-xl" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+      <li>Your own storefront (paythedolls.com/dolls/[you])</li>
+      <li>70-80% revenue split on all sales</li>
+      <li>Automatic Verse Capital contribution</li>
+      <li>Marketing & brand development support</li>
+      <li>Access to creator community & resources</li>
+      <li>No upfront costs or monthly fees</li>
+    </ul>
+    
+    <a href="{{ section.settings.button_link | default: '/pages/become-a-doll' }}" class="btn btn--primary btn--large">
+      {{ section.settings.button_text | default: 'APPLY NOW' }}
+    </a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CTA Become a DØLL",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "APPLY NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "CTA Become a DØLL"
+    }
+  ]
+}
+{% endschema %}

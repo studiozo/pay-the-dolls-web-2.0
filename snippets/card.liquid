@@ -1,0 +1,53 @@
+{%- comment -%}
+  Card Snippet
+  Usage: {% render 'card', label: 'LAYER 01', title: 'Title', text: 'Description' %}
+  
+  Parameters:
+  - label: Top label text (optional)
+  - title: Card title (required)
+  - text: Card body text (optional)
+  - url: Link destination (optional, makes card clickable)
+  - accent: 'top' for mint top border (optional)
+  - icon: Icon/emoji to display (optional)
+  - class: Additional CSS classes
+{%- endcomment -%}
+
+{%- liquid
+  assign card_class = 'card'
+  
+  if accent == 'top'
+    assign card_class = card_class | append: ' card--accent-top'
+  endif
+  
+  if class
+    assign card_class = card_class | append: ' ' | append: class
+  endif
+-%}
+
+{%- if url -%}
+  <a href="{{ url }}" class="{{ card_class }}">
+{%- else -%}
+  <div class="{{ card_class }}">
+{%- endif -%}
+
+  {%- if icon -%}
+    <div class="card__icon">{{ icon }}</div>
+  {%- endif -%}
+
+  {%- if label -%}
+    <div class="card__label">{{ label }}</div>
+  {%- endif -%}
+
+  {%- if title -%}
+    <h3 class="card__title">{{ title }}</h3>
+  {%- endif -%}
+
+  {%- if text -%}
+    <p class="card__text">{{ text }}</p>
+  {%- endif -%}
+
+{%- if url -%}
+  </a>
+{%- else -%}
+  </div>
+{%- endif -%}

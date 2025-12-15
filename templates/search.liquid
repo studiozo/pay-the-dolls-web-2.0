@@ -1,0 +1,71 @@
+{%- comment -%}
+  Search Results Template
+{%- endcomment -%}
+
+<div class="collection-header">
+  <h1>Search Results</h1>
+  {%- if search.performed -%}
+    <p>{{ search.results_count }} result{%- if search.results_count != 1 -%}s{%- endif -%} for "{{ search.terms }}"</p>
+  {%- else -%}
+    <p>Search the marketplace</p>
+  {%- endif -%}
+</div>
+
+<div class="section">
+  {%- if search.performed -%}
+    {%- if search.results_count > 0 -%}
+      <div class="collection-grid" style="padding: 0;">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            <div class="product-card">
+              <a href="{{ item.url }}">
+                <div class="product-card__image">
+                  {%- if item.featured_image -%}
+                    <img src="{{ item.featured_image | image_url: width: 600 }}" 
+                         alt="{{ item.featured_image.alt | escape }}"
+                         loading="lazy">
+                  {%- else -%}
+                    <div class="product-card__placeholder" style="background: var(--light-gray); width: 100%; padding-top: 100%;"></div>
+                  {%- endif -%}
+                </div>
+                <div class="product-card__info">
+                  <h3 class="product-card__title">{{ item.title }}</h3>
+                  <p class="product-card__price">{{ item.price | money }}</p>
+                </div>
+              </a>
+            </div>
+          {%- elsif item.object_type == 'page' -%}
+            <div class="card">
+              <a href="{{ item.url }}" style="text-decoration: none; color: inherit;">
+                <div class="card__label">PAGE</div>
+                <h3 class="card__title">{{ item.title }}</h3>
+                <p class="card__text">{{ item.content | strip_html | truncate: 120 }}</p>
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      
+      {%- if search.results_count > 20 -%}
+        <div class="pagination text-center mt-xl">
+          {{ paginate | default_pagination }}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="text-center" style="padding: var(--space-xxl);">
+        <h2 style="font-size: 28px; margin-bottom: var(--space-m);">No results found</h2>
+        <p class="text-muted" style="max-width: 400px; margin: 0 auto var(--space-l);">Try a different search term or browse our collections</p>
+        <a href="/collections/all" class="btn btn--primary">Browse All Products</a>
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <div class="text-center" style="padding: var(--space-xxl);">
+      <form action="/search" method="get" style="max-width: 500px; margin: 0 auto;">
+        <div class="form-group">
+          <input type="search" name="q" class="form-input" placeholder="Search products, pages..." style="text-align: center; font-size: 18px; padding: 20px;">
+        </div>
+        <button type="submit" class="btn btn--primary">Search</button>
+      </form>
+    </div>
+  {%- endif -%}
+</div>

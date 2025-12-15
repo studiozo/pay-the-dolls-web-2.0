@@ -1,0 +1,114 @@
+/* PAY THE DØLLS™ V2 Brands Page Styles */
+
+.brands-page-header {
+    padding: 8rem 3rem 4rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.brands-page-header h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+.brands-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 8rem 3rem;
+}
+
+.brand-focus-card {
+    max-width: 900px;
+    margin: 0 auto 6rem;
+    border: 1px solid var(--border);
+    padding: 6rem 4rem;
+    text-align: center;
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-focus-card:hover {
+    border-color: var(--mint);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(18, 53, 36, 0.1);
+}
+
+.brand-focus-logo {
+    font-size: 2.5rem;
+    color: var(--phthalo);
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+
+.brand-focus-card h2 {
+    font-size: 3rem;
+    font-weight: 400;
+    /* Avenir */
+    margin-bottom: 1.5rem;
+}
+
+.brand-focus-card .tagline {
+    font-size: 1.2rem;
+    opacity: 0.7;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.cta-arrow {
+    display: inline-flex;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.cta-arrow::after {
+    content: '→';
+    margin-left: 0.5rem;
+    transition: transform 0.3s;
+}
+
+.brand-focus-card:hover .cta-arrow::after {
+    transform: translateX(5px);
+}
+
+.future-state-msg {
+    text-align: center;
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+}
+
+.future-state-msg p {
+    font-size: 1.1rem;
+    font-style: italic;
+    opacity: 0.6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .brands-page-header {
+        padding: 4rem 1.5rem 2rem;
+    }
+
+    .brands-page-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .brands-container {
+        padding: 4rem 1.5rem;
+    }
+
+    .brand-focus-card {
+        padding: 4rem 2rem;
+    }
+
+    .brand-focus-card h2 {
+        font-size: 2rem;
+    }
+}

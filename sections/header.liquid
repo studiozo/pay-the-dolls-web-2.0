@@ -1,0 +1,23 @@
+<header class="header" role="banner">
+  <div class="header__inner">
+    <a href="/" class="logo" aria-label="PAY THE DØLLS™ - Home">
+      PAY THE DØLLS™
+    </a>
+
+    <nav class="nav-links" role="navigation">
+      <a href="/collections">SHOP</a>
+      <a href="/pages/brands">BRANDS</a>
+      <a href="/pages/verse-capital">VERSE</a>
+      <a href="/pages/mission">MISSION</a>
+      <a href="/pages/submit">SUBMIT</a>
+      <a href="/pages/about">ABOUT</a>
+      <a href="/pages/contact">CONTACT</a>
+    </nav>
+
+    <div class="header__actions" style="display: flex; align-items: center; gap: 1rem;">
+      <a href="/cart" class="nav-cart" aria-label="Cart">
+        Cart ({% if cart.item_count > 0 %}{{ cart.item_count }}{% else %}0{% endif %})
+      </a>
+    </div>
+  </div>
+</header>

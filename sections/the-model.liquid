@@ -1,0 +1,144 @@
+{%- comment -%}
+  The Model Section
+  Tiered creator participation options with color-coded cards
+{%- endcomment -%}
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">The Model</h2>
+    <p class="section-subtitle">JUMP IN AT WHATEVER LEVEL MAKES SENSE</p>
+  </div>
+  
+  <div class="model-intro" style="max-width: 800px; margin: 0 auto var(--space-xl); text-align: center;">
+    <p class="text-large">I've launched my first Print Lab — because we're printing money.</p>
+    <p class="text-muted">DØLLs can jump in at whatever level makes sense:</p>
+  </div>
+  
+  <div class="grid grid--2 grid--auto">
+    
+    <a href="/pages/submit?tier=1" class="card tier-card tier-card--mint">
+      <div class="tier-card__label">TIER 1</div>
+      <h3 class="card__title">You Submit, I Print</h3>
+      <p class="card__text">Got something cunty, cheeky, or sellable? Submit through the form.</p>
+      <p class="card__text">I'll get it printed, posted, marketed. <strong>80-20 split.</strong> You get 80%, I take 20%. Capitalism but democratic socialism. That 20% goes back to the house so I can keep funding shit and buying bags.</p>
+    </a>
+    
+    <a href="/pages/submit?tier=2" class="card tier-card tier-card--green">
+      <div class="tier-card__label">TIER 2</div>
+      <h3 class="card__title">Launch a Store</h3>
+      <p class="card__text">Want your own storefront? Let's do it.</p>
+      <p class="card__text">Pay The Dolls handles backend — hosting, payments, logistics. You handle front end — brand, products, creative. <strong>Same 80-20 split.</strong></p>
+    </a>
+    
+    <a href="/pages/submit?tier=3" class="card tier-card tier-card--silver">
+      <div class="tier-card__label">TIER 3</div>
+      <h3 class="card__title">Cross Market Listing</h3>
+      <p class="card__text">Already running a brand or e-comm? Want to promote on the site?</p>
+      <p class="card__text"><strong>DM me.</strong> We'll figure it out. Think Craigslist for DL Chasers but everyone gets paid.</p>
+    </a>
+    
+    <a href="/pages/submit?tier=4" class="card tier-card tier-card--black">
+      <div class="tier-card__label">TIER 4</div>
+      <h3 class="card__title">Everyone Else</h3>
+      <p class="card__text">Not a DØLL but got an idea? Cool. Submit it. I'll take a look.</p>
+      <p class="card__text">The door is open. Let's see what you've got.</p>
+    </a>
+    
+  </div>
+  
+  <div class="money-section" style="max-width: 700px; margin: var(--space-xl) auto 0; text-align: center; padding: var(--space-l); background: var(--light-gray); border-radius: var(--radius-md);">
+    <h3 style="font-size: 20px; margin-bottom: var(--space-m);">Where does the money go?</h3>
+    <p class="text-body">Pay The Dolls merch revenue → <strong>Verse Capital.</strong> My little VC pot for throwing money at trans artists, creators, projects, whatever I feel like funding.</p>
+    <p class="text-muted mt-m">Is it officially a fund? Not yet. Currently earmarked in my bank account.</p>
+    <p class="text-body mt-m"><strong>Want to invest $1 mil?</strong> We're accepting equity raises. DM me.</p>
+  </div>
+  
+  <div class="cta-group mt-xl">
+    <a href="/pages/submit" class="btn btn--primary">SUBMIT YOUR IDEA</a>
+    <a href="/pages/become-a-doll" class="btn btn--secondary">BECOME A DØLL</a>
+  </div>
+</section>
+
+<style>
+  .tier-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .tier-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .tier-card__label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: var(--space-m);
+    text-transform: uppercase;
+  }
+  
+  /* Tier 1 - Mint Green */
+  .tier-card--mint {
+    border-top: 4px solid #00FF88;
+    background: linear-gradient(180deg, rgba(0, 255, 136, 0.05) 0%, #FFFFFF 100%);
+  }
+  .tier-card--mint .tier-card__label {
+    color: #00FF88;
+  }
+  .tier-card--mint:hover {
+    box-shadow: 0 12px 40px rgba(0, 255, 136, 0.2);
+  }
+  
+  /* Tier 2 - Phthalo Green (Default) */
+  .tier-card--green {
+    border-top: 4px solid #123524;
+    background: linear-gradient(180deg, rgba(18, 53, 36, 0.03) 0%, #FFFFFF 100%);
+  }
+  .tier-card--green .tier-card__label {
+    color: #123524;
+  }
+  .tier-card--green:hover {
+    box-shadow: 0 12px 40px rgba(18, 53, 36, 0.15);
+  }
+  
+  /* Tier 3 - Silver/Gray */
+  .tier-card--silver {
+    border-top: 4px solid #888888;
+    background: linear-gradient(180deg, rgba(136, 136, 136, 0.05) 0%, #FFFFFF 100%);
+  }
+  .tier-card--silver .tier-card__label {
+    color: #888888;
+  }
+  .tier-card--silver:hover {
+    box-shadow: 0 12px 40px rgba(136, 136, 136, 0.2);
+  }
+  
+  /* Tier 4 - Black */
+  .tier-card--black {
+    border-top: 4px solid #000000;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.03) 0%, #FFFFFF 100%);
+  }
+  .tier-card--black .tier-card__label {
+    color: #000000;
+  }
+  .tier-card--black:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "The Model",
+  "settings": [],
+  "presets": [
+    {
+      "name": "The Model"
+    }
+  ]
+}
+{% endschema %}
+

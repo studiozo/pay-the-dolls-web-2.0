@@ -1,0 +1,41 @@
+{%- comment -%}
+  Button Snippet
+  Usage: {% render 'button', text: 'Click Me', url: '/path', style: 'primary' %}
+  
+  Parameters:
+  - text: Button text (required)
+  - url: Link destination (optional, renders as span if omitted)
+  - style: 'primary' or 'secondary' (default: 'primary')
+  - size: 'small', 'default', or 'large' (default: 'default')
+  - class: Additional CSS classes
+  - type: 'button' or 'submit' (for form buttons)
+{%- endcomment -%}
+
+{%- liquid
+  assign button_style = style | default: 'primary'
+  assign button_size = size | default: 'default'
+  
+  assign classes = 'btn btn--' | append: button_style
+  
+  if button_size == 'small'
+    assign classes = classes | append: ' btn--small'
+  elsif button_size == 'large'
+    assign classes = classes | append: ' btn--large'
+  endif
+  
+  if class
+    assign classes = classes | append: ' ' | append: class
+  endif
+-%}
+
+{%- if url -%}
+  <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}"{% endif %}>
+    {{ text }}
+  </a>
+{%- elsif type -%}
+  <button type="{{ type }}" class="{{ classes }}"{% if disabled %} disabled{% endif %}>
+    {{ text }}
+  </button>
+{%- else -%}
+  <span class="{{ classes }}">{{ text }}</span>
+{%- endif -%}

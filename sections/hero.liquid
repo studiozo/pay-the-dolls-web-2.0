@@ -1,0 +1,81 @@
+{%- comment -%}
+  Hero Section
+  Gradient logo headline, tagline, subtitle, and dual CTAs
+{%- endcomment -%}
+
+<section class="hero">
+  <div class="hero__content">
+    <h1 class="hero__title logo logo--large">
+      PAY THE DØLLS™
+    </h1>
+    
+    <p class="hero__tagline">
+      {{ section.settings.tagline | default: 'Like Amazon, But For DØLLs' }}
+    </p>
+    
+    <p class="hero__subtitle">
+      {{ section.settings.subtitle | default: 'A creator marketplace engineered for capital circulation and cultural velocity.' }}
+    </p>
+    
+    <div class="cta-group">
+      {%- if section.settings.primary_button_text != blank -%}
+        <a href="{{ section.settings.primary_button_link | default: '/collections/all' }}" class="btn btn--primary">
+          {{ section.settings.primary_button_text }}
+        </a>
+      {%- endif -%}
+      
+      {%- if section.settings.secondary_button_text != blank -%}
+        <a href="{{ section.settings.secondary_button_link | default: '/pages/become-a-doll' }}" class="btn btn--secondary">
+          {{ section.settings.secondary_button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Like Amazon, But For DØLLs"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "A creator marketplace engineered for capital circulation and cultural velocity."
+    },
+    {
+      "type": "text",
+      "id": "primary_button_text",
+      "label": "Primary Button Text",
+      "default": "BROWSE MARKETPLACE"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary Button Text",
+      "default": "BECOME A DØLL"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

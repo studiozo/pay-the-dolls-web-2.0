@@ -1,0 +1,100 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0">
+  
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  {% render 'meta-tags' %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Avenir Font (using system font stack as fallback) -->
+  <style>
+    @font-face {
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: local('Avenir'), local('Avenir Next'), local('AvenirNext-Regular');
+    }
+    @font-face {
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: local('Avenir Medium'), local('Avenir Next Medium'), local('AvenirNext-Medium');
+    }
+    @font-face {
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: local('Avenir Demibold'), local('Avenir Next Demibold'), local('AvenirNext-DemiBold');
+    }
+    @font-face {
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: local('Avenir Bold'), local('Avenir Next Bold'), local('AvenirNext-Bold');
+    }
+    @font-face {
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: local('Avenir Heavy'), local('Avenir Next Heavy'), local('AvenirNext-Heavy');
+    }
+    @font-face {
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 900;
+      font-display: swap;
+      src: local('Avenir Black'), local('Avenir Next Heavy'), local('AvenirNext-Heavy');
+    }
+  </style>
+
+  {{ 'theme-v3.css' | asset_url | stylesheet_tag }}
+
+  {{ content_for_header }}
+
+  <script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+</head>
+
+<body class="template-{{ template.name | handle }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix | handle }}{% endif %}">
+  <a class="sr-only" href="#main-content">Skip to content</a>
+
+  {% section 'header' %}
+
+  <main id="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% unless template == 'index' %}
+    {% section 'footer' %}
+  {% endunless %}
+
+  {{ 'custom.js' | asset_url | script_tag }}
+</body>
+</html>

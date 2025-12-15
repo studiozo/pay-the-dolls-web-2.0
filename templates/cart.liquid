@@ -1,0 +1,127 @@
+{%- comment -%}
+  Cart Template
+  Cart page with items and checkout button
+{%- endcomment -%}
+
+<div class="cart-page">
+  <h1 style="margin-bottom: var(--space-l);">Your Cart</h1>
+  
+  {%- if cart.item_count > 0 -%}
+    <form action="/cart" method="post">
+      
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <div class="cart-item__image">
+            {%- if item.image != blank -%}
+              <a href="{{ item.url }}">
+                <img 
+                  src="{{ item.image | image_url: width: 200 }}"
+                  alt="{{ item.image.alt | escape | default: item.title }}"
+                >
+              </a>
+            {%- endif -%}
+          </div>
+          
+          <div class="cart-item__info">
+            <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+            {%- if item.variant.title != 'Default Title' -%}
+              <p class="text-small text-muted">{{ item.variant.title }}</p>
+            {%- endif -%}
+            {%- if item.vendor != shop.name -%}
+              <p class="text-small text-muted">by {{ item.vendor }}</p>
+            {%- endif -%}
+          </div>
+          
+          <div class="cart-item__quantity" style="display: flex; align-items: center; gap: 12px;">
+            <div class="quantity-selector" style="display: flex; align-items: center; gap: 8px;">
+              <button 
+                type="button" 
+                class="quantity-minus btn btn--secondary btn--small" 
+                style="padding: 8px 12px;"
+                onclick="updateQuantity('{{ item.key }}', {{ item.quantity | minus: 1 }})"
+              >−</button>
+              <input 
+                type="number" 
+                class="form-input" 
+                value="{{ item.quantity }}" 
+                min="0"
+                style="width: 60px; text-align: center; padding: 8px;"
+                onchange="updateQuantity('{{ item.key }}', this.value)"
+              >
+              <button 
+                type="button" 
+                class="quantity-plus btn btn--secondary btn--small" 
+                style="padding: 8px 12px;"
+                onclick="updateQuantity('{{ item.key }}', {{ item.quantity | plus: 1 }})"
+              >+</button>
+            </div>
+          </div>
+          
+          <div class="cart-item__price" style="text-align: right;">
+            <p class="text-body" style="font-weight: 600; color: var(--phthalo-green);">{{ item.line_price | money }}</p>
+            {%- if item.quantity > 1 -%}
+              <p class="text-small text-muted">{{ item.price | money }} each</p>
+            {%- endif -%}
+          </div>
+          
+          <button 
+            type="button" 
+            class="cart-item__remove"
+            style="background: none; border: none; cursor: pointer; color: var(--medium-gray); font-size: 12px; text-decoration: underline;"
+            onclick="updateQuantity('{{ item.key }}', 0)"
+          >
+            Remove
+          </button>
+        </div>
+      {%- endfor -%}
+      
+      <div class="cart-totals">
+        <div class="cart-totals__row">
+          <span>Subtotal</span>
+          <span style="font-weight: 600;">{{ cart.total_price | money }}</span>
+        </div>
+        <p class="text-small text-muted mt-s">Shipping and taxes calculated at checkout.</p>
+        
+        <a href="/checkout" class="btn btn--primary btn--large" style="width: 100%; margin-top: var(--space-l);">
+          CHECKOUT
+        </a>
+        
+        <a href="/collections/all" class="btn btn--secondary" style="width: 100%; margin-top: var(--space-s);">
+          CONTINUE SHOPPING
+        </a>
+      </div>
+      
+    </form>
+    
+  {%- else -%}
+    
+    <div class="text-center" style="padding: var(--space-xxl) 0;">
+      <h2 style="font-size: 32px; margin-bottom: var(--space-m);">THE DØLLS ARE COOKING.</h2>
+      <p class="text-large text-muted mb-xl" style="max-width: 400px; margin-left: auto; margin-right: auto;">Nothing here yet, babe — go support a DØLL</p>
+      <a href="/collections/all" class="btn btn--primary">BROWSE MARKETPLACE</a>
+    </div>
+    
+  {%- endif -%}
+</div>
+
+<script>
+  function updateQuantity(lineKey, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: lineKey,
+        quantity: parseInt(quantity)
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      window.location.reload();
+    })
+    .catch(error => {
+      console.error('Error updating cart:', error);
+    });
+  }
+</script>

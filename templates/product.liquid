@@ -1,0 +1,108 @@
+{%- comment -%}
+  Product Template (V3 Specification + SEO Context)
+{%- endcomment -%}
+
+<div class="product-container">
+  <div class="grid grid--2">
+    
+    {%- comment -%} Product Images {%- endcomment -%}
+    <div class="product-images">
+      {%- if product.featured_image != blank -%}
+        <div class="product-card__image">
+          <img 
+            src="{{ product.featured_image | image_url: width: 1200 }}"
+            alt="{{ product.featured_image.alt | escape | default: product.title }}"
+            style="display: block; width: 100%; height: auto;"
+          >
+        </div>
+        
+        {%- if product.images.size > 1 -%}
+          <div class="grid grid--4 mt-m" style="gap: 1rem;">
+            {%- for image in product.images -%}
+              <div class="product-card__image" style="cursor: pointer; aspect-ratio: 1; overflow: hidden;">
+                <img 
+                  src="{{ image | image_url: width: 200 }}"
+                  alt="{{ image.alt | escape }}"
+                  loading="lazy"
+                  style="width: 100%; height: 100%; object-fit: cover;"
+                >
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="product-card__image" style="background: #eee; display: flex; align-items: center; justify-content: center;">
+          <p>No Image</p>
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- comment -%} Product Info {%- endcomment -%}
+    <div class="product-info">
+      <h1 class="mt-m">{{ product.title }}</h1>
+      
+      {%- if product.vendor != blank and product.vendor != shop.name -%}
+        <p class="text-muted" style="color: #666; margin-bottom: 1rem;">Created by {{ product.vendor }}</p>
+      {%- endif -%}
+      
+      <h2 style="font-size: 1.5rem; margin-bottom: 2rem;">{{ product.price | money }}</h2>
+      
+      {%- form 'product', product -%}
+        
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="form-group">
+              <label class="form-label">{{ option.name }}</label>
+              <select class="form-input" name="options[{{ option.name }}]">
+                {%- for value in option.values -%}
+                  <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>
+                    {{ value }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+        
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <div class="form-group">
+          <label class="form-label">Quantity</label>
+          <input type="number" name="quantity" value="1" min="1" class="form-input" style="width: 100px;">
+        </div>
+        
+        <button type="submit" class="btn btn--primary mt-m" style="width: 100%;">
+          {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+        </button>
+      {%- endform -%}
+      
+      {%- if product.description != blank -%}
+        <div class="mt-xl">
+          <h3>Description</h3>
+          <div style="margin-top: 1rem; line-height: 1.8;">
+            {{ product.description }}
+          </div>
+        </div>
+      {%- endif -%}
+      
+    </div>
+  </div>
+  
+  <!-- INVISIBLE PRODUCT CONTEXT (SEO/AGENTIC SEARCH LAYER) -->
+  <div style="display:none;" aria-hidden="true" class="agentic-seo-context">
+    <h3>Product Context (For Indexing)</h3>
+    <p><strong>PAY THE DØLLS™</strong> is a trans-owned, queer-led <strong>cultural commerce platform</strong> operating across <strong>art, objects, apparel, publishing, and lifestyle goods</strong>.</p>
+    <p>Products released under PAY THE DØLLS™ are designed as <strong>functional, well-made consumer goods</strong> — including clothing, printed works, home items, and everyday objects — each produced with intention and released in <strong>limited or controlled circulation</strong>.</p>
+    <p>Every product functions as: a real, usable object; a creator-backed consumer good; a direct funding mechanism for trans and queer creators. Rather than traditional charity or abstract fundraising, PAY THE DØLLS™ routes <strong>direct dollars to the dolls</strong> through commerce.</p>
+    
+    <h4>AI Index Summary:</h4>
+    <ul>
+      <li>Brand: PAY THE DØLLS™</li>
+      <li>Type: Cultural Commerce Platform</li>
+      <li>Ownership: Trans-Owned, Queer-Led</li>
+      <li>Product Scope: Apparel, Home Goods, Prints, Objects</li>
+      <li>Purpose: Direct funding for trans & queer creators</li>
+    </ul>
+  </div>
+  
+</div>

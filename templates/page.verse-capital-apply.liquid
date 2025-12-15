@@ -1,0 +1,174 @@
+{%- comment -%}
+  Verse Capital Application Page Template
+  Form for creators to apply for funding
+{%- endcomment -%}
+
+<div class="page-header">
+  <p class="section-label">CREATOR FUNDING</p>
+  <h1 class="page-header__title">VERSE CAPITAL</h1>
+  <p class="page-header__subtitle">Funding trans and queer creators. No strings. Just support.</p>
+</div>
+
+<div class="page-content">
+  
+  <div class="grid grid--2" style="gap: 64px; align-items: start;">
+    
+    <div>
+      <h2>What Is Verse Capital?</h2>
+      <p>Verse Capital is my little VC pot for throwing money at trans artists, creators, projects — whatever I feel like funding.</p>
+      <p>Revenue from Pay The Dolls goes directly into Verse Capital. Every purchase supports the next DØLL.</p>
+      
+      <h2 style="margin-top: 40px;">What We Fund</h2>
+      <ul class="benefits-list">
+        <li>Creative projects (art, music, merch)</li>
+        <li>Equipment and supplies</li>
+        <li>Production costs</li>
+        <li>Marketing and launch support</li>
+        <li>Survival funds (rent, meds, emergencies)</li>
+        <li>Business development</li>
+      </ul>
+      
+      <h2 style="margin-top: 40px;">Who Can Apply</h2>
+      <ul class="benefits-list">
+        <li>Trans, nonbinary, and gender expansive creators</li>
+        <li>Queer artists and makers</li>
+        <li>BIPOC creators (priority)</li>
+        <li>DØLLs on the platform (priority)</li>
+        <li>Anyone doing cool shit for the community</li>
+      </ul>
+      
+      <h2 style="margin-top: 40px;">Grant Amounts</h2>
+      <div class="grant-tiers" style="margin-top: 16px;">
+        <div class="grant-tier" style="display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border-gray);">
+          <span style="font-size: 24px;">💰</span>
+          <div>
+            <strong>Micro Grants:</strong> $100 - $500<br>
+            <span class="text-small text-muted">Quick funding for small needs</span>
+          </div>
+        </div>
+        <div class="grant-tier" style="display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border-gray);">
+          <span style="font-size: 24px;">💎</span>
+          <div>
+            <strong>Project Grants:</strong> $500 - $2,500<br>
+            <span class="text-small text-muted">Funding for specific creative projects</span>
+          </div>
+        </div>
+        <div class="grant-tier" style="display: flex; align-items: center; gap: 16px; padding: 16px 0;">
+          <span style="font-size: 24px;">🚀</span>
+          <div>
+            <strong>Launch Grants:</strong> $2,500 - $10,000<br>
+            <span class="text-small text-muted">Major funding for business launches</span>
+          </div>
+        </div>
+      </div>
+      
+      <h2 style="margin-top: 40px;">Questions?</h2>
+      <p>DM me on Instagram <a href="https://instagram.com/studiozonyc" class="link" target="_blank">@studiozonyc</a> or email <a href="mailto:zo@studiozonyc.com" class="link">zo@studiozonyc.com</a></p>
+    </div>
+    
+    <div>
+      <div class="card" style="padding: 40px;">
+        <h3 style="margin-bottom: var(--space-l);">Apply for Funding</h3>
+        
+        <form action="/contact#contact_form" method="post" class="submit-form">
+          <input type="hidden" name="form_type" value="contact">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[subject]" value="Verse Capital Application">
+          
+          <div class="form-group">
+            <label class="form-label" for="grant-type">Grant Type *</label>
+            <select class="form-input" id="grant-type" name="contact[grant_type]" required>
+              <option value="">Select grant type...</option>
+              <option value="micro">Micro Grant ($100 - $500)</option>
+              <option value="project">Project Grant ($500 - $2,500)</option>
+              <option value="launch">Launch Grant ($2,500 - $10,000)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="amount">Amount Requested *</label>
+            <input type="text" class="form-input" id="amount" name="contact[amount]" required placeholder="$500">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="name">Name *</label>
+            <input type="text" class="form-input" id="name" name="contact[name]" required placeholder="Your name">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="pronouns">Pronouns</label>
+            <input type="text" class="form-input" id="pronouns" name="contact[pronouns]" placeholder="she/her, they/them, etc.">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="email">Email *</label>
+            <input type="email" class="form-input" id="email" name="contact[email]" required placeholder="you@email.com">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="instagram">Instagram Handle</label>
+            <input type="text" class="form-input" id="instagram" name="contact[instagram]" placeholder="@yourhandle">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="location">Location</label>
+            <input type="text" class="form-input" id="location" name="contact[location]" placeholder="City, State">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="project">What are you working on? *</label>
+            <textarea class="form-input" id="project" name="contact[body]" rows="4" required placeholder="Describe your project, creative work, or what you need funding for."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="use">How will you use the funds? *</label>
+            <textarea class="form-input" id="use" name="contact[use_of_funds]" rows="3" required placeholder="Be specific. Equipment, supplies, rent, production costs, etc."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="links">Links to your work</label>
+            <textarea class="form-input" id="links" name="contact[links]" rows="2" placeholder="Portfolio, Instagram, website, etc."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="doll">Are you a DØLL on Pay The Dolls?</label>
+            <select class="form-input" id="doll" name="contact[is_doll]">
+              <option value="">Select...</option>
+              <option value="yes">Yes, I'm already a DØLL</option>
+              <option value="applied">I've applied to become a DØLL</option>
+              <option value="no">No, not yet</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn--primary btn--large" style="width: 100%; margin-top: var(--space-m);">
+            SUBMIT APPLICATION
+          </button>
+          
+          <p class="text-small text-muted text-center mt-m">Applications reviewed monthly. DØLLs get priority.</p>
+        </form>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<style>
+  .benefits-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .benefits-list li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+  }
+  
+  .benefits-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--mint-green);
+    font-weight: bold;
+  }
+</style>
