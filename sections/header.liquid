@@ -7,13 +7,6 @@
 
   <!-- Desktop Navigation -->
   <nav class="hidden md:flex gap-8 text-[13px] font-medium tracking-[0.05em]">
-    {% if section.settings.menu.links.size > 0 %}
-      {% for link in section.settings.menu.links %}
-        <a href="{{ link.url }}" class="{% if link.active %}text-brand-neon{% else %}text-brand-dark{% endif %} hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-          {{ link.title }}
-        </a>
-      {% endfor %}
-    {% else %}
       <a href="/collections/all" class="{% if request.path contains '/collections' %}text-brand-dark{% else %}text-brand-dark{% endif %} hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
         SHOP
       </a>
@@ -35,7 +28,6 @@
       <a href="/pages/contact" class="{% if request.path contains '/pages/contact' %}text-brand-neon{% else %}text-brand-dark{% endif %} hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
         CONTACT
       </a>
-    {% endif %}
   </nav>
 
   <!-- Right Actions -->
@@ -67,21 +59,13 @@
   <!-- Mobile Menu Overlay -->
   <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full md:hidden flex h-screen w-screen">
     <nav class="flex flex-col items-center gap-8 text-center">
-      {% if section.settings.menu.links.size > 0 %}
-        {% for link in section.settings.menu.links %}
-          <a href="{{ link.url }}" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">
-            {{ link.title }}
-          </a>
-        {% endfor %}
-      {% else %}
-        <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
-        <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
-        <a href="/pages/verse-capital" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Verse</a>
-        <a href="/pages/mission" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Mission</a>
-        <a href="/pages/submit" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Submit</a>
-        <a href="/pages/about" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">About</a>
-        <a href="/pages/contact" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Contact</a>
-      {% endif %}
+      <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
+      <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
+      <a href="/pages/verse-capital" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Verse</a>
+      <a href="/pages/mission" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Mission</a>
+      <a href="/pages/submit" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Submit</a>
+      <a href="/pages/about" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">About</a>
+      <a href="/pages/contact" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Contact</a>
     </nav>
   </div>
 </header>
