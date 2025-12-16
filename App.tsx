@@ -8,9 +8,8 @@ import { VersePage } from './components/VersePage';
 import { SubmitPage } from './components/SubmitPage';
 import { MissionPage } from './components/MissionPage';
 import { CollectionPage } from './components/CollectionPage';
-import { AboutPage } from './components/AboutPage';
 
-type ViewState = 'home' | 'shop' | 'product' | 'brands' | 'brand-studio-zo' | 'brand-cooltransgirl' | 'verse' | 'mission' | 'about' | 'submit';
+type ViewState = 'home' | 'shop' | 'product' | 'brands' | 'brand-studio-zo' | 'brand-cooltransgirl' | 'verse' | 'mission' | 'submit';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -46,9 +45,6 @@ const App: React.FC = () => {
           <button onClick={() => navigate('mission')} className={`bg-transparent border-none cursor-pointer hover:text-brand-neon transition-colors duration-200 no-underline ${currentView === 'mission' ? 'text-brand-neon' : 'text-brand-dark'}`}>
             MISSION
           </button>
-          <button onClick={() => navigate('about')} className={`bg-transparent border-none cursor-pointer hover:text-brand-neon transition-colors duration-200 no-underline ${currentView === 'about' ? 'text-brand-neon' : 'text-brand-dark'}`}>
-            ABOUT
-          </button>
           <button onClick={() => navigate('submit')} className={`bg-transparent border-none cursor-pointer hover:text-brand-neon transition-colors duration-200 no-underline ${currentView === 'submit' ? 'text-brand-neon' : 'text-brand-dark'}`}>
             SUBMIT
           </button>
@@ -76,7 +72,6 @@ const App: React.FC = () => {
         {currentView === 'brand-cooltransgirl' && <CoolTransGirlPage />}
         {currentView === 'verse' && <VersePage />}
         {currentView === 'mission' && <MissionPage onNavigate={(view) => navigate(view as ViewState)} />}
-        {currentView === 'about' && <AboutPage onNavigate={(view) => navigate(view as ViewState)} />}
         {currentView === 'submit' && <SubmitPage />}
       </main>
 

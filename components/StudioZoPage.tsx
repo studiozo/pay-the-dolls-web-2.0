@@ -27,41 +27,41 @@ export const StudioZoPage: React.FC = () => {
 
   return (
     <div className="bg-[#050505] min-h-screen text-white font-mono relative selection:bg-[#CCFF00] selection:text-black pb-24">
-      
+
       {/* Background Grid/Noise texture */}
       <div className="pointer-events-none fixed inset-0 opacity-[0.03] z-0"
-           style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
+        style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
       </div>
 
       {/* Top Bar */}
       <div className="relative z-10 flex justify-between items-start px-6 pt-6 md:px-12 text-[10px] md:text-[11px] tracking-[0.2em] text-[#666] font-bold">
-         <div className="text-white italic text-lg tracking-tighter not-italic font-sans">
-             ZØVIVAA
-         </div>
-         <div className="text-right flex flex-col items-end">
-             <div className="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
-             <div className="font-mono tabular-nums text-white">
-               {time.toLocaleTimeString('en-US', {hour12: false})}:{time.getMilliseconds().toString().padStart(3, '0')}
-             </div>
-             <a href="/" onClick={(e) => { e.preventDefault(); window.scrollTo(0,0); /* Ideally navigate back to brands */ }} 
-                className="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300">
-               [ RETURN TO DASHBOARD ]
-             </a>
-         </div>
+        <div className="text-white italic text-lg tracking-tighter not-italic font-sans">
+          ZØVIVAA
+        </div>
+        <div className="text-right flex flex-col items-end">
+          <div className="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
+          <div className="font-mono tabular-nums text-white">
+            {time.toLocaleTimeString('en-US', { hour12: false })}:{time.getMilliseconds().toString().padStart(3, '0')}
+          </div>
+          <a href="/" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); /* Ideally navigate back to brands */ }}
+            className="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300">
+            [ RETURN TO DASHBOARD ]
+          </a>
+        </div>
       </div>
 
       {/* Hero Header */}
       <div className="relative z-10 px-6 md:px-12 mt-12 mb-20">
-         <h1 className="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-transparent text-outline-white tracking-tighter font-sans select-none">
-            STuDiØ ZØ
-         </h1>
-         <div className="mt-6 flex items-center gap-4">
-             {/* Gradient Line Accent */}
-             <div className="h-[3px] w-32 bg-gradient-to-r from-[#FF3333] to-[#CCFF00]"></div>
-             <span className="text-white font-bold tracking-[0.2em] uppercase text-sm md:text-base">
+        <h1 className="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-transparent text-outline-white tracking-tighter font-sans select-none">
+          STuDiØ ZØ
+        </h1>
+        <div className="mt-6 flex items-center gap-4">
+          {/* Gradient Line Accent */}
+          <div className="h-[3px] w-32 bg-gradient-to-r from-[#FF3333] to-[#CCFF00]"></div>
+          <span className="text-white font-bold tracking-[0.2em] uppercase text-sm md:text-base">
                 // CØMMERCE
-             </span>
-         </div>
+          </span>
+        </div>
       </div>
 
       {/* Filter Tabs */}
@@ -70,11 +70,10 @@ export const StudioZoPage: React.FC = () => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab as any)}
-            className={`pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 ${
-              activeTab === tab 
-                ? 'text-[#CCFF00] border-b-2 border-[#CCFF00]' 
+            className={`pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 ${activeTab === tab
+                ? 'text-[#CCFF00] border-b-2 border-[#CCFF00]'
                 : 'text-[#555] hover:text-white'
-            }`}
+              }`}
           >
             {tab}
           </button>
@@ -83,38 +82,38 @@ export const StudioZoPage: React.FC = () => {
 
       {/* Product Grid */}
       <div className="relative z-10 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-16">
-         {filteredItems.map((item) => (
-           <div key={item.id} className="group cursor-pointer">
-              {/* Box */}
-              <div className="aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]">
-                 
-                 {/* ID Code */}
-                 <span className="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">
-                    {item.code}
-                 </span>
+        {filteredItems.map((item) => (
+          <div key={item.id} className="group cursor-pointer">
+            {/* Box */}
+            <div className="aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]">
 
-                 {/* Diagonal Watermark Text */}
-                 <div className="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
-                    <span className="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
-                       {item.title}
-                    </span>
-                 </div>
+              {/* ID Code */}
+              <span className="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">
+                {item.code}
+              </span>
 
-                 {/* Image Reveal on Hover */}
-                 <img 
-                    src={item.img} 
-                    alt={item.title}
-                    className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0"
-                 />
+              {/* Diagonal Watermark Text */}
+              <div className="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
+                <span className="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
+                  {item.title}
+                </span>
               </div>
 
-              {/* Meta Data */}
-              <div className="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
-                 <h3 className="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">{item.title}</h3>
-                 <span className="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">${item.price}</span>
-              </div>
-           </div>
-         ))}
+              {/* Image Reveal on Hover */}
+              <img
+                src={item.img}
+                alt={item.title}
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0"
+              />
+            </div>
+
+            {/* Meta Data */}
+            <div className="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
+              <h3 className="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">{item.title}</h3>
+              <span className="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">${item.price}</span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

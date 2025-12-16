@@ -14,12 +14,11 @@
      </div>
      <div class="text-right flex flex-col items-end">
          <div class="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
-         <div class="font-mono tabular-nums text-white">
-           <!-- Liquid Time Fallback -->
-           {{ "now" | date: "%H:%M:%S" }}:000
+         <div id="sys-clock" class="font-mono tabular-nums text-white">
+           <!-- Time will be injected here -->
+           00:00:00.000
          </div>
-         <a href="/pages/brands" 
-            class="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300 no-underline text-[#666]">
+         <a href="/pages/brands" class="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300 no-underline text-[#666] hover:text-black">
            [ RETURN TO DASHBOARD ]
          </a>
      </div>
@@ -27,7 +26,7 @@
 
   <!-- Hero Header -->
   <div class="relative z-10 px-6 md:px-12 mt-12 mb-20">
-     <h1 class="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-transparent text-outline-white tracking-tighter font-sans select-none" style="-webkit-text-stroke: 1px white; color: transparent;">
+     <h1 class="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-transparent text-outline-white tracking-tighter font-sans select-none" style="-webkit-text-stroke: 1px white;">
         STuDiØ ZØ
      </h1>
      <div class="mt-6 flex items-center gap-4">
@@ -39,67 +38,109 @@
      </div>
   </div>
 
-  <!-- Filter Tabs (Static for now in Liquid) -->
+  <!-- Filter Tabs -->
   <div class="relative z-10 px-6 md:px-12 mb-12 flex gap-8 border-b border-[#222]">
-      <a href="?filter=paintings" class="pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#CCFF00] border-b-2 border-[#CCFF00] no-underline">
-        All Works
-      </a>
-      <!-- 
-      Ideally these would toggle collections. 
-      For now, we list all relevant products. 
-      -->
+    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#CCFF00] border-b-2 border-[#CCFF00]" data-tab="paintings">
+      paintings
+    </button>
+    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="rezoed">
+      rezoed
+    </button>
+    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="prints">
+      prints
+    </button>
   </div>
 
   <!-- Product Grid -->
-  <div class="relative z-10 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-16">
-     <!-- NOTE: You should create a collection called 'studio-zo' and iterate over it here. -->
-     {% assign studio_zo_collection = collections['studio-zo'] %}
-     {% for product in studio_zo_collection.products %}
-       <div class="group cursor-pointer">
-          <!-- Box -->
-          <a href="{{ product.url }}" class="block aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00] no-underline">
-             
-             <!-- ID Code -->
-             <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">
-                {{ product.variants.first.sku | default: 'ZØ-XXX' }}
-             </span>
+  <div id="artwork-grid" class="relative z-10 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-16">
+    <!-- Items injected by JS -->
+  </div>
 
-             <!-- Diagonal Watermark Text -->
-             <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
-                <span class="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
-                   {{ product.title }}
-                </span>
-             </div>
+</div>
 
-             <!-- Image Reveal on Hover -->
-             <img 
-                src="{{ product.featured_image | img_url: '800x' }}" 
-                alt="{{ product.title | escape }}"
-                class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0"
-             />
-          </a>
+<script>
+  // Mock Data
+  const ARTWORKS = [
+    { id: 1, code: 'PNT-001', title: 'Entropy No. 5', price: 1200, img: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1000&auto=format&fit=crop', category: 'paintings' },
+    { id: 2, code: 'PNT-002', title: 'Static Noise', price: 950, img: 'https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1000&auto=format&fit=crop', category: 'paintings' },
+    { id: 3, code: 'PNT-003', title: 'The Void', price: 2400, img: 'https://images.unsplash.com/photo-1515405295579-ba7f9f92f413?q=80&w=1000&auto=format&fit=crop', category: 'paintings' },
+    { id: 4, code: 'RZO-001', title: 'Glitch Portrait', price: 450, img: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop', category: 'rezoed' },
+    { id: 5, code: 'RZO-002', title: 'Data Decay', price: 450, img: 'https://images.unsplash.com/photo-1614850523060-8da1d56e37ad?q=80&w=1000&auto=format&fit=crop', category: 'rezoed' },
+    { id: 6, code: 'PRT-001', title: 'Structure A', price: 85, img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
+    { id: 7, code: 'PRT-002', title: 'Structure B', price: 85, img: 'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
+    { id: 8, code: 'PRT-003', title: 'Untitled 04', price: 120, img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
+    { id: 9, code: 'PRT-004', title: 'Untitled 05', price: 120, img: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
+  ];
 
-          <!-- Meta Data -->
-          <div class="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
-             <h3 class="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">{{ product.title }}</h3>
-             <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">{{ product.price | money }}</span>
-          </div>
-       </div>
-     {% else %}
-        <!-- Fallback Static Items from React Mock Data if collection is empty -->
+  document.addEventListener('DOMContentLoaded', () => {
+    // Clock
+    const clockEl = document.getElementById('sys-clock');
+    const updateClock = () => {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', {hour12: false});
+      const ms = now.getMilliseconds().toString().padStart(3, '0');
+      clockEl.textContent = `${timeStr}:${ms}`;
+    };
+    setInterval(updateClock, 53);
+    updateClock();
+
+    // Tabs & Grid
+    const gridEl = document.getElementById('artwork-grid');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    let activeTab = 'paintings';
+
+    const renderGrid = (category) => {
+      const items = ARTWORKS.filter(item => item.category === category);
+      gridEl.innerHTML = items.map(item => `
         <div class="group cursor-pointer">
            <div class="aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]">
-              <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">PNT-001</span>
+              <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">
+                 ${item.code}
+              </span>
               <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
-                 <span class="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">Entropy No. 5</span>
+                 <span class="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
+                    ${item.title}
+                 </span>
               </div>
-              <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0" />
+              <img 
+                 src="${item.img}" 
+                 alt="${item.title}"
+                 class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0"
+              />
            </div>
            <div class="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
-              <h3 class="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">Entropy No. 5</h3>
-              <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">$1,200</span>
+              <h3 class="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">${item.title}</h3>
+              <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">$${item.price}</span>
            </div>
         </div>
-     {% endfor %}
-  </div>
-</div>
+      `).join('');
+    };
+
+    // Initial Render
+    renderGrid(activeTab);
+
+    // Tab Logic
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newTab = btn.getAttribute('data-tab');
+        if (newTab === activeTab) return;
+        
+        activeTab = newTab;
+        
+        // Update Buttons
+        tabBtns.forEach(b => {
+          if (b.getAttribute('data-tab') === activeTab) {
+             b.classList.remove('text-[#555]', 'hover:text-white', 'border-transparent');
+             b.classList.add('text-[#CCFF00]', 'border-b-2', 'border-[#CCFF00]');
+          } else {
+             b.classList.remove('text-[#CCFF00]', 'border-b-2', 'border-[#CCFF00]');
+             b.classList.add('text-[#555]', 'hover:text-white', 'border-transparent');
+          }
+        });
+
+        // Render Grid
+        renderGrid(activeTab);
+      });
+    });
+  });
+</script>
