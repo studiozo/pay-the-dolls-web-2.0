@@ -1,0 +1,88 @@
+# Agent Rules — Copy Source Policy 📋
+
+Purpose: Ensure any automated agent pulls authoritative copy from the repository's canonical location only — the `main` branch and specifically the `components/` folder — and never pulls content from archives, drafts, or historical snapshot folders.
+
+Scope: Applies to all agents, scripts, and automation that retrieve or sync text/copy, UI copy, or component source from this repo.
+
+Primary rule (must-follow):
+- Always pull copy from branch: `main` and path prefix: `components/` (i.e., files under `components/**`).
+
+Disallowed sources (do NOT use):
+- Any branch other than `main` for authoritative content (no `drafts-main`, `feature/*`, `old/*`, etc.).
+- Any folder named or containing `draft`, `drafts`, `_archive`, `archive`, `old`, `backup`, or `draft-*` (examples: `drafts-main/`, `_archive/`, `drafts/`).
+- Any external copy from `drafts-main/`, `drafts/`, `_archive/`, or the `drafts-main` directory in the workspace.
+
+Selection priority when multiple candidates exist:
+1. Exact match under `components/` on branch `main`, most recent commit.
+2. If no `components/` location exists on `main`, do NOT fall back to archives/drafts — instead, fail and request manual confirmation.
+
+Verification steps the agent must perform before accepting copy:
+- Fetch the latest `main` (git: `git fetch origin main --depth=1`).
+- List candidates: `git ls-tree -r origin/main --name-only | grep '^components/'`.
+- For a selected file, verify latest commit date on `origin/main`: `git log -1 --format="%H %ci" origin/main -- <path>` and ensure path is under `components/`.
+- Confirm the path does NOT match any excluded patterns (`draft`, `_archive`, `archive`, `old`, `backup`).
+
+Error handling / fallbacks:
+- If no valid file exists under `components/` on `main`, the agent must stop and return a message like: "No authoritative copy found in `main/components/` — please provide guidance or approve a non-canonical source." Do NOT auto-select from archives/drafts.
+- If the agent finds content only in excluded locations, it must list the candidates and ask for human approval.
+
+Enforcement tips (CI / preflight checks):
+- Add an automated check that scans the selected file path and commit metadata before acceptance. Reject if branch != `main` or path matches excluded patterns.
+- Record provenance: when copying, store the source as `origin/main:components/<path> @ <commit-hash>` in metadata.
+
+Examples:
+- ✅ Allowed: `components/ProductPage.tsx` on `origin/main` (use this).
+- ❌ Disallowed: `drafts-main/ProductPage.tsx` (do not use).
+- ❌ Disallowed: `_archive/homepage-v2.css` (do not use).
+
+Deduplication / Similarity check (must-follow):
+
+Purpose: Prevent accidental creation of duplicate or highly similar pages/components. Applies to pages, components, templates, sections, and snippets.
+
+Behavior & steps the agent must perform before creating or committing a new page/component:
+- Fetch latest `main`: `git fetch origin main --depth=1`.
+- Search for candidate files under the canonical areas: `components/`, `templates/`, `sections/`, `snippets/`, and `pages/`:
+  - `git ls-tree -r --name-only origin/main | grep -E 'components/|templates/|sections/|snippets/|pages/' | grep -i '<keyword-or-slug>'` (replace `<keyword-or-slug>` with the normalized title/slug/filename).
+- For each candidate, fetch content: `git show origin/main:<candidate-path>` and compute a similarity score using a simple heuristic (token overlap, normalized edit distance, or line-diff percentage). Example heuristic using diffs:
+  - `git show origin/main:<candidate-path> > /tmp/candidate`
+  - `echo "<proposed-content>" > /tmp/proposed`
+  - `diff -U0 /tmp/candidate /tmp/proposed | grep -E '^[+-]' | wc -l` → convert to a similarity percentage.
+- Flag a candidate as a potential duplicate if similarity >= 70% OR if the slug/title matches exactly.
+
+Action when potential duplicates are found:
+- The agent MUST NOT create or commit a new page/component automatically.
+- Instead, produce a clear prompt listing found candidates with paths and similarity scores and ask for explicit human instruction. Example prompt:
+  - "Potential duplicate(s) found in `origin/main`: `components/CollectionsList.tsx` (82% similar). Should I REUSE `components/CollectionsList.tsx`, MERGE changes, or CREATE NEW? Reply 'reuse:<path>' or 'create new'."
+- Only proceed after receiving an explicit human approval command or an approving PR/commit message that documents the decision (see Enforcement below).
+
+Examples:
+- If creating `pages/collections.liquid` and `components/CollectionsList.tsx` exists with 82% similarity, the agent must ask before proceeding.
+- If a filename/slug exactly matches an existing path under `components/`, treat it as a duplicate and ask.
+
+Enforcement:
+- CI/preflight checks should block commits that create new page/component files when a duplicate warning is present unless the PR description or commit metadata includes explicit human approval (e.g., `dup-check: approved by @username`).
+- Record the duplicate-check result in metadata when proceeding (e.g., `dup-check: none` or `dup-check: found <path> @ <commit-hash> — approved by @username`).
+
+Agent messaging templates:
+- On success: "Copied from authoritative source: `origin/main:components/<path>` @ <commit-hash>."
+- On failure/no-candidate: "No canonical copy found in `origin/main:components/` — please advise."
+
+Exceptions: Any exception must be explicitly approved by a human reviewer (mention @studiozo or the repo owner) and logged with reason and approver.
+
+TSX → Liquid sync (must-follow):
+
+- Purpose: Ensure UI/components parity between the React/TSX source and the Shopify Liquid templates that power the public storefront.
+- Rule: When a TSX component under `components/` is modified, the agent must ensure a corresponding Liquid template or section exists and is updated. If no corresponding Liquid artifact exists, the agent must create a draft Liquid template and open a PR for human review; do NOT merge without explicit approval.
+- Detection: Use `git diff --name-only origin/main...HEAD | grep '^components/.*\.tsx$'` to list changed TSX files. For each changed file, map the component name to likely Liquid files (templates or sections) and verify a filename match (case-insensitive, ignoring punctuation).
+- Commit message template: `sync: tsx->liquid <component-path> — created/updated <liquid-path> @ <commit-hash>`
+- Verification: Agents must run the CI preflight `scripts/tsx_liquid_check.sh` before opening a PR and ensure it passes. The repository contains a GitHub Actions workflow (`.github/workflows/tsx-liquid-check.yml`) that enforces this check on PRs; ensure your branch passes the workflow. If the check fails, the agent must either create the missing Liquid skeletons or add a clear PR description explaining why the change does not require a Liquid update.
+- Human approval: Any auto-created Liquid templates must be reviewed and approved by a human reviewer before being published to the live theme.
+
+
+Commit message template for agent changes:
+"agent: pulled canonical copy from `main/components` for `<path>` — source: `<commit-hash>`"
+
+Contact: For questions or exceptions, ping the repository owner or team lead.
+
+Last updated: 2025-12-16
+

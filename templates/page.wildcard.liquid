@@ -1,0 +1,33 @@
+{%- comment -%}
+  Wildcard Magic Items — mirrored from components/brands/WildcardPage.tsx
+  Static placeholders included for preview; replace with real products or a collection loop when available.
+{%- endcomment -%}
+
+{% include 'page-container-start' %}
+
+  <header class="mb-12 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold">Wildcard Magic Items</h1>
+    <p class="text-lg text-gray-600 mt-4">Artifacts for the digital age — curious, strange, delightful.</p>
+  </header>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1400&auto=format&fit=crop')"></div>
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">Lucky Charm</h3>
+        <p class="text-sm text-gray-600 mb-4">$42</p>
+        <a href="/collections/wildcard" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
+      </div>
+    </div>
+
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1504198453319-5ce911bafcde?q=80&w=1400&auto=format&fit=crop')"></div>
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">Mystery Box</h3>
+        <p class="text-sm text-gray-600 mb-4">$99</p>
+        <a href="/collections/wildcard" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
+      </div>
+    </div>
+  </div>
+
+{% include 'page-container-end' %}

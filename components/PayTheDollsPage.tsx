@@ -1,0 +1,1 @@
+export { PayTheDollsPage } from './brands/PayTheDollsPage';

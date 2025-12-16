@@ -1,0 +1,36 @@
+{%- comment -%}
+  Cool Transgirl — mirrored from components/brands/CoolTransgirlPage.tsx
+{%- endcomment -%}
+
+{% include 'page-container-start' %}
+
+  <header class="mb-12 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold">Cool Transgirl — Shop</h1>
+    <p class="text-lg text-gray-600 mt-4">Cute, cheeky, unapologetic pieces for the girls who get it.</p>
+  </header>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1520975911626-0f2f1a3ee1d9?q=80&w=1400&auto=format&fit=crop')"></div>
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">Cheeky Patch</h3>
+        <p class="text-sm text-gray-600 mb-4">$8</p>
+        <a href="/collections/cool-transgirl" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Shop</a>
+      </div>
+    </div>
+
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1400&auto=format&fit=crop')"></div>
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">CTG Beanie</h3>
+        <p class="text-sm text-gray-600 mb-4">$24</p>
+        <a href="/collections/cool-transgirl" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Shop</a>
+      </div>
+    </div>
+
+    <div class="border border-brand-border rounded overflow-hidden bg-white flex items-center justify-center p-8">
+      <div class="text-center text-gray-600">More drops coming soon.</div>
+    </div>
+  </div>
+
+{% include 'page-container-end' %}

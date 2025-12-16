@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { ProductPage } from './components/ProductPage';
 import { BrandsIndex } from './components/BrandsIndex';
 import { StudioZoPage } from './components/StudioZoPage';
+import { PayTheDollsPage } from './components/brands/PayTheDollsPage';
+import { WildcardPage } from './components/brands/WildcardPage';
+import { CoolTransgirlPage } from './components/brands/CoolTransgirlPage';
 
-type ViewState = 'product' | 'brands' | 'brand-studio-zo';
+type ViewState = 'product' | 'brands' | 'brand-studio-zo' | 'brand-ptd' | 'brand-wildcard' | 'brand-cooltransgirl';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('product');
@@ -60,6 +63,9 @@ const App: React.FC = () => {
       <main className="flex-grow animate-in fade-in duration-500">
         {currentView === 'product' && <ProductPage />}
         {currentView === 'brands' && <BrandsIndex onNavigate={(view) => navigate(view as ViewState)} />}
+        {currentView === 'brand-ptd' && <PayTheDollsPage onNavigate={(view) => navigate(view as ViewState)} />}
+        {currentView === 'brand-wildcard' && <WildcardPage onNavigate={(view) => navigate(view as ViewState)} />}
+        {currentView === 'brand-cooltransgirl' && <CoolTransgirlPage onNavigate={(view) => navigate(view as ViewState)} />}
         {currentView === 'brand-studio-zo' && <StudioZoPage />}
       </main>
 

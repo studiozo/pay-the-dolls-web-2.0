@@ -1,0 +1,1 @@
+export { CoolTransgirlPage } from './brands/CoolTransgirlPage';

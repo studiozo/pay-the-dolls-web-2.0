@@ -1,72 +1,74 @@
 {%- comment -%}
-  STuDiØ ZØ Print Lab Page Template
-  First vendor storefront - Print Lab
+  STuDiØ ZØ Print Lab Page Template — updated to the PRINT LAB layout
 {%- endcomment -%}
 
-<div class="page-header" style="background: linear-gradient(180deg, var(--white) 0%, #F8FFF8 100%);">
-  <p class="section-label">A PAY THE DØLLS PROJECT</p>
-  <h1 class="page-header__title logo logo--large">STuDiØ ZØ PRINT LAB</h1>
-  <p class="page-header__subtitle" style="font-size: 24px; font-weight: 600; color: var(--black);">We're Printing Money</p>
-</div>
+<div class="page-wrapper">
+  <div class="max-w-[1400px] mx-auto px-4 py-20">
+    <header class="hero">
+      <div class="w-[200px] h-[3px] bg-[#ff3333] mb-4"></div>
+      <h1 class="title-outline text-[120px] font-bold uppercase tracking-tight leading-[0.8] mb-2">PRINT LAB</h1>
+      <p class="sf-mono" style="letter-spacing:0.15em; text-transform:uppercase;">// COMMERCE</p>
+    </header>
 
-<div class="page-content">
-  
-  <h2>Welcome to the Print Lab</h2>
-  <p>I wanted to build a storefront to sell my art, merch, and other ideas. I already had the Pay The Dolls Shopify and URL — and I didn't want another login, another account to keep up with, or to do all the same work twice.</p>
-  <p>So instead, I converted Pay The Dolls into its next evolution and where I hope to take the direction and art.</p>
-  <p><strong>Welcome to Pay The Dolls.</strong></p>
-  <p>The platform where DØLLs launch products, build storefronts, and generate revenue. Multi-vendor. Multi-category. Infinitely scalable.</p>
-  
-  <h2>The Print Lab</h2>
-  <p>I've launched my first Print Lab — because we're printing money.</p>
-  <p>DØLLs can set up a storefront and join a community to buy and print. They own their revenue (minus a small transaction fee to keep the lights on #fuckuconed).</p>
-  
-  <h2>Where the Money Goes</h2>
-  <p><strong>Revenue from Pay The Dolls merch → Verse Capital</strong></p>
-  <p>A little VC pot to throw money at other trans artists, creators, projects, and who knows what else.</p>
-  <p>Is it officially a capital fund? No — not yet.</p>
-  <p>For now, it's getting earmarked in my bank account.</p>
-  <p>But if you'd like to invest $1 million into the pot, we are accepting equity raises.</p>
-  <p><strong>DM me.</strong></p>
-  
-  <h2>What You'll Find Here</h2>
-  <ul>
-    <li><strong>Art prints</strong> from my studio</li>
-    <li><strong>Merch designs</strong> (apparel, accessories, stickers)</li>
-    <li><strong>Limited drops</strong> and experimental work</li>
-    <li><strong>Other DØLLs' storefronts</strong> (coming soon)</li>
-  </ul>
-  
-  <h2>The Vision</h2>
-  <p>Right now, this is my storefront.</p>
-  <p>Soon, it's a marketplace where other trans and queer creators can launch their own stores.</p>
-  <p>Everyone keeps their revenue (minus transaction fees). The ecosystem funds itself. Capital circulates. We build wealth in our community.</p>
-  <p>Not charity. Not grants. Not waiting for permission.</p>
-  <p><strong>Just: make your thing, sell your thing, fund the next thing.</strong></p>
-  
-  <h2>This is Version 0.1</h2>
-  <p>It's rough. It's early. It's real.</p>
-  <p>I'm figuring this out as I go.</p>
-  <p>If you're a creator who wants a storefront, hit me up. If you want to support, buy something. If you want to invest in Verse Capital, I'm serious — DM me.</p>
-  
-  <h2>A Note from ZØ</h2>
-  <p>I built this because I was tired of waiting.</p>
-  <p>Tired of platforms taking 30-50%. Tired of grants that take months. Tired of asking permission to build.</p>
-  <p>So I'm building the infrastructure myself.</p>
-  <p>It's not perfect. It's not polished. But it's ours.</p>
-  <p>And if it works, we're changing the game.</p>
-  <p>Welcome to the Print Lab.</p>
-  <p>Let's print some money.</p>
-  <p><strong>— ZØ</strong></p>
-  
-  <div class="cta-group mt-xl" style="justify-content: flex-start;">
-    <a href="/collections/studio-zo" class="btn btn--primary">Shop the Print Lab</a>
-    <a href="/pages/become-a-doll" class="btn btn--secondary">Become a DØLL</a>
+    <nav class="nav-menu my-12">
+      <a href="#prints" class="active">Prints.</a>
+      <a href="#fashion">Fashion.</a>
+      <a href="#book">Book.</a>
+    </nav>
+
+    <section class="description max-w-[800px] mb-16">
+      <p class="text-lg text-[#cccccc] mb-4">We're printing money. Digital artifacts materialized into physical form.</p>
+      <p class="text-lg text-[#cccccc] mb-4">Each piece is a statement forged from reclaimed materials, vintage fabrics, and hand-crafted details. Sustainable couture meets bold silhouettes that speak without words.</p>
+      <a href="#shop" class="shop-button inline-block mt-8 px-6 py-4 border border-[#CCFF00] text-[#CCFF00]">[ SHOP RE.ZØED ]</a>
+    </section>
+
+    <section id="prints" class="mt-24">
+      <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
+        <div class="text-sm text-[#ff3333] uppercase tracking-[0.15em] mb-2 font-medium">PRINTS:</div>
+        <div class="text-lg text-[#aaaaaa] leading-[1.6]">Limited edition art prints. Photographic works. Digital artifacts on archival paper.</div>
+      </div>
+
+      <div class="products-grid grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+        <div class="product-card bg-black border border-[#1a1a1a] p-5">
+          <div class="product-image w-full bg-[#0a0a0a] border border-[#111111] mb-5 flex items-center justify-center">PRINT_001</div>
+          <div class="flex justify-between items-baseline">
+            <div>
+              <div class="product-name">STARDUST MANIFESTO</div>
+              <div class="product-code text-[#CCFF00]">PRNT-001</div>
+            </div>
+            <div class="product-price text-[#888888]">$120</div>
+          </div>
+        </div>
+        <!-- more cards... -->
+      </div>
+    </section>
+
+    <section id="fashion" class="mt-24">
+      <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
+        <div class="text-sm text-[#ff3333] uppercase tracking-[0.15em] mb-2 font-medium">FASHION:</div>
+        <div class="text-lg text-[#aaaaaa] leading-[1.6]">Statements forged from secondhand fabrics, reclaimed textures, and one-of-one storytelling.</div>
+      </div>
+
+      <div class="products-grid grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+        <!-- fashion product cards -->
+      </div>
+    </section>
+
+    <section id="book" class="mt-24">
+      <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
+        <div class="text-sm text-[#ff3333] uppercase tracking-[0.15em] mb-2 font-medium">BOOK:</div>
+        <div class="text-lg text-[#aaaaaa] leading-[1.6]">Collaborate with Studio ZØ. Fashion shoots. Creative direction. Custom commissions.</div>
+      </div>
+
+      <div class="max-w-[600px] mt-10">
+        <p class="text-lg text-[#aaaaaa] leading-[1.8] mb-6">For bookings, collaborations, and custom work:<br /><a href="mailto:zo@studiozonyc.com" class="text-[#CCFF00]">zo@studiozonyc.com</a></p>
+        <a href="mailto:zo@studiozonyc.com" class="shop-button inline-block px-8 py-3 border border-[#CCFF00] text-[#CCFF00]">[ CONTACT US ]</a>
+      </div>
+    </section>
+
+    <footer class="mt-36 pt-10 border-t border-[#1a1a1a] text-center text-[11px] text-[#666666] tracking-[0.05em] font-normal">
+      <p>STUDIO ZØ // PRINT LAB // 2025</p>
+      <p class="mt-2">ALL RIGHTS RESERVED // COPYRIGHT</p>
+    </footer>
   </div>
-  
-</div>
-
-<div class="section section--alt text-center">
-  <p class="text-caption">STuDiØ ZØ PRINT LAB — A Pay The Dolls Project</p>
-  <p class="text-caption">Powered by Verse Capital · © 2025 STUDIO ZO LLC</p>
 </div>

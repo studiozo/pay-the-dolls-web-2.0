@@ -1,0 +1,81 @@
+TSX → Liquid: ZO Instructions
+
+Purpose
+- Explain how React/TSX components in `components/` map to Shopify Liquid templates and sections.
+- Provide a reproducible workflow for converting, testing, and maintaining pages (Mission / Verse, etc.).
+
+Short summary of the approach
+1) Keep the canonical UI code in `components/` (React/TSX) for design previews and local dev.
+2) When shipping to the Shopify theme, convert the component to a `section` (or template) in Liquid using the same HTML structure and utility classes.
+3) Move any required CSS to theme assets or utility CSS already used by the theme (prefer reusing Tailwind-like classes or existing styles in `assets/theme.css`).
+4) Connect dynamic fields (editable text, images) to Section settings or to metafields so content is editable from Shopify admin.
+5) For interactive features (JS-driven), implement a small vanilla JS module in `assets/` or use an app proxy. Avoid shipping complex React into Liquid unless you have an app that handles SSR / embed.
+
+Detailed Steps: TSX -> Liquid
+1. Identify the component to convert
+   - Example: `components/Mission.tsx` is the canonical mission view.
+   - For Verse content, create or use `components/Verse.tsx` as the canonical source, then convert to a Liquid section named `sections/verse.liquid` and a template `templates/page.verse.liquid` (if needed).
+
+2. Create a Section
+   - Make `sections/mission.liquid` and `sections/verse.liquid` (or `section--mission.liquid` depending on naming conventions).
+   - Copy the HTML structure from the JSX into the section, replacing JSX props and React-only constructs:
+     - Convert `className` → `class`
+     - Replace onClick navigation with anchor links `href` pointing to the relevant page (e.g., `<a href="/collections">Shop</a>`).
+     - If the component uses props for content, expose them as section `settings` so the admin can edit them.
+
+3. Associate a template
+   - Add `templates/page.mission.liquid` and `templates/page.verse.liquid` with:
+     {% raw %}{% section 'mission' %}{% endraw %}
+   - This makes the page accessible at `/pages/mission` and editable in the theme customizer.
+
+4. Move styles and scripts
+   - If the TSX component used utility classes (Tailwind-like), ensure the theme has corresponding styles.
+   - For component-specific JS (sliders, modals), add a small `assets/mission.js` that attaches behavior to DOM elements and include it in the section with a script tag.
+
+5. Data & dynamic content
+   - For content the store team needs to edit (headings, CTA text, images), add section `settings` and use `{{ section.settings.my_setting }}` in Liquid.
+   - For product/collection data, use Shopify objects: `collections`, `product`, `collection.products`, or metafields (for ID-linked content).
+
+6. Testing & QA
+   - Test locally: update `sections/header.liquid` to ensure the menu points to the correct pages: Shop (/collections), Brands (/pages/brands), Verse (/pages/verse-capital), Mission (/pages/mission), Submit (/pages/submit), About (/pages/about), Contact (/pages/contact).
+   - Test in Theme Preview after uploading the section/template.
+
+Nav / Menu guidance
+- The requested site menu (top nav) should be:
+  1. Shop → `/collections` (shows collections/all)
+  2. Brands → `/pages/brands` (Brands page / BrandsIndex)
+  3. Verse → `/pages/verse-capital` (Verse landing or /pages/verse)
+  4. Mission → `/pages/mission` (Mission page, use `sections/mission.liquid`)
+  5. Submit → `/pages/submit` (submit form)
+  6. About → `/pages/about`
+  7. Contact → `/pages/contact`
+
+Where should "Verse Capital" pull from?
+- Authoritative source: create `components/Verse.tsx` (React) in `components/` to be the canonical UI source.
+- When converting, create `sections/verse.liquid` and `templates/page.verse.liquid` that mirror the component markup and expose editable fields as `settings` or pull data from metafields.
+- If Verse includes a submission form (applications), wire that to Shopify contact forms (`form` action) or an app-proxied backend for server-side handling.
+
+Best practices
+- Keep presentational markup and styles in `components/` for dev previews and prototyping.
+- Keep production Liquid sections the single source for what appears on Shopify (so content is editable in admin).
+- Use section `settings` rather than hard-coded content for shop-editable text.
+- For interactive behavior, prefer small, dependency-free JS to keep theme lightweight.
+
+Example: Mission.tsx → sections/mission.liquid
+- TSX snippet:
+  <h1 className="text-4xl font-bold">PAY THE DØLLS™</h1>
+  <p className="mb-6">To pay the dolls.</p>
+- Liquid section:
+  <h1 class="text-4xl font-bold">PAY THE DØLLS™</h1>
+  <p class="mb-6">{{ section.settings.mission_text }}</p>
+
+Notes for ZO
+- Keep `components/` as the design/dev source. When a component is ready to ship to the live site, convert it to a Liquid section and connect editable bits to section settings.
+- For new pages (Mission / Verse), add templates under `templates/` and include the corresponding section.
+- Keep a short changelog in `assets/zo_instructions/zo_instructions_tsx-to-liquid` when a conversion is done (date, component name, template/section name, any JS added).
+
+Questions? If you want, I can:
+- Convert `components/Mission.tsx` → `sections/mission.liquid` and `templates/page.mission.liquid` now as an example.
+- Create `components/Verse.tsx` and the corresponding Liquid `sections/verse.liquid` and `templates/page.verse.liquid`.
+
+---
