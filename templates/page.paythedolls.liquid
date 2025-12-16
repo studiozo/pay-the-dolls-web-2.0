@@ -1,48 +1,213 @@
-{%- comment -%}
-  Pay The DØLLS — Merch (synced from components/brands/PayTheDollsPage.tsx)
-  NOTE: Replace static product cards with Shopify product/collection loops when converting to real products.
-{%- endcomment -%}
+<!-- PAY THE DØLLS — Shop Structure -->
+<!-- 
+  NOTE: This replaces standard page containers to allow full-width 'cunty' styling.
+  Ensure your products are tagged with: Apparel, Accessories, Artifacts, Art, Aura
+-->
 
-{% include 'page-container-start' %}
+<div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
+  <div class="max-w-[1400px] mx-auto py-24 px-6 md:px-12">
+    
+    <!-- HEADER SECTION -->
+    <header class="mb-16 text-center max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-7xl font-bold uppercase tracking-tight mb-6">
+        PAY THE DØLLS™ — Shop
+      </h1>
+      <h2 class="text-xl md:text-2xl font-medium uppercase tracking-widest mb-8 border-b border-black pb-4 inline-block">
+        The house brand. Secure the bag.
+      </h2>
+      
+      <!-- CATEGORY NAVIGATION (THE BOXES) -->
+      <!-- Clicking these jumps down to the section -->
+      <nav class="flex flex-wrap justify-center gap-4 mb-12">
+        <a href="#apparel" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Apparel
+        </a>
+        <a href="#accessories" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Accessories
+        </a>
+        <a href="#artifacts" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Artifacts
+        </a>
+        <a href="#art" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Art
+        </a>
+        <a href="#aura" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Aura
+        </a>
+      </nav>
 
-  <header class="mb-12 text-center">
-    <h1 class="text-4xl md:text-6xl font-bold">PAY THE DØLLS™ — Merch</h1>
-    <p class="text-lg text-gray-600 mt-4">The house brand shop. Support creators.</p>
-  </header>
+      <div class="w-16 h-px bg-black mx-auto mb-12"></div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <!-- Sample product cards (static preview). Swap for a product/collection loop for live usage. -->
-    <div class="border border-brand-border rounded overflow-hidden bg-white">
-      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1520975911626-0f2f1a3ee1d9?q=80&w=1400&auto=format&fit=crop')" />
-      <div class="p-6">
-        <h3 class="font-bold text-xl mb-2">PTD Logo Tee</h3>
-        <p class="text-sm text-gray-600 mb-4">$28</p>
-        <a href="/collections/all" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
-      </div>
+      <p class="text-[#666] text-lg font-light leading-relaxed max-w-2xl mx-auto">
+        All profit fuels Verse Capital. We curate the baseline, but the platform is yours. Submit your designs. If we print it, you split it—50% revenue share.
+      </p>
+    </header>
+
+    <!-- AUTOMATIC SECTIONS LOOP -->
+    <!-- This finds products in the 'all' collection and filters them visually by tag -->
+    {% assign source_collection = collections['all'] %}
+    
+    <div class="space-y-32">
+
+      <!-- 1. APPAREL -->
+      <section id="apparel" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Apparel</h3>
+           <a href="/collections/all/apparel" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Apparel
+           </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Apparel' %}
+              <!-- PRODUCT CARD -->
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 <div class="absolute inset-0">
+                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                 </div>
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- 2. ACCESSORIES -->
+      <section id="accessories" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Accessories</h3>
+           <a href="/collections/all/accessories" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Accessories
+           </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Accessories' %}
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 <div class="absolute inset-0">
+                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                 </div>
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- 3. ARTIFACTS -->
+      <section id="artifacts" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Artifacts</h3>
+           <a href="/collections/all/artifacts" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Artifacts
+           </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Artifacts' %}
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 <div class="absolute inset-0">
+                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                 </div>
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- 4. ART -->
+      <section id="art" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Art</h3>
+           <a href="/collections/all/art" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Art
+           </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Art' %}
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 <div class="absolute inset-0">
+                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                 </div>
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+      
+      <!-- 5. AURA -->
+      <section id="aura" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Aura</h3>
+           <a href="/collections/all/aura" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Aura
+           </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Aura' %}
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 <div class="absolute inset-0">
+                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                 </div>
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
     </div>
 
-    <div class="border border-brand-border rounded overflow-hidden bg-white">
-      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1400&auto=format&fit=crop')" />
-      <div class="p-6">
-        <h3 class="font-bold text-xl mb-2">PTD Tote Bag</h3>
-        <p class="text-sm text-gray-600 mb-4">$18</p>
-        <a href="/collections/all" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
-      </div>
+    <!-- CLOSING TAGLINE -->
+    <div class="mt-32 pt-12 border-t border-black text-center">
+        <h2 class="text-2xl md:text-4xl font-black uppercase tracking-tighter italic">
+            "Create without Permission. Profit without Limit."
+        </h2>
     </div>
 
-    <div class="border border-brand-border rounded overflow-hidden bg-white">
-      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1400&auto=format&fit=crop')" />
-      <div class="p-6">
-        <h3 class="font-bold text-xl mb-2">Neon Logo Patch</h3>
-        <p class="text-sm text-gray-600 mb-4">$6</p>
-        <a href="/collections/all" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
-      </div>
-    </div>
   </div>
-
-  <section class="mt-16">
-    <h2 class="text-2xl font-bold mb-6">Sub-brands</h2>
-    <p class="text-gray-600">This area can list merch lines or smaller sub-brands within Pay The DØLLS.</p>
-  </section>
-
-{% include 'page-container-end' %}
+</div>
