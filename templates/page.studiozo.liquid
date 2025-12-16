@@ -1,106 +1,105 @@
-{%- comment -%}
-  Studio ZØ Print Lab — mirrored from components/brands/StudioZoPage.tsx
-  This template is static HTML for preview; replace product placeholders with real product/collection loops as needed.
-{%- endcomment -%}
+{% layout 'theme' %}
 
-{% include 'page-container-start' %}
+<div class="bg-[#050505] min-h-screen text-white font-mono relative selection:bg-[#CCFF00] selection:text-black pb-24">
+  
+  <!-- Background Grid/Noise texture -->
+  <div class="pointer-events-none fixed inset-0 opacity-[0.03] z-0"
+       style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;">
+  </div>
 
-  <style>
-    .title-outline { -webkit-text-stroke: 2px #ffffff; color: transparent; }
-    .sf-mono { font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace; }
-  </style>
+  <!-- Top Bar -->
+  <div class="relative z-10 flex justify-between items-start px-6 pt-6 md:px-12 text-[10px] md:text-[11px] tracking-[0.2em] text-[#666] font-bold">
+     <div class="text-white italic text-lg tracking-tighter not-italic font-sans">
+         ZØVIVAA
+     </div>
+     <div class="text-right flex flex-col items-end">
+         <div class="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
+         <div class="font-mono tabular-nums text-white">
+           <!-- Liquid Time Fallback -->
+           {{ "now" | date: "%H:%M:%S" }}:000
+         </div>
+         <a href="/pages/brands" 
+            class="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300 no-underline text-[#666]">
+           [ RETURN TO DASHBOARD ]
+         </a>
+     </div>
+  </div>
 
-  <header class="mb-20">
-    <div class="w-[200px] h-[3px] bg-[#ff3333] mb-[15px]"></div>
-    <h1 class="title-outline text-[80px] md:text-[120px] font-bold uppercase tracking-tight leading-[0.8] mb-2">PRINT LAB</h1>
-    <p class="sf-mono text-lg tracking-[0.15em] uppercase font-normal">// COMMERCE</p>
-  </header>
+  <!-- Hero Header -->
+  <div class="relative z-10 px-6 md:px-12 mt-12 mb-20">
+     <h1 class="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-transparent text-outline-white tracking-tighter font-sans select-none" style="-webkit-text-stroke: 1px white; color: transparent;">
+        STuDiØ ZØ
+     </h1>
+     <div class="mt-6 flex items-center gap-4">
+         <!-- Gradient Line Accent -->
+         <div class="h-[3px] w-32 bg-gradient-to-r from-[#FF3333] to-[#CCFF00]"></div>
+         <span class="text-white font-bold tracking-[0.2em] uppercase text-sm md:text-base">
+            // CØMMERCE
+         </span>
+     </div>
+  </div>
 
-  <nav class="flex flex-col md:flex-row gap-6 md:gap-10 my-12 text-xl font-normal text-[#888888]">
-    <a href="#prints" class="hover:text-black transition-colors">Prints.</a>
-    <a href="#fashion" class="hover:text-black transition-colors">Fashion.</a>
-    <a href="#book" class="hover:text-black transition-colors">Book.</a>
-  </nav>
+  <!-- Filter Tabs (Static for now in Liquid) -->
+  <div class="relative z-10 px-6 md:px-12 mb-12 flex gap-8 border-b border-[#222]">
+      <a href="?filter=paintings" class="pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#CCFF00] border-b-2 border-[#CCFF00] no-underline">
+        All Works
+      </a>
+      <!-- 
+      Ideally these would toggle collections. 
+      For now, we list all relevant products. 
+      -->
+  </div>
 
-  <section class="max-w-[800px] mb-16">
-    <p class="text-lg leading-[1.8] text-[#444444] mb-4">We're printing money. Digital artifacts materialized into physical form.</p>
-    <p class="text-lg leading-[1.8] text-[#444444] mb-4">Each piece is a statement forged from reclaimed materials, vintage fabrics, and hand-crafted details.</p>
-    <a href="#shop" class="inline-block mt-8 px-8 py-3 border border-[#CCFF00] text-[#CCFF00] no-underline text-base font-medium tracking-[0.08em] uppercase transition-all hover:bg-[#CCFF00] hover:text-black">[ SHOP RE.ZØED ]</a>
-  </section>
+  <!-- Product Grid -->
+  <div class="relative z-10 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-16">
+     <!-- NOTE: You should create a collection called 'studio-zo' and iterate over it here. -->
+     {% assign studio_zo_collection = collections['studio-zo'] %}
+     {% for product in studio_zo_collection.products %}
+       <div class="group cursor-pointer">
+          <!-- Box -->
+          <a href="{{ product.url }}" class="block aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00] no-underline">
+             
+             <!-- ID Code -->
+             <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">
+                {{ product.variants.first.sku | default: 'ZØ-XXX' }}
+             </span>
 
-  <section id="prints" class="mt-24">
-    <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
-      <div class="text-sm text-[#ff3333] uppercase tracking-[0.12em] mb-2 font-medium">PRINTS:</div>
-      <div class="text-lg text-[#666666] leading-[1.6]">Limited edition art prints. Photographic works. Digital artifacts on archival paper.</div>
-    </div>
+             <!-- Diagonal Watermark Text -->
+             <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
+                <span class="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
+                   {{ product.title }}
+                </span>
+             </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-      <!-- Sample prints -->
-      <div class="bg-white border p-5">
-        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PRINT_001</div>
-        <div class="font-bold uppercase">STARDUST MANIFESTO</div>
-        <div class="text-[11px] text-[#CCFF00] mt-1">PRNT-001</div>
-        <div class="mt-2 text-sm text-[#777777]">$120</div>
-      </div>
+             <!-- Image Reveal on Hover -->
+             <img 
+                src="{{ product.featured_image | img_url: '800x' }}" 
+                alt="{{ product.title | escape }}"
+                class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0"
+             />
+          </a>
 
-      <div class="bg-white border p-5">
-        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PRINT_002</div>
-        <div class="font-bold uppercase">DIGITAL DECAY #3</div>
-        <div class="text-[11px] text-[#CCFF00] mt-1">PRNT-002</div>
-        <div class="mt-2 text-sm text-[#777777]">$120</div>
-      </div>
-
-      <div class="bg-white border p-5">
-        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PRINT_003</div>
-        <div class="font-bold uppercase">VOID VISION</div>
-        <div class="text-[11px] text-[#CCFF00] mt-1">PRNT-003</div>
-        <div class="mt-2 text-sm text-[#777777]">$120</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="fashion" class="mt-24">
-    <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
-      <div class="text-sm text-[#ff3333] uppercase tracking-[0.12em] mb-2 font-medium">FASHION:</div>
-      <div class="text-lg text-[#666666] leading-[1.6]">Statements forged from secondhand fabrics, reclaimed textures, and one-of-one storytelling.</div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-      <div class="bg-white border p-5">
-        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">JACKET_V03</div>
-        <div class="font-bold uppercase">JACKET V.03</div>
-        <div class="text-sm text-[#777777] mt-2">$320</div>
-      </div>
-
-      <div class="bg-white border p-5">
-        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">HOODIE_V22</div>
-        <div class="font-bold uppercase">HOODIE V.22</div>
-        <div class="text-sm text-[#777777] mt-2">$150</div>
-      </div>
-
-      <div class="bg-white border p-5">
-        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PANTS_V14</div>
-        <div class="font-bold uppercase">PANTS V.14</div>
-        <div class="text-sm text-[#777777] mt-2">$200</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="book" class="mt-24">
-    <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
-      <div class="text-sm text-[#ff3333] uppercase tracking-[0.12em] mb-2 font-medium">BOOK:</div>
-      <div class="text-lg text-[#666666] leading-[1.6]">Collaborate with Studio ZØ. Fashion shoots. Creative direction. Custom commissions.</div>
-    </div>
-
-    <div class="max-w-[600px] mt-6">
-      <p class="text-lg text-[#666666] leading-[1.8] mb-6">For bookings, collaborations, and custom work:<br /><a href="mailto:zo@studiozonyc.com" class="text-[#CCFF00] no-underline">zo@studiozonyc.com</a></p>
-      <a href="mailto:zo@studiozonyc.com" class="inline-block px-8 py-3 border border-[#CCFF00] text-[#CCFF00] no-underline text-base font-medium tracking-[0.08em] uppercase transition-all hover:bg-[#CCFF00] hover:text-black">[ CONTACT US ]</a>
-    </div>
-  </section>
-
-  <footer class="mt-36 pt-10 border-t border-[#eaeaea] text-center text-[11px] text-[#666666] tracking-[0.05em] font-normal">
-    <p>STUDIO ZØ // PRINT LAB // 2025</p>
-    <p class="mt-2">ALL RIGHTS RESERVED // COPYRIGHT</p>
-  </footer>
-
-{% include 'page-container-end' %}
+          <!-- Meta Data -->
+          <div class="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
+             <h3 class="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">{{ product.title }}</h3>
+             <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">{{ product.price | money }}</span>
+          </div>
+       </div>
+     {% else %}
+        <!-- Fallback Static Items from React Mock Data if collection is empty -->
+        <div class="group cursor-pointer">
+           <div class="aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]">
+              <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">PNT-001</span>
+              <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
+                 <span class="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">Entropy No. 5</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0" />
+           </div>
+           <div class="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
+              <h3 class="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">Entropy No. 5</h3>
+              <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">$1,200</span>
+           </div>
+        </div>
+     {% endfor %}
+  </div>
+</div>

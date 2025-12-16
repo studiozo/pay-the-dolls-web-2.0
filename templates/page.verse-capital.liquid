@@ -1,23 +1,53 @@
-{%- comment -%}
-  Verse Capital Page Template (Final Copy)
-{%- endcomment -%}
+{% layout 'theme' %}
 
-<div class="page-header">
-  <h1 style="font-weight: 700;">Verse Capital</h1>
-</div>
-
-<div class="page-content text-center" style="max-width: 700px;">
-  
-  <p style="font-size: 1.5rem; font-weight: 500; margin-bottom: 3rem; line-height: 1.4;">
-    8% of every PAY THE DØLLS™ purchase flows into <strong>Verse Capital™</strong>.
-  </p>
-  
-  <p style="font-size: 1.1rem; opacity: 0.8; line-height: 1.6; margin-bottom: 4rem;">
-    Verse Capital™ is our internal allocation and venture fund — designed to build long-term ownership, reinvest in creators, and support future cultural projects.
-  </p>
-  
-  <div style="opacity: 0.6; font-style: italic; border-top: 1px solid var(--border); padding-top: 2rem; width: 50%; margin: 0 auto;">
-    <p>More details coming soon.</p>
+<div class="bg-white min-h-screen text-black font-sans">
+  <!-- Header -->
+  <div class="pt-32 pb-20 px-6 md:px-12 max-w-[1200px] mx-auto border-b border-brand-border">
+    <span class="text-xs font-mono uppercase tracking-[0.2em] text-[#999] block mb-4">Protocol V3.0</span>
+    
+    <!-- Updated Typography to 'Thesis Font' (Outlined Black on White) -->
+    <h1 class="text-6xl md:text-9xl font-bold uppercase tracking-tight text-transparent leading-[0.8] mb-8" style="-webkit-text-stroke: 2px black;">
+      VERSE CAPITAL
+    </h1>
+    
+    <p class="text-xl md:text-2xl leading-relaxed max-w-2xl text-[#333]">
+      We will provide autonomous grants, inventory financing, and cultural underwriting for creators.
+    </p>
   </div>
-  
+
+  <!-- Stats Grid - Stripped Values -->
+  <div class="grid grid-cols-1 md:grid-cols-3 border-b border-brand-border">
+    <div class="p-12 border-b md:border-b-0 md:border-r border-brand-border min-h-[200px] flex flex-col justify-between">
+      <span class="block text-xs font-mono uppercase text-[#666]">Total Volume</span>
+      <!-- STRIPPED -->
+      <span class="text-4xl font-mono font-bold text-brand-dark opacity-10">// ---</span>
+    </div>
+    <div class="p-12 border-b md:border-b-0 md:border-r border-brand-border min-h-[200px] flex flex-col justify-between">
+      <span class="block text-xs font-mono uppercase text-[#666]">Active Grants</span>
+      <!-- STRIPPED -->
+      <span class="text-4xl font-mono font-bold text-brand-dark opacity-10">// ---</span>
+    </div>
+    <div class="p-12 min-h-[200px] flex flex-col justify-between">
+      <span class="block text-xs font-mono uppercase text-[#666]">First Filing</span>
+      <span class="text-3xl font-mono font-bold text-brand-dark">Q1 / 2026, allegedly.</span>
+    </div>
+  </div>
+
+  <!-- Manifesto / Portfolio - BLANK / STRUCTURAL ONLY -->
+  <div class="grid grid-cols-1 md:grid-cols-2 min-h-[60vh]">
+    <div class="bg-brand-dark text-white p-12 md:p-24 flex flex-col justify-start">
+      <h2 class="text-sm font-bold uppercase tracking-[0.3em] mb-6 border-b border-white/20 pb-4 inline-block w-full">The Thesis</h2>
+      <!-- Blank space for 'Antigravity' feel -->
+      <div class="flex-grow flex items-end opacity-50 font-mono text-xs">
+         // [REDACTED]
+      </div>
+    </div>
+    <div class="p-12 md:p-24 bg-[#F5F5F5] flex flex-col justify-start">
+       <h3 class="text-sm font-bold uppercase tracking-[0.3em] mb-8 text-[#999] border-b border-black/10 pb-4">Portfolio (STILL PRE-OP)</h3>
+       <!-- Blank space for 'Antigravity' feel -->
+       <div class="flex-grow flex items-end opacity-50 font-mono text-xs">
+         // [AWAITING_DEPLOYMENT]
+       </div>
+    </div>
+  </div>
 </div>

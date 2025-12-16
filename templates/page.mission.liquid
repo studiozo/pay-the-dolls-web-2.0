@@ -1,22 +1,32 @@
-{%- comment -%}
-  Mission Page Template (Final Copy)
-{%- endcomment -%}
+{% layout 'theme' %}
 
-<div class="page-header">
-  <h1 style="font-weight: 800; font-size: 4rem; letter-spacing: -1px;">PAY THE DØLLS™</h1>
-  <p style="font-size: 1.5rem; text-decoration: underline; text-underline-offset: 6px; margin-top: 1rem; font-style: italic;">Next question?</p>
-  
-  <div class="mt-l">
-      <a href="/collections/all" class="btn">Shop Now →</a>
+<div class="bg-white min-h-screen flex flex-col justify-center items-center text-center px-6">
+  <div class="max-w-4xl mx-auto">
+    <span class="block text-sm font-bold uppercase tracking-[0.3em] text-[#999] mb-12">
+      Mission
+    </span>
+    
+    <h1 class="text-2xl md:text-3xl font-medium text-brand-dark mb-8 tracking-wide">
+      Our mission statement:
+    </h1>
+
+    <div class="mb-12">
+      <p class="text-6xl md:text-[clamp(60px,10vw,120px)] font-black tracking-[-0.04em] leading-[0.9] text-black">
+        TO PAY<br />
+        THE DØLLS
+      </p>
+    </div>
+
+    <p class="text-3xl md:text-4xl font-serif italic text-[#666] mb-20">
+      next question
+    </p>
+
+    <a href="/collections/all" class="no-underline group inline-block">
+      <button 
+        class="text-xl font-bold uppercase tracking-[0.2em] border-b-2 border-brand-neon pb-2 bg-transparent text-black cursor-pointer hover:text-brand-dark hover:border-brand-dark transition-all"
+      >
+        shop now <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+      </button>
+    </a>
   </div>
-</div>
-
-<div class="page-content text-center" style="padding-top: 4rem; padding-bottom: 8rem;">
-  
-  <div style="font-size: 1.8rem; font-weight: 500; line-height: 1.4; display: flex; flex-direction: column; gap: 3rem;">
-    <p>PAY THE DØLLS™ exists to reroute capital.</p>
-    <p>We believe buying can be infrastructure.</p>
-    <p>Direct dollars. Real products. Creator ownership.</p>
-  </div>
-
 </div>

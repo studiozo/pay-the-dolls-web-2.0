@@ -1,40 +1,39 @@
-/**
- * File: components/ProductPage.tsx
- * Last Updated: 2025-05-22 10:30:00 EST
- * Author: Antigravity
- * Notes: Updated to accept navigation props for functional breadcrumbs.
- */
-
 import React from 'react';
 import { Product } from '../types';
 import { ProductGallery } from './ProductGallery';
 import { ProductForm } from './ProductForm';
 
-// MOCK DATA matching the HTML provided
+// MOCK DATA - BLACK GLOSSY MUG
 const MOCK_PRODUCT: Product = {
-  id: "RP0002",
-  title: "Classic Stripe Trim Basketball Shorts",
+  id: "MUG-001",
+  title: "Black Glossy Mug",
   vendor: "STuDiØ ZØ",
-  type: "Apparel",
-  price: 38.00,
+  type: "MUG", // Changed type to trigger conditional rendering
+  price: 25.00,
   currency: "USD",
-  // The 'description' field here handles the simple text, but we'll use custom rendering for the specific layout
-  description: "Basketball shorts that actually understand the assignment.",
+  description: `
+    <p>This cupboard essential is sturdy, sleek, and perfect for your morning java or afternoon tea.</p>
+    <br/>
+    <ul style="list-style-type: disc; padding-left: 20px;">
+      <li>Ceramic</li>
+      <li>11 oz mug dimensions: height 3.85" (9.8 cm), diameter 3.35" (8.5 cm)</li>
+      <li>15 oz mug dimensions: height 4.7" (12 cm), diameter 3.35" (8.5 cm)</li>
+      <li>Lead and BPA-free material</li>
+      <li>Glossy finish</li>
+      <li>Dishwasher and microwave safe</li>
+    </ul>
+  `,
   featured_image: {
-    id: "img_01",
-    url: "https://paythedolls.com/cdn/shop/files/79dc1ab5c42b45f3aec4dacb4dc071f0.png?v=1765779185&width=1200",
-    alt: "Classic Stripe Trim Basketball Shorts"
+    id: "img_mug_01",
+    url: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?q=80&w=1000&auto=format&fit=crop",
+    alt: "Black Glossy Mug"
   },
   images: [
-    { id: "img_01", url: "https://paythedolls.com/cdn/shop/files/79dc1ab5c42b45f3aec4dacb4dc071f0.png?v=1765779185&width=1200", alt: "View 1" },
-    { id: "img_02", url: "https://paythedolls.com/cdn/shop/files/88505ee8ba4744a9a0a5b69d36586a45.png?v=1765779185&width=1200", alt: "View 2" },
-    // Fillers for grid visualization
-    { id: "img_03", url: "https://paythedolls.com/cdn/shop/files/79dc1ab5c42b45f3aec4dacb4dc071f0.png?v=1765779185&width=1200", alt: "View 3" },
-    { id: "img_04", url: "https://paythedolls.com/cdn/shop/files/88505ee8ba4744a9a0a5b69d36586a45.png?v=1765779185&width=1200", alt: "View 4" },
+    { id: "img_mug_01", url: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?q=80&w=1000&auto=format&fit=crop", alt: "Black Glossy Mug Front" },
+    { id: "img_mug_02", url: "https://images.unsplash.com/photo-1463797221720-6b07e6426c24?q=80&w=1000&auto=format&fit=crop", alt: "Black Glossy Mug Detail" },
   ],
   options: [
-    { name: "Color", values: ["Black"] },
-    { name: "Size", values: ["S", "M", "L", "XL", "2XL", "3XL"] }
+    // Mug usually has no options, or maybe Size if defined
   ],
   available: true
 };
@@ -45,6 +44,7 @@ interface ProductPageProps {
 
 export const ProductPage: React.FC<ProductPageProps> = ({ onNavigate }) => {
   const product = MOCK_PRODUCT;
+  const isApparel = product.type === 'Apparel';
 
   const handleNav = (view: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,112 +52,93 @@ export const ProductPage: React.FC<ProductPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="product-container max-w-[1400px] mx-auto my-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[100px]">
+    <div className="bg-white">
+      <div className="product-container max-w-[1400px] mx-auto pt-10 pb-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[100px]">
 
-      {/* Left Column: Images */}
-      <div className="w-full">
-        <ProductGallery images={product.images} featuredImage={product.featured_image} />
+        {/* Left Column: Images */}
+        <div className="w-full">
+          <ProductGallery images={product.images} featuredImage={product.featured_image} />
+        </div>
+
+        {/* Right Column: Product Info */}
+        <div className="product-info pt-5">
+          {/* Breadcrumb */}
+          <div className="breadcrumb text-xs text-[#666] mb-6 tracking-[0.5px]">
+            <a href="#" onClick={(e) => handleNav('home', e)} className="text-brand-dark no-underline hover:text-brand-neon">Home</a>
+            {' / '}
+            <a href="#" onClick={(e) => handleNav('shop', e)} className="text-brand-dark no-underline hover:text-brand-neon">Shop</a>
+            {' / '}
+            <span className="text-[#999]">{product.title}</span>
+          </div>
+
+          <h1 className="product-title text-[36px] md:text-[48px] font-bold text-black mb-2 tracking-[-0.03em] leading-[1]">
+            {product.title}
+          </h1>
+
+          {/* Creator Attribution */}
+          <div className="mb-6 flex items-center gap-2">
+            <span className="text-sm text-[#999] uppercase tracking-wider">Created by</span>
+            <span className="text-sm font-bold text-black uppercase tracking-wider bg-black/5 px-2 py-1">{product.vendor}</span>
+          </div>
+
+          {/* Price */}
+          <div className="price text-[28px] font-medium text-black mb-8 font-mono">
+            {product.price.toLocaleString('en-US', { style: 'currency', currency: product.currency })}
+          </div>
+
+          {/* Product Description (HTML) */}
+          <div 
+            className="product-description-html mb-10 text-[15px] leading-[1.8] text-[#333]"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+
+          {/* Product Form Component */}
+          <ProductForm product={product} />
+        </div>
       </div>
 
-      {/* Right Column: Product Info */}
-      <div className="product-info pt-5">
-        {/* Breadcrumb */}
-        <div className="breadcrumb text-xs text-[#666] mb-6 tracking-[0.5px]">
-          <a href="#" onClick={(e) => handleNav('home', e)} className="text-brand-dark no-underline hover:text-brand-neon">Home</a>
-          {' / '}
-          <a href="#" onClick={(e) => handleNav('product', e)} className="text-brand-dark no-underline hover:text-brand-neon">Shop</a>
-          {' / '}
-          <span className="text-[#999]">Apparel</span>
-          {' / '}
-          {product.title}
-        </div>
+      {/* "Cunty" Black Section - Details & Compliance */}
+      <div className="bg-black text-white py-24 px-6 md:px-12">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+            <div>
+                <h3 className="text-4xl font-bold mb-8 tracking-tighter">DETAILS</h3>
+                <div className="space-y-4 font-mono text-sm opacity-80">
+                    <p>VENDOR: {product.vendor}</p>
+                    <p>TYPE: {product.type}</p>
+                    <p>MATERIAL: Ceramic / Glaze</p>
+                    <p>WARRANTY: EU 2 Years</p>
+                </div>
 
-        <h1 className="product-title text-[32px] md:text-[42px] font-semibold text-black mb-5 tracking-[-0.02em] leading-[1.1]">
-          {product.title}
-        </h1>
-
-        {/* Creator Attribution */}
-        <div className="creator-badge inline-flex items-center gap-2 px-4 py-2.5 mb-8 rounded bg-[rgba(0,255,136,0.08)] border border-[rgba(0,255,136,0.2)] text-sm font-medium cursor-pointer hover:bg-[rgba(0,255,136,0.12)] hover:border-[rgba(0,255,136,0.3)] transition-all">
-          <span className="text-black">Created by</span>
-          <span className="creator-name text-brand-dark font-semibold">{product.vendor}</span>
-        </div>
-
-        {/* Price */}
-        <div className="price text-[32px] font-semibold text-black mb-8">
-          {product.price.toLocaleString('en-US', { style: 'currency', currency: product.currency })}
-        </div>
-
-        {/* Product Tagline (Description) */}
-        <div className="product-tagline mb-10 p-6 bg-brand-light border-l-[3px] border-brand-neon rounded text-[15px] leading-[1.8] text-[#333]">
-          <p>Basketball shorts that actually understand the assignment. Loose enough to move, tight enough at the waist to hold your phone while you're ignoring texts from your ex. Side stripes for visual interest. Drawstring because we're not animals. Polyester that breathes. Unisex sizing that makes sense.</p>
-          <p className="mt-4">Wear them to the gym, the bodega, or to brunch when you're too tired to pretend you tried. They work everywhere because caring is exhausting.</p>
-        </div>
-
-        {/* Product Form Component */}
-        <ProductForm product={product} />
-
-        {/* Product Details Section */}
-        <div className="product-description border-t border-brand-border pt-10">
-
-          <div className="description-section mb-8">
-            <h3 className="text-base font-semibold text-brand-dark mb-4 uppercase tracking-[1px]">Details</h3>
-            <ul className="list-none p-0 text-[15px] leading-[1.8] text-[#555]">
-              <li className="py-1"><strong>Item Number:</strong> RP0002</li>
-              <li className="py-1"><strong>Fabric:</strong> 100% Polyester</li>
-              <li className="py-1"><strong>Weight:</strong> 4.7 oz/yd² (160 g/m²)</li>
-              <li className="py-1"><strong>Fit:</strong> Loose, relaxed</li>
-              <li className="py-1"><strong>Features:</strong> Drawstring waist, side pockets</li>
-            </ul>
-          </div>
-
-          <div className="description-section mb-8">
-            <h3 className="text-base font-semibold text-brand-dark mb-4 uppercase tracking-[1px]">Care Instructions</h3>
-            <ul className="list-none p-0 text-[15px] leading-[1.8] text-[#555]">
-              <li className="py-1">Machine wash at 30°C (gentle cycle)</li>
-              <li className="py-1">Do not bleach</li>
-              <li className="py-1">Tumble dry low</li>
-              <li className="py-1">Iron at low temperature, avoid ironing on print</li>
-              <li className="py-1">Do not dry clean</li>
-            </ul>
-          </div>
-
-          <div className="description-section mb-8">
-            <h3 className="text-base font-semibold text-brand-dark mb-4 uppercase tracking-[1px]">Size Chart</h3>
-            <div className="size-chart overflow-x-auto mt-6">
-              <table className="w-full border-collapse text-[13px]">
-                <thead>
-                  <tr>
-                    <th className="p-3 text-left border border-brand-border bg-brand-light font-semibold text-brand-dark">Size</th>
-                    <th className="p-3 text-left border border-brand-border bg-brand-light font-semibold text-brand-dark">Length (in/cm)</th>
-                    <th className="p-3 text-left border border-brand-border bg-brand-light font-semibold text-brand-dark">Waist (in/cm)</th>
-                    <th className="p-3 text-left border border-brand-border bg-brand-light font-semibold text-brand-dark">Hip (in/cm)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { size: 'S', length: '18.1 / 46', waist: '11.8 / 30', hip: '20.5 / 52' },
-                    { size: 'M', length: '18.9 / 48', waist: '12.2 / 31', hip: '21.3 / 54' },
-                    { size: 'L', length: '19.7 / 50', waist: '12.6 / 32', hip: '22.0 / 56' },
-                    { size: 'XL', length: '20.5 / 52', waist: '13.0 / 33', hip: '22.8 / 58' },
-                    { size: '2XL', length: '21.3 / 54', waist: '13.4 / 34', hip: '23.6 / 60' },
-                    { size: '3XL', length: '22.0 / 56', waist: '13.8 / 35', hip: '24.4 / 62' },
-                  ].map((row) => (
-                    <tr key={row.size}>
-                      <td className="p-3 border border-brand-border text-[#555] font-bold">{row.size}</td>
-                      <td className="p-3 border border-brand-border text-[#555]">{row.length}</td>
-                      <td className="p-3 border border-brand-border text-[#555]">{row.waist}</td>
-                      <td className="p-3 border border-brand-border text-[#555]">{row.hip}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                {isApparel && (
+                    <div className="mt-12">
+                         <h4 className="text-lg font-bold mb-4 uppercase">Size Guide</h4>
+                         {/* Size chart code would go here if apparel */}
+                    </div>
+                )}
             </div>
-          </div>
 
+            <div>
+                <h3 className="text-xl font-bold mb-6 uppercase tracking-widest border-b border-white/20 pb-4">Compliance / Legal</h3>
+                <div className="text-sm leading-relaxed opacity-70 space-y-6">
+                    <p>
+                        Age restrictions: For adults. <br/>
+                        Other compliance information: Meets the lead and cadmium level requirements.
+                    </p>
+                    <p className="text-xs">
+                        In compliance with the General Product Safety Regulation (GPSR), <strong className="text-white">Oak inc.</strong> and <strong className="text-white">SINDEN VENTURES LIMITED</strong> ensure that all consumer products offered are safe and meet EU standards. 
+                    </p>
+                    <p className="text-xs">
+                        For any product safety related inquiries or concerns, please contact our EU representative at <a href="mailto:gpsr@sindenventures.com" className="text-white underline decoration-brand-neon">gpsr@sindenventures.com</a>. 
+                    </p>
+                    <p className="text-xs font-mono border-l-2 border-brand-neon pl-4">
+                        123 Main Street, Anytown, Country <br/>
+                        Markou Evgenikou 11, Mesa Geitonia, 4002, Limassol, Cyprus.
+                    </p>
+                </div>
+            </div>
         </div>
       </div>
 
-      {/* Invisible SEO Layer */}
       <div style={{ display: 'none' }} aria-hidden="true" className="agentic-seo-context">
         <h3>Product Context (For Indexing)</h3>
         <p><strong>PAY THE DØLLS™</strong> is a trans-owned, queer-led <strong>cultural commerce platform</strong>...</p>

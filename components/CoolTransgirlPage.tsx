@@ -1,1 +1,78 @@
-export { CoolTransgirlPage } from './brands/CoolTransgirlPage';
+import React from 'react';
+
+export const CoolTransGirlPage: React.FC = () => {
+  return (
+    <div className="bg-[#FFF0F5] min-h-screen text-black font-serif selection:bg-[#FF0099] selection:text-white">
+      {/* Navigation Override specific for this page if needed, but we'll stick to the global nav and just style the page content */}
+      
+      {/* Hero */}
+      <div className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1616091093729-c0463327ebcc?q=80&w=2000&auto=format&fit=crop" 
+            alt="Aria Background" 
+            className="w-full h-full object-cover opacity-90"
+          />
+          {/* Darker overlay for text readability */}
+          <div className="absolute inset-0 bg-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#FFF0F5] via-transparent to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 text-center px-6">
+          <span className="inline-block text-sm md:text-base font-sans font-black tracking-[0.2em] text-[#FF0099] mb-6 uppercase bg-white/90 backdrop-blur-sm px-4 py-2 shadow-lg transform -rotate-2">
+            @CoolTransGirl
+          </span>
+          <h1 className="text-7xl md:text-9xl font-black italic text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)] mb-8 tracking-tighter leading-[0.9]">
+            Aria Brooks
+          </h1>
+          <p className="max-w-3xl mx-auto text-white text-xl md:text-3xl font-bold leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            Digital Marketing, Community Management <br className="hidden md:block"/> & Social Media Strategy
+          </p>
+        </div>
+      </div>
+
+      {/* The Baddie Baseline Section */}
+      <div className="py-24 px-6 md:px-12 max-w-[1200px] mx-auto">
+        <div className="bg-white p-8 md:p-16 shadow-[0_20px_60px_rgba(255,0,153,0.15)] rounded-3xl flex flex-col md:flex-row gap-12 items-center border border-[#FF0099]/10">
+          
+          <div className="w-full md:w-1/2">
+            <div className="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-2xl border-4 border-white ring-1 ring-[#FF0099]/20 transform rotate-1 transition-transform hover:rotate-0 duration-500">
+              <img 
+                src="https://images.unsplash.com/photo-1599693976690-09384777a28e?q=80&w=1000&auto=format&fit=crop" 
+                alt="The Baddie Baseline" 
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md p-6 border-t-4 border-[#FF0099]">
+                 <h3 className="font-serif text-3xl font-black italic text-[#FF0099] leading-none">The Baddie Baseline</h3>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <h2 className="text-5xl md:text-7xl font-black italic text-black mb-8 leading-[0.9]">
+              Unlock Your <span className="text-[#FF0099] underline decoration-4 underline-offset-4 decoration-black/10">Potential</span>
+            </h2>
+            <p className="text-lg md:text-xl text-[#222] leading-relaxed mb-10 font-sans font-medium">
+              A comprehensive guide to elevating your digital presence and stepping into your power. This isn't just a course; it's a transformation.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              <a 
+                href="https://stan.store/cooltransgirl/p/the-baddie-baseline-" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-block bg-[#FF0099] text-white px-10 py-5 rounded-full font-sans font-black text-base tracking-widest uppercase hover:bg-[#D60080] transition-all transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(255,0,153,0.4)] text-center border-2 border-[#FF0099]"
+              >
+                Get The Guide
+              </a>
+              <p className="text-xs text-[#FF0099] font-sans font-bold uppercase tracking-widest text-center md:text-left pl-4 border-l-2 border-[#FF0099] ml-4 mt-2">
+                External Link • Stan Store
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};

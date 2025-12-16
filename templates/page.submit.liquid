@@ -1,30 +1,76 @@
-{%- comment -%}
-  Submit Page Template (Aggressively Compacted)
-{%- endcomment -%}
+{% layout 'theme' %}
 
-<div class="page-header" style="padding-bottom: 0; margin-bottom: 2rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 0;">Submit</h1>
-</div>
+<div class="bg-white min-h-screen font-sans">
+  <div class="max-w-2xl mx-auto py-24 px-6">
+    <header class="text-center mb-16">
+      <h1 class="text-4xl font-bold mb-4 tracking-tight">SUBMIT YOUR BRAND</h1>
+      <p class="text-[#666] leading-relaxed">
+        The DØLLS ecosystem is invite-only, but we are always watching. <br/>
+        Drop a link. If we like it, we will find you.
+      </p>
+    </header>
 
-<div class="page-content" style="max-width: 500px; padding-top: 0;">
-  
-  <div style="background: var(--off-white); padding: 1.5rem; border-radius: 2px; border: 1px solid var(--border);">
-    <p style="margin-bottom: 1rem; font-weight: 500;">PAY THE DØLLS™ reviews submissions on a rolling basis.</p>
-    
-    <ul style="margin-left: 1.2rem; margin-bottom: 1.5rem; line-height: 1.4; font-size: 0.95rem;">
-      <li>Print ideas (posters, objects, editions)</li>
-      <li>Product concepts</li>
-      <li>Brand or collaboration proposals</li>
-      <li>Other culturally aligned ideas</li>
-    </ul>
-    
-    <div class="text-center">
-      <a href="mailto:submit@paythedolls.com" class="btn btn--primary" style="padding: 0.8rem 2rem; width: 100%;">Submit for Review</a>
-    </div>
+    {% form 'contact' %}
+      {% if form.posted_successfully? %}
+        <p class="text-center text-brand-neon font-bold uppercase tracking-widest mb-8">Transmission Received.</p>
+      {% endif %}
+      
+      {% if form.errors %}
+        <div class="text-center text-red-500 mb-8 border border-red-500 p-4">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex flex-col gap-2">
+            <label for="ContactFormName" class="text-xs font-bold uppercase tracking-[1px] text-brand-dark">Brand Name</label>
+            <input type="text" id="ContactFormName" name="contact[brand_name]" class="w-full border-b border-[#ccc] py-3 text-lg outline-none focus:border-brand-neon bg-transparent transition-colors" placeholder="Enter name">
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="ContactFormEmail" class="text-xs font-bold uppercase tracking-[1px] text-brand-dark">Email / Contact</label>
+            <input type="email" id="ContactFormEmail" name="contact[email]" class="w-full border-b border-[#ccc] py-3 text-lg outline-none focus:border-brand-neon bg-transparent transition-colors" placeholder="email@address.com">
+          </div>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+            <label for="ContactFormSocial" class="text-xs font-bold uppercase tracking-[1px] text-brand-dark">Website / IG</label>
+            <input type="text" id="ContactFormSocial" name="contact[social]" class="w-full border-b border-[#ccc] py-3 text-lg outline-none focus:border-brand-neon bg-transparent transition-colors" placeholder="@handle">
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="ContactFormBody" class="text-xs font-bold uppercase tracking-[1px] text-brand-dark">The Pitch (140 Characters)</label>
+          <textarea id="ContactFormBody" name="contact[body]" class="w-full border-b border-[#ccc] py-3 text-lg outline-none focus:border-brand-neon bg-transparent transition-colors min-h-[100px] resize-none" placeholder="What makes it cultural infrastructure?"></textarea>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-bold uppercase tracking-[1px] text-brand-dark">Aesthetic Category</label>
+          <div class="flex gap-4 mt-2">
+            <label class="flex items-center gap-2 cursor-pointer group">
+               <input type="radio" name="contact[category]" value="Neon" class="accent-brand-dark">
+               <span class="text-sm text-[#666] group-hover:text-black transition-colors">Neon</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer group">
+               <input type="radio" name="contact[category]" value="Minimal" class="accent-brand-dark">
+               <span class="text-sm text-[#666] group-hover:text-black transition-colors">Minimal</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer group">
+               <input type="radio" name="contact[category]" value="Wild" class="accent-brand-dark">
+               <span class="text-sm text-[#666] group-hover:text-black transition-colors">Wild</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer group">
+               <input type="radio" name="contact[category]" value="Gothic" class="accent-brand-dark">
+               <span class="text-sm text-[#666] group-hover:text-black transition-colors">Gothic</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="pt-8 text-center">
+          <button type="submit" class="bg-black text-white px-12 py-5 text-sm font-bold uppercase tracking-[2px] hover:bg-brand-neon hover:text-black transition-all duration-300 border-none cursor-pointer">
+            Transmit Application
+          </button>
+        </div>
+      </div>
+    {% endform %}
   </div>
-  
-  <div class="text-center mt-m opacity-70">
-    <p style="font-size: 0.8rem;">Selected submissions will be contacted directly.</p>
-  </div>
-  
 </div>

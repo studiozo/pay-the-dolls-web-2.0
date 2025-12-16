@@ -25,7 +25,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                 <div className="flex gap-4 flex-wrap justify-center relative z-10 w-full md:w-auto">
                     <button
-                        onClick={() => onNavigate('product')}
+                        onClick={() => onNavigate('shop')}
                         className="w-full md:w-auto bg-brand-neon text-black px-11 py-5 text-[13px] font-bold tracking-[1.5px] uppercase rounded-[2px] transition-all duration-300 hover:bg-[#00dd77] hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(0,255,136,0.2)] hover:shadow-[0_6px_28px_rgba(0,255,136,0.3)] border-none cursor-pointer"
                     >
                         Shop Now
@@ -55,9 +55,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             {/* QUICK INDEX GRID */}
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 min-h-[50vh] border-t border-brand-border">
                 {[
-                    { title: 'SHOP', sub: 'Browse products', view: 'product' },
+                    { title: 'SHOP', sub: 'Browse products', view: 'shop' },
                     { title: 'BRANDS', sub: 'View brand system', view: 'brands' },
-                    { title: 'VERSE CAP', sub: 'How capital flows', view: 'mission' },
+                    { title: 'VERSE CAP', sub: 'How capital flows', view: 'verse' },
                     { title: 'SUBMIT', sub: 'Bring us ideas', view: 'submit' }
                 ].map((item) => (
                     <div

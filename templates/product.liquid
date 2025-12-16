@@ -1,87 +1,39 @@
 {%- comment -%}
   Product Template (V3 Specification + SEO Context) - Synced with Drafts V2
   Based on ProductPage.tsx
-{%- endcomment -%}
+{% layout 'theme' %}
 
-<div class="product-container max-w-[1400px] mx-auto my-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[100px]">
+<div class="bg-white">
+  <div class="product-container max-w-[1400px] mx-auto pt-10 pb-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[100px]">
 
-    <!-- Left Column: Images (ProductGallery) -->
+    <!-- Left Column: Images -->
     <div class="w-full">
-        <div class="product-gallery">
-            <div class="main-image mb-4">
-                <img 
-                    src="{{ product.featured_image | image_url: width: 1200 }}" 
-                    alt="{{ product.featured_image.alt | escape }}" 
-                    id="MainImage"
-                    class="w-full h-auto object-cover border border-brand-border"
-                >
-            </div>
-            {%- if product.images.size > 1 -%}
-            <div class="thumbnail-grid grid grid-cols-4 gap-4">
-                {%- for image in product.images -%}
-                <button 
-                    type="button"
-                    class="thumbnail w-full aspect-square border border-transparent hover:border-brand-neon transition-all p-1 cursor-pointer {% if image.id == product.featured_image.id %}border-brand-neon{% endif %}"
-                    onclick="updateMainImage('{{ image | image_url: width: 1200 }}', this)"
-                    aria-label="View image {{ forloop.index }}"
-                >
-                    <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" class="w-full h-full object-cover">
-                </button>
-                {%- endfor -%}
-            </div>
-            {%- endif -%}
+      <div class="product-gallery">
+        <div class="featured-image mb-4 w-full aspect-square bg-[#f9f9f9] overflow-hidden relative cursor-zoom-in">
+           <img
+             id="MainProductImage"
+             src="{{ product.featured_image | img_url: '1000x' }}"
+             alt="{{ product.title | escape }}"
+             class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110"
+           />
         </div>
+        <div class="thumbnails grid grid-cols-4 gap-4">
+          {% for image in product.images %}
+            <div class="cursor-pointer aspect-square bg-[#f9f9f9] overflow-hidden border border-transparent hover:border-black transition-all duration-200 {% if forloop.first %}border-black{% endif %}">
+              <img
+                src="{{ image.src | img_url: '200x' }}"
+                alt="{{ image.alt | escape }}"
+                class="w-full h-full object-cover"
+                onclick="document.getElementById('MainProductImage').src='{{ image.src | img_url: '1000x' }}'"
+              />
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
 
     <!-- Right Column: Product Info -->
     <div class="product-info pt-5">
-        <!-- Breadcrumb -->
-        <div class="breadcrumb text-xs text-[#666] mb-6 tracking-[0.5px]">
-            <a href="/" class="text-brand-dark no-underline hover:text-brand-neon">Home</a> / <a href="/collections" class="text-brand-dark no-underline hover:text-brand-neon">Shop</a> / {{ product.title }}
-        </div>
-
-        <h1 class="product-title text-[32px] md:text-[42px] font-semibold text-black mb-5 tracking-[-0.02em] leading-[1.1]">
-            {{ product.title }}
-        </h1>
-
-        <!-- Creator Attribution -->
-        {%- if product.vendor != blank -%}
-        <div class="creator-badge inline-flex items-center gap-2 px-4 py-2.5 mb-8 rounded bg-brand-light border border-brand-border text-sm font-medium cursor-pointer hover:bg-[rgba(0,255,136,0.12)] hover:border-[rgba(0,255,136,0.3)] transition-all">
-            <span class="text-black">Created by</span>
-            <span class="creator-name text-brand-dark font-semibold">{{ product.vendor }}</span>
-        </div>
-        {%- endif -%}
-
-        <!-- Price -->
-        <div class="price text-[32px] font-semibold text-black mb-8">
-            {{ product.price | money }}
-        </div>
-
-        <!-- Product Tagline (Description) -->
-        <div class="product-tagline mb-10 p-6 bg-brand-light border-l-[3px] border-brand-neon rounded text-[15px] leading-[1.8] text-[#333]">
-            {{ product.description }}
-        </div>
-
-        <!-- Product Form -->
-        {%- form 'product', product -%}
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="ProductSelect">
-
-            <!-- Product Options -->
-            {%- unless product.has_only_default_variant -%}
-            <div class="product-options mb-8">
-                {%- for option in product.options_with_values -%}
-                <div class="option-group mb-6">
-                    <label class="option-label block text-sm font-semibold text-brand-dark mb-3">{{ option.name }}</label>
-                    <div class="option-buttons flex flex-wrap gap-3">
-                        {%- for value in option.values -%}
-                            <button 
-                                type="button"
-                                class="option-btn px-6 py-3 border border-brand-border bg-white text-sm font-medium transition-all hover:border-brand-neon min-w-[3rem] {% if option.selected_value == value %}bg-brand-dark text-white border-brand-dark{% else %}text-black{% endif %}" 
-                                data-value="{{ value | escape }}" 
-                                onclick="selectOption(this, '{{ option.name }}')"
-                            >
-                                {{ value }}
-                            </button>
                         {%- endfor -%}
                     </div>
                 </div>
