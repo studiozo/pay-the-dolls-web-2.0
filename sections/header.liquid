@@ -1,24 +1,33 @@
-
 <style>
   /* 
-     VERSION 4: YOUR EXACT LINKS + FIXES
-     This removes the broken 'hidden' classes and ensures
-     the menu shows up on desktop.
+     VERSION 5: CLEANUP & MOBILE MENU FIX
+     - Removes 'hidden' classes that were confusing the theme.
+     - Forces Mobile Menu to be hidden on Desktop.
   */
   
   /* DEFAULT (Mobile): Hide Desktop items, Show Hamburger */
   .desktop-only { display: none !important; }
   .mobile-only { display: block !important; }
   
-  /* Mobile Padding */
+  /* Layout Padding */
   .header-container {
     padding: 1.5rem 1.5rem; /* 24px */
+  }
+  
+  /* Mobile Menu Overlay Logic */
+  .mobile-menu-overlay {
+    display: flex; /* Ready to slide in */
   }
 
   /* DESKTOP (Larger screens): Show Desktop items, Hide Hamburger */
   @media (min-width: 768px) {
     .desktop-only { display: flex !important; }
     .mobile-only { display: none !important; }
+    
+    /* Force Hide Mobile Menu on Desktop (Prevents "hanging out") */
+    .mobile-menu-overlay {
+      display: none !important;
+    }
     
     /* Desktop Padding */
     .header-container {
@@ -34,8 +43,7 @@
     PAY THE DØLLS™
   </a>
 
-  <!-- Desktop Navigation (YOUR LINKS) -->
-  <!-- Replaced 'hidden md:flex' with 'desktop-only' -->
+  <!-- Desktop Navigation -->
   <nav class="desktop-only gap-8 text-[13px] font-medium tracking-[0.05em]">
       <a href="/collections/all" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
         SHOP
@@ -63,8 +71,7 @@
   <!-- Right Actions -->
   <div class="flex items-center gap-4 text-[13px] text-brand-dark">
     
-    <!-- ZO ACTIVE Pill (Only on Studio Zo page) -->
-    <!-- Replaced 'hidden md:flex' with 'desktop-only' -->
+    <!-- ZO ACTIVE Pill -->
     {% if template.suffix == 'studiozo' %}
       <span class="desktop-only text-xs border border-black px-2 py-1 rounded-full items-center">
         <span class="w-2 h-2 bg-black rounded-full mr-2"></span>
@@ -78,7 +85,6 @@
     </a>
 
     <!-- Mobile Menu Button (Hamburger) -->
-    <!-- Replaced 'md:hidden' with 'mobile-only' -->
     <button id="MobileMenuToggle" class="mobile-only z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
       <div class="flex flex-col gap-1.5 w-6">
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
@@ -89,7 +95,8 @@
   </div>
 
   <!-- Mobile Menu Overlay -->
-  <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full md:hidden flex h-screen w-screen" style="display: flex;">
+  <!-- We added 'mobile-menu-overlay' class to strictly control visibility -->
+  <div id="MobileMenu" class="mobile-menu-overlay fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full h-screen w-screen">
     <nav class="flex flex-col items-center gap-8 text-center">
       <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
       <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
@@ -167,73 +174,4 @@
     }
   ]
 }
-{% endschema %}`;
-
-  const copyCode = () => {
-    navigator.clipboard.writeText(fixedCode);
-    alert('Code copied! Remember: DELETE the old code first!');
-  };
-
-  return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden">
-      {/* LEFT: Instructions */}
-      <div className="w-full lg:w-1/3 bg-blue-50 border-r border-blue-100 overflow-y-auto p-6">
-        <h2 className="text-xl font-bold mb-4 text-blue-900">How to Install (Like a Pro)</h2>
-        
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-200">
-            <h3 className="font-bold text-red-600 mb-2 flex items-center">
-              <span className="text-xl mr-2">⚠️</span> IMPORTANT
-            </h3>
-            <div className="text-sm bg-red-50 p-3 rounded border border-red-100 text-red-800 font-bold mb-2">
-              You must DELETE everything in the file before pasting the new code.
-            </div>
-            <p className="text-sm text-gray-700">
-              I have used your <strong>exact code</strong> and fixed the visibility bugs.
-            </p>
-          </div>
-
-          <ol className="list-decimal ml-4 space-y-4 text-sm text-gray-800">
-            <li>
-              Go to Shopify Admin &rarr; <strong>Online Store</strong> &rarr; <strong>Edit Code</strong>.
-            </li>
-            <li>
-              Open <code>sections/header.liquid</code>.
-            </li>
-            <li>
-              <strong>Click inside the file</strong>, then press <code>Ctrl + A</code> (or <code>Cmd + A</code>) to select ALL.
-            </li>
-            <li>
-              Press <strong>Delete</strong>. The file must be empty.
-            </li>
-            <li>
-              Click <strong>COPY CODE</strong> here.
-            </li>
-            <li>
-              <strong>Paste</strong> into Shopify and <strong>Save</strong>.
-            </li>
-          </ol>
-        </div>
-      </div>
-
-      {/* CENTER/RIGHT: The Code */}
-      <div className="w-full lg:w-2/3 bg-[#1e1e1e] overflow-y-auto text-gray-300 flex flex-col">
-        <div className="p-4 bg-[#2d2d2d] sticky top-0 z-10 flex justify-between items-center border-b border-[#333]">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-green-400">sections/header.liquid</span>
-            <p className="text-[10px] text-gray-400">Matches your exact link structure • Fixed Visibility</p>
-          </div>
-          <button 
-            onClick={copyCode}
-            className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded transition-colors shadow-lg flex items-center gap-2"
-          >
-            <span>COPY CODE</span>
-          </button>
-        </div>
-        <div className="p-6 font-mono text-xs leading-relaxed whitespace-pre-wrap select-all">
-          {fixedCode}
-        </div>
-      </div>
-    </div>
-  );
-};
+{% endschema %}
