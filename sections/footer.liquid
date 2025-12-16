@@ -1,23 +1,79 @@
-{%- comment -%}
-  Footer Section (Tailwind Refactor)
-  Logo, tagline, social links, and copyright
-{%- endcomment -%}
-
 <footer class="footer-minimal bg-white border-t border-brand-border py-16 px-12 text-center">
-    <div class="mb-6 font-bold tracking-widest text-sm text-black">© PAY THE DØLLS™</div>
-    <div class="mb-2 text-lg font-semibold tracking-wide text-black">Like Amazon, But For DØLLs</div>
-    <div class="text-xs text-[#666] tracking-widest uppercase mb-8">A STuDiØ ZØ Project · Powered by Verse Capital</div>
+    <div class="mb-6 font-bold tracking-widest text-sm text-black">&copy; {{ section.settings.copyright_text }}</div>
+    <div class="mb-2 text-lg font-semibold tracking-wide text-black">{{ section.settings.tagline }}</div>
+    <div class="text-xs text-[#666] tracking-widest uppercase mb-8">{{ section.settings.subtext }}</div>
 
     <div class="footer-links flex justify-center gap-8">
-        <a href="https://instagram.com/paythedolls" target="_blank" class="text-xs font-bold tracking-[1.5px] uppercase text-brand-dark hover:text-brand-neon transition-colors">Instagram</a>
-        <a href="/pages/contact" class="text-xs font-bold tracking-[1.5px] uppercase text-brand-dark hover:text-brand-neon transition-colors">Contact</a>
+        {% for block in section.blocks %}
+            <a href="{{ block.settings.url }}" class="text-xs font-bold tracking-[1.5px] uppercase text-brand-dark hover:text-brand-neon transition-colors">
+                {{ block.settings.title }}
+            </a>
+        {% endfor %}
     </div>
 </footer>
 
 {% schema %}
 {
   "name": "Footer",
-  "settings": [],
-  "presets": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "PAY THE DØLLS™"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Like Amazon, But For DØLLs"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "A STuDiØ ZØ Project · Powered by Verse Capital"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Footer Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link Title",
+          "default": "Link"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer Minimal",
+       "blocks": [
+          {
+            "type": "link",
+            "settings": {
+              "title": "Instagram",
+              "url": "https://instagram.com/paythedolls"
+            }
+          },
+          {
+            "type": "link",
+            "settings": {
+               "title": "Contact",
+               "url": "/pages/contact"
+            }
+          }
+       ]
+    }
+  ]
 }
 {% endschema %}
