@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { ProductPage } from './components/ProductPage';
 import { BrandsIndex } from './components/BrandsIndex';
 import { StudioZoPage } from './components/StudioZoPage';
+import { HomePage } from './components/HomePage';
 
-type ViewState = 'product' | 'brands' | 'brand-studio-zo';
+type ViewState = 'home' | 'product' | 'brands' | 'brand-studio-zo' | 'mission' | 'submit';
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<ViewState>('product');
+  const [currentView, setCurrentView] = useState<ViewState>('home');
 
   // Navigation Logic
   const navigate = (view: ViewState) => {
@@ -18,15 +19,15 @@ const App: React.FC = () => {
     <div className="app-root min-h-screen flex flex-col font-sans">
       {/* Nav - Sticky, Blur, Specific Links */}
       <nav className="sticky top-0 bg-white/98 backdrop-blur-md border-b border-[#E5E5E5] px-6 py-6 md:px-12 md:py-6 flex justify-between items-center z-[1000] transition-all">
-        <button 
-          onClick={() => navigate('product')}
+        <button
+          onClick={() => navigate('home')}
           className="text-xl font-bold tracking-[0.02em] text-brand-dark no-underline bg-transparent border-none cursor-pointer"
         >
           PAY THE DØLLS™
         </button>
         
         <div className="hidden md:flex gap-8 text-[13px] font-medium tracking-[0.05em]">
-          <button onClick={() => navigate('product')} className={`hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer ${currentView === 'product' ? 'text-brand-dark' : 'text-brand-dark'}`}>
+          <button onClick={() => navigate('product')} className={`hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer ${currentView === 'product' ? 'text-brand-neon' : 'text-brand-dark'}`}>
             SHOP
           </button>
           <button onClick={() => navigate('brands')} className={`hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer ${currentView === 'brands' ? 'text-brand-neon' : 'text-brand-dark'}`}>
@@ -58,9 +59,20 @@ const App: React.FC = () => {
       </nav>
 
       <main className="flex-grow animate-in fade-in duration-500">
+        {currentView === 'home' && <HomePage onNavigate={(view) => navigate(view as ViewState)} />}
         {currentView === 'product' && <ProductPage />}
         {currentView === 'brands' && <BrandsIndex onNavigate={(view) => navigate(view as ViewState)} />}
         {currentView === 'brand-studio-zo' && <StudioZoPage />}
+        {['mission', 'submit'].includes(currentView) && (
+          <section className="py-24 px-6 md:px-12 text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-brand-dark mb-4">{currentView === 'mission' ? 'Verse Capital' : 'Submit an Idea'}</h2>
+            <p className="text-lg text-[#555] leading-relaxed">
+              {currentView === 'mission'
+                ? 'Discover how Verse Capital routes resources and influence to creators through PAY THE DØLLS™.'
+                : 'Share your vision for new cultural commerce projects with the PAY THE DØLLS™ team.'}
+            </p>
+          </section>
+        )}
       </main>
 
       {/* Footer */}
