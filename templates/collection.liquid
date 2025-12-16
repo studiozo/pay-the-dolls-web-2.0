@@ -1,58 +1,77 @@
-{%- comment -%}
-  Collection Template (V3 Specification)
-{%- endcomment -%}
+{% layout 'theme' %}
 
-<div class="page-header">
-  <h1>{{ collection.title }}</h1>
-  <p>{% if collection.description != blank %}{{ collection.description }}{% else %}Browse the marketplace.{% endif %}</p>
-</div>
+<div class="min-h-screen bg-white pb-24">
+  <!-- Header -->
+  <div class="pt-32 px-6 md:px-12 text-center">
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-4 uppercase">
+      {{ collection.title | default: 'The Cøllection' }}
+    </h1>
+    <p class="text-[#666] tracking-[1px] uppercase text-xs md:text-sm mb-12">
+      {% if collection.description != blank %}
+        {{ collection.description }}
+      {% else %}
+        Season 03 — "Liquidity"
+      {% endif %}
+    </p>
+    
+    <!-- Categories Bar (Static Links to Collections) -->
+    <div class="flex flex-wrap justify-center gap-6 md:gap-12 mb-16 border-t border-b border-brand-border py-6">
+        {% assign categories = "All,Apparel,Objects,Art,Wellness" | split: ',' %}
+        <a href="/collections/all" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'all' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+           All
+        </a>
+        <a href="/collections/apparel" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'apparel' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+           Apparel
+        </a>
+        <a href="/collections/objects" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'objects' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+           Objects
+        </a>
+        <a href="/collections/art" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'art' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+           Art
+        </a>
+    </div>
+  </div>
 
-<div class="container" style="padding-bottom: 6rem;">
-  <div class="grid grid--3">
-    {%- paginate collection.products by 24 -%}
-      {%- for product in collection.products -%}
-        <a href="{{ product.url }}" class="product-card">
-          <div class="product-card__image">
-            {%- if product.featured_image != blank -%}
-              <img 
-                src="{{ product.featured_image | image_url: width: 600 }}"
-                alt="{{ product.featured_image.alt | escape }}"
-                loading="lazy"
-              >
-            {%- else -%}
-              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #eee;">
-                No Image
-              </div>
-            {%- endif -%}
+  <!-- Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-brand-border">
+    {% paginate collection.products by 24 %}
+      {% for product in collection.products %}
+        <a href="{{ product.url }}" class="group cursor-pointer border-b border-r border-brand-border p-6 relative flex flex-col no-underline bg-white hover:z-10">
+          <div class="aspect-[3/4] bg-[#f8f8f8] mb-6 overflow-hidden relative">
+             <img 
+               src="{{ product.featured_image | img_url: '600x' }}" 
+               alt="{{ product.featured_image.alt | escape }}"
+               class="w-full h-full object-cover mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+             />
+             {% for tag in product.tags limit: 1 %}
+                <span class="absolute top-4 left-4 bg-brand-dark text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest">
+                  {{ tag }}
+                </span>
+             {% endfor %}
           </div>
-          <div class="product-card__info">
-            <h3 class="product-card__title">{{ product.title }}</h3>
-            <p class="product-card__price">
-              {{ product.price | money }}
-            </p>
-            {%- if product.vendor != shop.name -%}
-              <p style="font-size: 0.8rem; color: #888;">{{ product.vendor }}</p>
-            {%- endif -%}
+
+          <div class="mt-auto">
+            <h3 class="text-lg font-bold leading-tight mb-2 text-black group-hover:text-brand-neon transition-colors">{{ product.title }}</h3>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-mono text-[#666]">{{ product.price | money }}</span>
+              <span class="text-xs font-bold uppercase tracking-widest text-black border-b border-black pb-0.5 opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                View Item
+              </span>
+            </div>
           </div>
         </a>
-      {%- else -%}
-        <div class="text-center" style="grid-column: 1 / -1; padding: 4rem 0;">
-          <h2>Nothing here yet.</h2>
-          <p class="mt-m">The dolls are still cooking.</p>
-          <a href="/" class="btn mt-m">Back Home</a>
+      {% else %}
+         <div class="col-span-full py-20 text-center">
+             <h2 class="text-2xl font-bold mb-4">No products found.</h2>
+             <a href="/collections/all" class="text-brand-neon underline">View all products</a>
+         </div>
+      {% endfor %}
+
+      {% if paginate.pages > 1 %}
+        <div class="col-span-full py-12 flex justify-center gap-4">
+           {{ paginate | default_pagination }}
         </div>
-      {%- endfor -%}
-      
-      {%- if paginate.pages > 1 -%}
-        <div class="text-center mt-xl" style="grid-column: 1 / -1; display: flex; justify-content: center; gap: 1rem;">
-          {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}" class="btn">Previous</a>
-          {%- endif -%}
-          {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}" class="btn">Next</a>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-    {%- endpaginate -%}
+      {% endif %}
+    {% endpaginate %}
   </div>
 </div>
