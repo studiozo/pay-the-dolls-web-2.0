@@ -5,8 +5,28 @@
     PAY THE DØLLS™
   </a>
 
+  <style>
+  /* SAFETY PATCH: Force visibility regardless of Tailwind */
+  @media (min-width: 768px) {
+    .force-desktop-show { display: flex !important; }
+    .force-desktop-hide { display: none !important; }
+  }
+  @media (max-width: 767px) {
+    .force-mobile-show { display: block !important; }
+    .force-mobile-hide { display: none !important; }
+  }
+</style>
+
+<header class="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-[#E5E5E5] px-6 py-6 md:px-12 md:py-6 flex justify-between items-center transition-all bg-opacity-98">
+  
+  <!-- Logo -->
+  <a href="/" class="text-xl font-bold tracking-[0.02em] text-brand-dark no-underline bg-transparent border-none cursor-pointer z-50 relative">
+    PAY THE DØLLS™
+  </a>
+
   <!-- Desktop Navigation -->
-  <nav class="hidden md:flex gap-8 text-[13px] font-medium tracking-[0.05em]">
+  <!-- ADDED CLASS: force-desktop-show force-mobile-hide -->
+  <nav class="hidden md:flex force-desktop-show force-mobile-hide gap-8 text-[13px] font-medium tracking-[0.05em]">
     {% assign menu_links = section.settings.menu.links %}
     {% if menu_links.size == 0 %}
       {% assign menu_links = linklists['site-nav'].links %}
@@ -49,9 +69,9 @@
   <!-- Right Actions -->
   <div class="flex items-center gap-4 text-[13px] text-brand-dark">
     
-    <!-- ZO ACTIVE Pill (Only on Studio Zo page) -->
+    <!-- ZO ACTIVE Pill -->
     {% if template.suffix == 'studiozo' %}
-      <span class="text-xs border border-black px-2 py-1 rounded-full flex items-center hidden md:flex">
+      <span class="text-xs border border-black px-2 py-1 rounded-full flex items-center hidden md:flex force-desktop-show force-mobile-hide">
         <span class="w-2 h-2 bg-black rounded-full mr-2"></span>
         ZO ACTIVE
       </span>
@@ -63,7 +83,8 @@
     </a>
 
     <!-- Mobile Menu Button (Hamburger) -->
-    <button id="MobileMenuToggle" class="md:hidden z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
+    <!-- ADDED CLASS: force-desktop-hide force-mobile-show -->
+    <button id="MobileMenuToggle" class="md:hidden force-desktop-hide force-mobile-show z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
       <div class="flex flex-col gap-1.5 w-6">
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
@@ -102,38 +123,42 @@
     const links = document.querySelectorAll('.mobile-link');
     let isOpen = false;
 
-    toggle.addEventListener('click', () => {
-      isOpen = !isOpen;
-      
-      // Toggle Menu Visibility
-      if (isOpen) {
-        menu.classList.remove('translate-x-full');
-        document.body.style.overflow = 'hidden'; // Lock Scroll
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+        isOpen = !isOpen;
         
-        // Animate Hamburger to X
-        spans[0].style.transform = 'rotate(45deg) translateY(6px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
-      } else {
-        menu.classList.add('translate-x-full');
-        document.body.style.overflow = ''; // Unlock Scroll
-        
-        // Reset Hamburger
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
-      }
-    });
+        // Toggle Menu Visibility
+        if (isOpen) {
+            menu.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden'; // Lock Scroll
+            
+            // Animate Hamburger to X
+            spans[0].style.transform = 'rotate(45deg) translateY(6px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+        } else {
+            menu.classList.add('translate-x-full');
+            document.body.style.overflow = ''; // Unlock Scroll
+            
+            // Reset Hamburger
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+        });
+    }
 
     // Close menu when a link is clicked
     links.forEach(link => {
       link.addEventListener('click', () => {
         isOpen = false;
-        menu.classList.add('translate-x-full');
+        if(menu) menu.classList.add('translate-x-full');
         document.body.style.overflow = '';
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
+        if(spans.length === 3) {
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
       });
     });
   });
