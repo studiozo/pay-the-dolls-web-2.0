@@ -75,7 +75,7 @@ TSX → Liquid sync (must-follow):
 - Rule: When a TSX component under `components/` is modified, the agent must ensure a corresponding Liquid template or section exists and is updated. If no corresponding Liquid artifact exists, the agent must create a draft Liquid template and open a PR for human review; do NOT merge without explicit approval.
 - Detection: Use `git diff --name-only origin/main...HEAD | grep '^components/.*\.tsx$'` to list changed TSX files. For each changed file, map the component name to likely Liquid files (templates or sections) and verify a filename match (case-insensitive, ignoring punctuation).
 - Commit message template: `sync: tsx->liquid <component-path> — created/updated <liquid-path> @ <commit-hash>`
-- Verification: Agents must run the CI preflight `scripts/tsx_liquid_check.sh` before opening a PR and ensure it passes. If the check fails, the agent must either create the missing Liquid skeletons or add a clear PR description explaining why the change does not require a Liquid update.
+- Verification: Agents must run the CI preflight `scripts/tsx_liquid_check.sh` before opening a PR and ensure it passes. The repository contains a GitHub Actions workflow (`.github/workflows/tsx-liquid-check.yml`) that enforces this check on PRs; ensure your branch passes the workflow. If the check fails, the agent must either create the missing Liquid skeletons or add a clear PR description explaining why the change does not require a Liquid update.
 - Human approval: Any auto-created Liquid templates must be reviewed and approved by a human reviewer before being published to the live theme.
 
 
