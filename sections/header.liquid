@@ -1,23 +1,97 @@
-<header class="header" role="banner">
-  <div class="header__inner">
-    <a href="/" class="logo" aria-label="PAY THE DØLLS™ - Home">
+<header class="sticky top-0 z-50 bg-white border-b border-brand-border h-[70px] md:h-[90px] flex items-center transition-all duration-300">
+  <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center h-full">
+    
+    <!-- Logo -->
+    <a href="/" class="text-xl md:text-2xl font-black tracking-[-0.05em] no-underline text-black z-50 relative">
       PAY THE DØLLS™
     </a>
 
-    <nav class="nav-links" role="navigation">
-      <a href="/collections">Shop</a>
-      <a href="/pages/brands">Brands</a>
-      <a href="/pages/verse-capital">Verse</a>
-      <a href="/pages/mission">Mission</a>
-      <a href="/pages/submit">Submit</a>
-      <a href="/pages/about">About</a>
-      <a href="/pages/contact">Contact</a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8 lg:gap-12">
+      <a href="/collections/all" class="text-xs font-bold uppercase tracking-[2px] text-black no-underline hover:text-brand-neon transition-colors">Shop</a>
+      <a href="/pages/brands" class="text-xs font-bold uppercase tracking-[2px] text-black no-underline hover:text-brand-neon transition-colors">Brands</a>
+      <a href="/pages/verse-capital" class="text-xs font-bold uppercase tracking-[2px] text-black no-underline hover:text-brand-neon transition-colors">Verse</a>
+      <a href="/pages/about" class="text-xs font-bold uppercase tracking-[2px] text-black no-underline hover:text-brand-neon transition-colors">About</a>
     </nav>
 
-    <div class="header__actions" style="display: flex; align-items: center; gap: 1rem;">
-      <a href="/cart" class="nav-cart" aria-label="Cart">
-        Cart ({% if cart.item_count > 0 %}{{ cart.item_count }}{% else %}0{% endif %})
+    <!-- Right Actions (Cart + Mobile Toggle) -->
+    <div class="flex items-center gap-6">
+      
+      <!-- Cart Icon/Link -->
+      <a href="/cart" class="relative group flex items-center justify-center no-underline text-black">
+        <span class="text-xs font-bold uppercase tracking-widest hidden md:inline-block md:mr-2 group-hover:text-brand-neon transition-colors">Cart</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md:hidden"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full absolute -top-2 -right-2 md:static md:bg-transparent md:text-black md:p-0 md:ml-1 group-hover:text-brand-neon transition-colors">
+          {{ cart.item_count }}
+        </span>
       </a>
+
+      <!-- Mobile Menu Button (Hamburger) -->
+      <button id="MobileMenuToggle" class="md:hidden z-50 relative bg-transparent border-none cursor-pointer p-1" aria-label="Toggle Menu">
+        <div class="flex flex-col gap-1.5 w-6">
+          <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
+          <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
+          <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
+        </div>
+      </button>
+
     </div>
   </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full md:hidden flex h-screen w-screen">
+    <nav class="flex flex-col items-center gap-8 text-center">
+      <a href="/collections/all" class="mobile-link text-2xl font-black uppercase tracking-tighter text-black no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
+      <a href="/pages/brands" class="mobile-link text-2xl font-black uppercase tracking-tighter text-black no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
+      <a href="/pages/verse-capital" class="mobile-link text-2xl font-black uppercase tracking-tighter text-black no-underline hover:text-brand-neon transition-transform hover:scale-110">Verse Capital</a>
+      <a href="/pages/about" class="mobile-link text-2xl font-black uppercase tracking-tighter text-black no-underline hover:text-brand-neon transition-transform hover:scale-110">About</a>
+      <a href="/pages/mission" class="mobile-link text-2xl font-black uppercase tracking-tighter text-black no-underline hover:text-brand-neon transition-transform hover:scale-110">Mission</a>
+      <a href="/pages/submit" class="mobile-link text-2xl font-black uppercase tracking-tighter text-black no-underline hover:text-brand-neon transition-transform hover:scale-110">Submit</a>
+    </nav>
+  </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('MobileMenuToggle');
+    const menu = document.getElementById('MobileMenu');
+    const spans = toggle.querySelectorAll('span');
+    const links = document.querySelectorAll('.mobile-link');
+    let isOpen = false;
+
+    toggle.addEventListener('click', () => {
+      isOpen = !isOpen;
+      
+      // Toggle Menu Visibility
+      if (isOpen) {
+        menu.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden'; // Lock Scroll
+        
+        // Animate Hamburger to X
+        spans[0].style.transform = 'rotate(45deg) translateY(6px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+      } else {
+        menu.classList.add('translate-x-full');
+        document.body.style.overflow = ''; // Unlock Scroll
+        
+        // Reset Hamburger
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
+    });
+
+    // Close menu when a link is clicked
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        isOpen = false;
+        menu.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      });
+    });
+  });
+</script>
