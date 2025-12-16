@@ -1,41 +1,28 @@
-import React from 'react';
-
-export const HeaderFixerSection: React.FC = () => {
-  const fixedCode = `<!-- 
-  FILENAME: sections/header.liquid 
-  INSTRUCTIONS: 
-  1. Go to Shopify Admin > Online Store > Edit Code.
-  2. Open sections/header.liquid.
-  3. DELETE EVERYTHING in that file. It must be empty.
-  4. Paste this code below.
--->
 
 <style>
   /* 
-     VERSION 3 FIX: BULLETPROOF STYLES & LAYOUT
-     - Removes 'hidden' / 'md:flex' usage.
-     - Adds manual padding control.
+     VERSION 4: YOUR EXACT LINKS + FIXES
+     This removes the broken 'hidden' classes and ensures
+     the menu shows up on desktop.
   */
   
-  /* DEFAULT (Mobile): Hide Desktop Menu, Show Hamburger */
-  .desktop-menu-only { display: none !important; }
-  .mobile-toggle-only { display: block !important; }
-  .zo-pill { display: none !important; }
+  /* DEFAULT (Mobile): Hide Desktop items, Show Hamburger */
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block !important; }
   
   /* Mobile Padding */
   .header-container {
     padding: 1.5rem 1.5rem; /* 24px */
   }
 
-  /* DESKTOP (Larger screens): Show Desktop Menu, Hide Hamburger */
+  /* DESKTOP (Larger screens): Show Desktop items, Hide Hamburger */
   @media (min-width: 768px) {
-    .desktop-menu-only { display: flex !important; }
-    .mobile-toggle-only { display: none !important; }
-    .zo-pill { display: flex !important; }
+    .desktop-only { display: flex !important; }
+    .mobile-only { display: none !important; }
     
-    /* Desktop Padding (was md:px-12) */
+    /* Desktop Padding */
     .header-container {
-      padding: 1.5rem 3rem; /* 24px 48px */
+      padding: 1.5rem 3rem; /* 48px */
     }
   }
 </style>
@@ -47,23 +34,9 @@ export const HeaderFixerSection: React.FC = () => {
     PAY THE DØLLS™
   </a>
 
-  <!-- Desktop Navigation -->
-  <nav class="desktop-menu-only gap-8 text-[13px] font-medium tracking-[0.05em]">
-    {% assign menu_links = section.settings.menu.links %}
-    {% if menu_links.size == 0 %}
-      {% assign menu_links = linklists['site-nav'].links %}
-    {% endif %}
-    {% if menu_links.size == 0 %}
-      {% assign menu_links = linklists['main-menu'].links %}
-    {% endif %}
-
-    {% if menu_links.size > 0 %}
-      {% for link in menu_links %}
-        <a href="{{ link.url }}" style="color: black !important;" class="{% if link.active %}text-brand-neon{% else %}text-brand-dark{% endif %} hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-          {{ link.title }}
-        </a>
-      {% endfor %}
-    {% else %}
+  <!-- Desktop Navigation (YOUR LINKS) -->
+  <!-- Replaced 'hidden md:flex' with 'desktop-only' -->
+  <nav class="desktop-only gap-8 text-[13px] font-medium tracking-[0.05em]">
       <a href="/collections/all" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
         SHOP
       </a>
@@ -85,15 +58,15 @@ export const HeaderFixerSection: React.FC = () => {
       <a href="/pages/contact" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
         CONTACT
       </a>
-    {% endif %}
   </nav>
 
   <!-- Right Actions -->
   <div class="flex items-center gap-4 text-[13px] text-brand-dark">
     
-    <!-- ZO ACTIVE Pill -->
+    <!-- ZO ACTIVE Pill (Only on Studio Zo page) -->
+    <!-- Replaced 'hidden md:flex' with 'desktop-only' -->
     {% if template.suffix == 'studiozo' %}
-      <span class="zo-pill text-xs border border-black px-2 py-1 rounded-full items-center">
+      <span class="desktop-only text-xs border border-black px-2 py-1 rounded-full items-center">
         <span class="w-2 h-2 bg-black rounded-full mr-2"></span>
         ZO ACTIVE
       </span>
@@ -105,7 +78,8 @@ export const HeaderFixerSection: React.FC = () => {
     </a>
 
     <!-- Mobile Menu Button (Hamburger) -->
-    <button id="MobileMenuToggle" class="mobile-toggle-only z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
+    <!-- Replaced 'md:hidden' with 'mobile-only' -->
+    <button id="MobileMenuToggle" class="mobile-only z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
       <div class="flex flex-col gap-1.5 w-6">
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
@@ -115,23 +89,15 @@ export const HeaderFixerSection: React.FC = () => {
   </div>
 
   <!-- Mobile Menu Overlay -->
-  <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full flex h-screen w-screen md:hidden" style="display: flex;">
+  <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full md:hidden flex h-screen w-screen" style="display: flex;">
     <nav class="flex flex-col items-center gap-8 text-center">
-      {% if menu_links.size > 0 %}
-        {% for link in menu_links %}
-          <a href="{{ link.url }}" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">
-            {{ link.title }}
-          </a>
-        {% endfor %}
-      {% else %}
-        <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
-        <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
-        <a href="/pages/verse-capital" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Verse</a>
-        <a href="/pages/mission" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Mission</a>
-        <a href="/pages/submit" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Submit</a>
-        <a href="/pages/about" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">About</a>
-        <a href="/pages/contact" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Contact</a>
-      {% endif %}
+      <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
+      <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
+      <a href="/pages/verse-capital" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Verse</a>
+      <a href="/pages/mission" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Mission</a>
+      <a href="/pages/submit" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Submit</a>
+      <a href="/pages/about" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">About</a>
+      <a href="/pages/contact" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Contact</a>
     </nav>
   </div>
 </header>
@@ -144,7 +110,7 @@ export const HeaderFixerSection: React.FC = () => {
     const links = document.querySelectorAll('.mobile-link');
     let isOpen = false;
 
-    if (toggle && menu) {
+    if (toggle) {
         toggle.addEventListener('click', () => {
         isOpen = !isOpen;
         
@@ -155,9 +121,9 @@ export const HeaderFixerSection: React.FC = () => {
             
             // Animate Hamburger to X
             if(spans.length === 3) {
-              spans[0].style.transform = 'rotate(45deg) translateY(6px)';
-              spans[1].style.opacity = '0';
-              spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+                spans[0].style.transform = 'rotate(45deg) translateY(6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
             }
         } else {
             menu.classList.add('translate-x-full');
@@ -165,9 +131,9 @@ export const HeaderFixerSection: React.FC = () => {
             
             // Reset Hamburger
             if(spans.length === 3) {
-              spans[0].style.transform = 'none';
-              spans[1].style.opacity = '1';
-              spans[2].style.transform = 'none';
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
             }
         }
         });
@@ -197,7 +163,7 @@ export const HeaderFixerSection: React.FC = () => {
       "type": "link_list",
       "id": "menu",
       "label": "Menu",
-      "default": "site-nav"
+      "default": "main-menu"
     }
   ]
 }
@@ -219,12 +185,12 @@ export const HeaderFixerSection: React.FC = () => {
             <h3 className="font-bold text-red-600 mb-2 flex items-center">
               <span className="text-xl mr-2">⚠️</span> IMPORTANT
             </h3>
-            <p className="text-sm text-gray-700 mb-4">
-              It looks like you might have pasted the code <strong>twice</strong> last time. This causes the "squeezing" bug.
-            </p>
-            <div className="text-sm bg-red-50 p-3 rounded border border-red-100 text-red-800 font-bold">
+            <div className="text-sm bg-red-50 p-3 rounded border border-red-100 text-red-800 font-bold mb-2">
               You must DELETE everything in the file before pasting the new code.
             </div>
+            <p className="text-sm text-gray-700">
+              I have used your <strong>exact code</strong> and fixed the visibility bugs.
+            </p>
           </div>
 
           <ol className="list-decimal ml-4 space-y-4 text-sm text-gray-800">
@@ -235,25 +201,18 @@ export const HeaderFixerSection: React.FC = () => {
               Open <code>sections/header.liquid</code>.
             </li>
             <li>
-              <strong>Click anywhere in the code</strong>, then press <code>Ctrl + A</code> (or <code>Cmd + A</code> on Mac) to select ALL text.
+              <strong>Click inside the file</strong>, then press <code>Ctrl + A</code> (or <code>Cmd + A</code>) to select ALL.
             </li>
             <li>
-              Press <strong>Delete</strong>. The file should be completely empty.
+              Press <strong>Delete</strong>. The file must be empty.
             </li>
             <li>
-              Click the green <strong>COPY CODE</strong> button on the right side of this screen.
+              Click <strong>COPY CODE</strong> here.
             </li>
             <li>
-              <strong>Paste</strong> into the empty file and click <strong>Save</strong>.
+              <strong>Paste</strong> into Shopify and <strong>Save</strong>.
             </li>
           </ol>
-          
-          <div className="mt-8 pt-6 border-t border-blue-200">
-            <p className="text-xs text-gray-500 font-bold uppercase mb-2">Wait, what about the .tsx file?</p>
-            <p className="text-sm text-gray-600">
-              Ignore it! You do not need to upload any .tsx files. You are just copying the text below into your Liquid file.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -262,7 +221,7 @@ export const HeaderFixerSection: React.FC = () => {
         <div className="p-4 bg-[#2d2d2d] sticky top-0 z-10 flex justify-between items-center border-b border-[#333]">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-green-400">sections/header.liquid</span>
-            <p className="text-[10px] text-gray-400">Clean install • V3 Fixed</p>
+            <p className="text-[10px] text-gray-400">Matches your exact link structure • Fixed Visibility</p>
           </div>
           <button 
             onClick={copyCode}
