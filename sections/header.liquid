@@ -1,23 +1,46 @@
-<header class="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-[#E5E5E5] px-6 py-6 md:px-12 md:py-6 flex justify-between items-center transition-all bg-opacity-98">
-  
-  <!-- Logo -->
-  <a href="/" class="text-xl font-bold tracking-[0.02em] text-brand-dark no-underline bg-transparent border-none cursor-pointer z-50 relative">
-    PAY THE DØLLS™
-  </a>
+import React from 'react';
 
-  <style>
-  /* SAFETY PATCH: Force visibility regardless of Tailwind */
-  @media (min-width: 768px) {
-    .force-desktop-show { display: flex !important; }
-    .force-desktop-hide { display: none !important; }
+export const HeaderFixerSection: React.FC = () => {
+  const fixedCode = `<!-- 
+  FILENAME: sections/header.liquid 
+  INSTRUCTIONS: 
+  1. Go to Shopify Admin > Online Store > Edit Code.
+  2. Open sections/header.liquid.
+  3. DELETE EVERYTHING in that file. It must be empty.
+  4. Paste this code below.
+-->
+
+<style>
+  /* 
+     VERSION 3 FIX: BULLETPROOF STYLES & LAYOUT
+     - Removes 'hidden' / 'md:flex' usage.
+     - Adds manual padding control.
+  */
+  
+  /* DEFAULT (Mobile): Hide Desktop Menu, Show Hamburger */
+  .desktop-menu-only { display: none !important; }
+  .mobile-toggle-only { display: block !important; }
+  .zo-pill { display: none !important; }
+  
+  /* Mobile Padding */
+  .header-container {
+    padding: 1.5rem 1.5rem; /* 24px */
   }
-  @media (max-width: 767px) {
-    .force-mobile-show { display: block !important; }
-    .force-mobile-hide { display: none !important; }
+
+  /* DESKTOP (Larger screens): Show Desktop Menu, Hide Hamburger */
+  @media (min-width: 768px) {
+    .desktop-menu-only { display: flex !important; }
+    .mobile-toggle-only { display: none !important; }
+    .zo-pill { display: flex !important; }
+    
+    /* Desktop Padding (was md:px-12) */
+    .header-container {
+      padding: 1.5rem 3rem; /* 24px 48px */
+    }
   }
 </style>
 
-<header class="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-[#E5E5E5] px-6 py-6 md:px-12 md:py-6 flex justify-between items-center transition-all bg-opacity-98">
+<header class="header-container sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-[#E5E5E5] flex justify-between items-center transition-all bg-opacity-98">
   
   <!-- Logo -->
   <a href="/" class="text-xl font-bold tracking-[0.02em] text-brand-dark no-underline bg-transparent border-none cursor-pointer z-50 relative">
@@ -25,8 +48,7 @@
   </a>
 
   <!-- Desktop Navigation -->
-  <!-- ADDED CLASS: force-desktop-show force-mobile-hide -->
-  <nav class="hidden md:flex force-desktop-show force-mobile-hide gap-8 text-[13px] font-medium tracking-[0.05em]">
+  <nav class="desktop-menu-only gap-8 text-[13px] font-medium tracking-[0.05em]">
     {% assign menu_links = section.settings.menu.links %}
     {% if menu_links.size == 0 %}
       {% assign menu_links = linklists['site-nav'].links %}
@@ -71,7 +93,7 @@
     
     <!-- ZO ACTIVE Pill -->
     {% if template.suffix == 'studiozo' %}
-      <span class="text-xs border border-black px-2 py-1 rounded-full flex items-center hidden md:flex force-desktop-show force-mobile-hide">
+      <span class="zo-pill text-xs border border-black px-2 py-1 rounded-full items-center">
         <span class="w-2 h-2 bg-black rounded-full mr-2"></span>
         ZO ACTIVE
       </span>
@@ -83,8 +105,7 @@
     </a>
 
     <!-- Mobile Menu Button (Hamburger) -->
-    <!-- ADDED CLASS: force-desktop-hide force-mobile-show -->
-    <button id="MobileMenuToggle" class="md:hidden force-desktop-hide force-mobile-show z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
+    <button id="MobileMenuToggle" class="mobile-toggle-only z-50 relative bg-transparent border-none cursor-pointer p-0 ml-2" aria-label="Toggle Menu">
       <div class="flex flex-col gap-1.5 w-6">
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
         <span class="w-full h-0.5 bg-black transition-all duration-300 origin-center"></span>
@@ -94,7 +115,7 @@
   </div>
 
   <!-- Mobile Menu Overlay -->
-  <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full md:hidden flex h-screen w-screen">
+  <div id="MobileMenu" class="fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full flex h-screen w-screen md:hidden" style="display: flex;">
     <nav class="flex flex-col items-center gap-8 text-center">
       {% if menu_links.size > 0 %}
         {% for link in menu_links %}
@@ -119,11 +140,11 @@
   document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.getElementById('MobileMenuToggle');
     const menu = document.getElementById('MobileMenu');
-    const spans = toggle.querySelectorAll('span');
+    const spans = toggle ? toggle.querySelectorAll('span') : [];
     const links = document.querySelectorAll('.mobile-link');
     let isOpen = false;
 
-    if (toggle) {
+    if (toggle && menu) {
         toggle.addEventListener('click', () => {
         isOpen = !isOpen;
         
@@ -133,17 +154,21 @@
             document.body.style.overflow = 'hidden'; // Lock Scroll
             
             // Animate Hamburger to X
-            spans[0].style.transform = 'rotate(45deg) translateY(6px)';
-            spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+            if(spans.length === 3) {
+              spans[0].style.transform = 'rotate(45deg) translateY(6px)';
+              spans[1].style.opacity = '0';
+              spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+            }
         } else {
             menu.classList.add('translate-x-full');
             document.body.style.overflow = ''; // Unlock Scroll
             
             // Reset Hamburger
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
+            if(spans.length === 3) {
+              spans[0].style.transform = 'none';
+              spans[1].style.opacity = '1';
+              spans[2].style.transform = 'none';
+            }
         }
         });
     }
@@ -176,4 +201,80 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}`;
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(fixedCode);
+    alert('Code copied! Remember: DELETE the old code first!');
+  };
+
+  return (
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden">
+      {/* LEFT: Instructions */}
+      <div className="w-full lg:w-1/3 bg-blue-50 border-r border-blue-100 overflow-y-auto p-6">
+        <h2 className="text-xl font-bold mb-4 text-blue-900">How to Install (Like a Pro)</h2>
+        
+        <div className="space-y-6">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-blue-200">
+            <h3 className="font-bold text-red-600 mb-2 flex items-center">
+              <span className="text-xl mr-2">⚠️</span> IMPORTANT
+            </h3>
+            <p className="text-sm text-gray-700 mb-4">
+              It looks like you might have pasted the code <strong>twice</strong> last time. This causes the "squeezing" bug.
+            </p>
+            <div className="text-sm bg-red-50 p-3 rounded border border-red-100 text-red-800 font-bold">
+              You must DELETE everything in the file before pasting the new code.
+            </div>
+          </div>
+
+          <ol className="list-decimal ml-4 space-y-4 text-sm text-gray-800">
+            <li>
+              Go to Shopify Admin &rarr; <strong>Online Store</strong> &rarr; <strong>Edit Code</strong>.
+            </li>
+            <li>
+              Open <code>sections/header.liquid</code>.
+            </li>
+            <li>
+              <strong>Click anywhere in the code</strong>, then press <code>Ctrl + A</code> (or <code>Cmd + A</code> on Mac) to select ALL text.
+            </li>
+            <li>
+              Press <strong>Delete</strong>. The file should be completely empty.
+            </li>
+            <li>
+              Click the green <strong>COPY CODE</strong> button on the right side of this screen.
+            </li>
+            <li>
+              <strong>Paste</strong> into the empty file and click <strong>Save</strong>.
+            </li>
+          </ol>
+          
+          <div className="mt-8 pt-6 border-t border-blue-200">
+            <p className="text-xs text-gray-500 font-bold uppercase mb-2">Wait, what about the .tsx file?</p>
+            <p className="text-sm text-gray-600">
+              Ignore it! You do not need to upload any .tsx files. You are just copying the text below into your Liquid file.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* CENTER/RIGHT: The Code */}
+      <div className="w-full lg:w-2/3 bg-[#1e1e1e] overflow-y-auto text-gray-300 flex flex-col">
+        <div className="p-4 bg-[#2d2d2d] sticky top-0 z-10 flex justify-between items-center border-b border-[#333]">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-green-400">sections/header.liquid</span>
+            <p className="text-[10px] text-gray-400">Clean install • V3 Fixed</p>
+          </div>
+          <button 
+            onClick={copyCode}
+            className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded transition-colors shadow-lg flex items-center gap-2"
+          >
+            <span>COPY CODE</span>
+          </button>
+        </div>
+        <div className="p-6 font-mono text-xs leading-relaxed whitespace-pre-wrap select-all">
+          {fixedCode}
+        </div>
+      </div>
+    </div>
+  );
+};
