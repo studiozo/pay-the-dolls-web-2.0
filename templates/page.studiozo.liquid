@@ -1,13 +1,106 @@
 {%- comment -%}
-  Auto-generated sync skeleton for `components/StudioZoPage.tsx`.
-  PLEASE REVIEW: This file was created by automation to ensure TSX → Liquid parity.
+  Studio ZØ Print Lab — mirrored from components/brands/StudioZoPage.tsx
+  This template is static HTML for preview; replace product placeholders with real product/collection loops as needed.
 {%- endcomment -%}
 
-<div class="max-w-[1200px] mx-auto py-24 px-6 text-center">
-  <h1 class="text-4xl font-bold">STuDiØ ZØ</h1>
-  <p class="mt-4 max-w-2xl mx-auto text-lg">Art. Design. Entropy. Visit the Print Lab and brand pages.</p>
-  <div class="mt-8 flex items-center justify-center gap-4">
-    <a href="/pages/studio-zo-print-lab" class="px-4 py-2 border">Print Lab</a>
-    <a href="/pages/brands" class="px-4 py-2 border">All Brands</a>
-  </div>
-</div>
+{% include 'page-container-start' %}
+
+  <style>
+    .title-outline { -webkit-text-stroke: 2px #ffffff; color: transparent; }
+    .sf-mono { font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace; }
+  </style>
+
+  <header class="mb-20">
+    <div class="w-[200px] h-[3px] bg-[#ff3333] mb-[15px]"></div>
+    <h1 class="title-outline text-[80px] md:text-[120px] font-bold uppercase tracking-tight leading-[0.8] mb-2">PRINT LAB</h1>
+    <p class="sf-mono text-lg tracking-[0.15em] uppercase font-normal">// COMMERCE</p>
+  </header>
+
+  <nav class="flex flex-col md:flex-row gap-6 md:gap-10 my-12 text-xl font-normal text-[#888888]">
+    <a href="#prints" class="hover:text-black transition-colors">Prints.</a>
+    <a href="#fashion" class="hover:text-black transition-colors">Fashion.</a>
+    <a href="#book" class="hover:text-black transition-colors">Book.</a>
+  </nav>
+
+  <section class="max-w-[800px] mb-16">
+    <p class="text-lg leading-[1.8] text-[#444444] mb-4">We're printing money. Digital artifacts materialized into physical form.</p>
+    <p class="text-lg leading-[1.8] text-[#444444] mb-4">Each piece is a statement forged from reclaimed materials, vintage fabrics, and hand-crafted details.</p>
+    <a href="#shop" class="inline-block mt-8 px-8 py-3 border border-[#CCFF00] text-[#CCFF00] no-underline text-base font-medium tracking-[0.08em] uppercase transition-all hover:bg-[#CCFF00] hover:text-black">[ SHOP RE.ZØED ]</a>
+  </section>
+
+  <section id="prints" class="mt-24">
+    <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
+      <div class="text-sm text-[#ff3333] uppercase tracking-[0.12em] mb-2 font-medium">PRINTS:</div>
+      <div class="text-lg text-[#666666] leading-[1.6]">Limited edition art prints. Photographic works. Digital artifacts on archival paper.</div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+      <!-- Sample prints -->
+      <div class="bg-white border p-5">
+        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PRINT_001</div>
+        <div class="font-bold uppercase">STARDUST MANIFESTO</div>
+        <div class="text-[11px] text-[#CCFF00] mt-1">PRNT-001</div>
+        <div class="mt-2 text-sm text-[#777777]">$120</div>
+      </div>
+
+      <div class="bg-white border p-5">
+        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PRINT_002</div>
+        <div class="font-bold uppercase">DIGITAL DECAY #3</div>
+        <div class="text-[11px] text-[#CCFF00] mt-1">PRNT-002</div>
+        <div class="mt-2 text-sm text-[#777777]">$120</div>
+      </div>
+
+      <div class="bg-white border p-5">
+        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PRINT_003</div>
+        <div class="font-bold uppercase">VOID VISION</div>
+        <div class="text-[11px] text-[#CCFF00] mt-1">PRNT-003</div>
+        <div class="mt-2 text-sm text-[#777777]">$120</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fashion" class="mt-24">
+    <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
+      <div class="text-sm text-[#ff3333] uppercase tracking-[0.12em] mb-2 font-medium">FASHION:</div>
+      <div class="text-lg text-[#666666] leading-[1.6]">Statements forged from secondhand fabrics, reclaimed textures, and one-of-one storytelling.</div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+      <div class="bg-white border p-5">
+        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">JACKET_V03</div>
+        <div class="font-bold uppercase">JACKET V.03</div>
+        <div class="text-sm text-[#777777] mt-2">$320</div>
+      </div>
+
+      <div class="bg-white border p-5">
+        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">HOODIE_V22</div>
+        <div class="font-bold uppercase">HOODIE V.22</div>
+        <div class="text-sm text-[#777777] mt-2">$150</div>
+      </div>
+
+      <div class="bg-white border p-5">
+        <div class="aspect-[3/4] bg-[#f5f5f5] border mb-4 flex items-center justify-center text-xs text-[#999999]">PANTS_V14</div>
+        <div class="font-bold uppercase">PANTS V.14</div>
+        <div class="text-sm text-[#777777] mt-2">$200</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book" class="mt-24">
+    <div class="border-l-[3px] border-[#ff3333] pl-5 mb-6">
+      <div class="text-sm text-[#ff3333] uppercase tracking-[0.12em] mb-2 font-medium">BOOK:</div>
+      <div class="text-lg text-[#666666] leading-[1.6]">Collaborate with Studio ZØ. Fashion shoots. Creative direction. Custom commissions.</div>
+    </div>
+
+    <div class="max-w-[600px] mt-6">
+      <p class="text-lg text-[#666666] leading-[1.8] mb-6">For bookings, collaborations, and custom work:<br /><a href="mailto:zo@studiozonyc.com" class="text-[#CCFF00] no-underline">zo@studiozonyc.com</a></p>
+      <a href="mailto:zo@studiozonyc.com" class="inline-block px-8 py-3 border border-[#CCFF00] text-[#CCFF00] no-underline text-base font-medium tracking-[0.08em] uppercase transition-all hover:bg-[#CCFF00] hover:text-black">[ CONTACT US ]</a>
+    </div>
+  </section>
+
+  <footer class="mt-36 pt-10 border-t border-[#eaeaea] text-center text-[11px] text-[#666666] tracking-[0.05em] font-normal">
+    <p>STUDIO ZØ // PRINT LAB // 2025</p>
+    <p class="mt-2">ALL RIGHTS RESERVED // COPYRIGHT</p>
+  </footer>
+
+{% include 'page-container-end' %}

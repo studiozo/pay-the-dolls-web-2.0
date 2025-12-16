@@ -1,12 +1,48 @@
 {%- comment -%}
-  Auto-generated sync skeleton for `components/PayTheDollsPage.tsx`.
-  PLEASE REVIEW: This file was created by automation to ensure TSX → Liquid parity.
+  Pay The DØLLS — Merch (synced from components/brands/PayTheDollsPage.tsx)
+  NOTE: Replace static product cards with Shopify product/collection loops when converting to real products.
 {%- endcomment -%}
 
-<div class="max-w-[1200px] mx-auto py-24 px-6 text-center">
-  <h1 class="text-4xl font-bold">PAY THE DØLLS™</h1>
-  <p class="mt-4 max-w-2xl mx-auto text-lg">Shop our collections and cultural commerce offerings.</p>
-  <div class="mt-8">
-    <a href="/collections/all" class="inline-block px-6 py-3 border rounded tracking-widest">Enter Shop</a>
+{% include 'page-container-start' %}
+
+  <header class="mb-12 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold">PAY THE DØLLS™ — Merch</h1>
+    <p class="text-lg text-gray-600 mt-4">The house brand shop. Support creators.</p>
+  </header>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Sample product cards (static preview). Swap for a product/collection loop for live usage. -->
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1520975911626-0f2f1a3ee1d9?q=80&w=1400&auto=format&fit=crop')" />
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">PTD Logo Tee</h3>
+        <p class="text-sm text-gray-600 mb-4">$28</p>
+        <a href="/collections/all" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
+      </div>
+    </div>
+
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1400&auto=format&fit=crop')" />
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">PTD Tote Bag</h3>
+        <p class="text-sm text-gray-600 mb-4">$18</p>
+        <a href="/collections/all" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
+      </div>
+    </div>
+
+    <div class="border border-brand-border rounded overflow-hidden bg-white">
+      <div class="aspect-[4/3] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1400&auto=format&fit=crop')" />
+      <div class="p-6">
+        <h3 class="font-bold text-xl mb-2">Neon Logo Patch</h3>
+        <p class="text-sm text-gray-600 mb-4">$6</p>
+        <a href="/collections/all" class="bg-brand-neon text-black px-4 py-2 rounded font-bold inline-block">Buy</a>
+      </div>
+    </div>
   </div>
-</div>
+
+  <section class="mt-16">
+    <h2 class="text-2xl font-bold mb-6">Sub-brands</h2>
+    <p class="text-gray-600">This area can list merch lines or smaller sub-brands within Pay The DØLLS.</p>
+  </section>
+
+{% include 'page-container-end' %}
