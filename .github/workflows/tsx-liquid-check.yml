@@ -1,0 +1,22 @@
+name: 'TSX -> Liquid Sync Check'
+
+on:
+  pull_request:
+  push:
+    branches: [ main, 'vibe_*', 'feature/**' ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Make script executable
+        run: chmod +x ./scripts/tsx_liquid_check.sh
+      - name: Run TSX -> Liquid sync check
+        run: ./scripts/tsx_liquid_check.sh
