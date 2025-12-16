@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pay The Dølls — Site Preview</title>
+  <style>body{font-family:Inter,Arial,Helvetica,sans-serif;padding:32px;background:#f6f6f6}a{color:#123524;text-decoration:none}ul{line-height:1.8}</style>
+</head>
+<body>
+  <h1>Pay The Dølls — Local Site Preview</h1>
+  <p>Click any page to view the static snapshot (Liquid tags are not rendered — this is a quick visual preview).</p>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="brands.html">Brands</a></li>
+    <li><a href="studio-zo.html">Studio ZØ — Print Lab</a></li>
+    <li><a href="mission.html">Mission</a></li>
+    <li><a href="submit.html">Submit</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="list-collections.html">Collections (List)</a></li>
+  </ul>
+</body>
+</html>

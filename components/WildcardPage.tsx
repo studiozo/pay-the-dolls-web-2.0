@@ -1,0 +1,1 @@
+export { WildcardPage } from './brands/WildcardPage';

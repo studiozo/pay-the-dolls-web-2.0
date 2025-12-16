@@ -32,8 +32,8 @@ const MOCK_PRODUCT: Product = {
   available: true
 };
 
-export const ProductPage: React.FC = () => {
-  const product = MOCK_PRODUCT;
+export const ProductPage: React.FC<{ product?: import('../types').Product | null }> = ({ product: propProduct = null }) => {
+  const product = propProduct ?? MOCK_PRODUCT;
 
   return (
     <div className="product-container max-w-[1400px] mx-auto my-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[100px]">
