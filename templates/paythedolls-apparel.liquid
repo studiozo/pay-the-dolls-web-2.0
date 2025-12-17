@@ -1,0 +1,117 @@
+{% layout 'theme' %}
+<!-- PAY THE DØLLS — Apparel Collection [paythedolls-apparel.liquid] -->
+<div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white pb-48">
+  
+  <!-- Massive High-Fashion Header -->
+  <header class="pt-48 pb-24 px-6 md:px-12 border-b-8 border-black">
+    <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row md:items-end justify-between gap-12">
+      <div class="space-y-4">
+        <h1 class="text-8xl md:text-[14rem] font-black uppercase tracking-tighter leading-[0.8] mb-8">APPAREL</h1>
+        <div class="flex items-center gap-6">
+          <span class="bg-black text-white text-[10px] font-black px-4 py-2 uppercase tracking-widest">S03-LIQUIDITY</span>
+          <span class="text-xs font-black uppercase tracking-widest italic text-gray-400">Archived Reconstruction // Verse Capital Sync</span>
+        </div>
+      </div>
+      
+      <div class="max-w-md text-right md:pb-4">
+        <p class="text-sm font-black uppercase leading-tight tracking-tight">
+          Every garment is a proof of existence. Queer-made. Trans-owned. Profit used exclusively to fund the destruction of permission.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter & Breadcrumb Bar -->
+  <div class="sticky top-0 z-50 bg-white border-b-2 border-black py-6 px-6 md:px-12">
+    <div class="max-w-[1400px] mx-auto flex justify-between items-center">
+      <nav class="flex gap-8 overflow-x-auto no-scrollbar">
+        <a href="/collections/all" class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 hover:text-black transition-all">← Back to Lab</a>
+        <a href="#tops" class="text-[10px] font-black uppercase tracking-[0.3em] border-b-2 border-black">Tops</a>
+        <a href="#bottoms" class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 hover:text-black transition-all">Bottoms</a>
+        <a href="#outerwear" class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 hover:text-black transition-all">Outerwear</a>
+      </nav>
+      
+      <div class="hidden md:block">
+        <span class="text-[10px] font-black uppercase tracking-widest opacity-30">Total Inventory: {{ collection.products_count }} Units</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black border-b-8 border-black">
+    {% paginate collection.products by 48 %}
+      {% for product in collection.products %}
+        <div class="group relative bg-white aspect-[3/4] flex flex-col hover:z-10 overflow-hidden">
+          
+          <!-- Image Container -->
+          <a href="{{ product.url }}" class="flex-1 overflow-hidden relative">
+            <img 
+              src="{{ product.featured_image | img_url: '1000x' }}" 
+              alt="{{ product.title | escape }}"
+              class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+            />
+            
+            <!-- Metadata Overlays -->
+            <div class="absolute top-6 left-6 flex flex-col gap-2">
+              {% if product.available == false %}
+                <span class="bg-red-600 text-white text-[9px] font-black px-3 py-1 uppercase tracking-widest italic">Depleted</span>
+              {% else %}
+                <span class="bg-black text-white text-[9px] font-black px-3 py-1 uppercase tracking-widest">In Stock</span>
+              {% endif %}
+            </div>
+
+            <!-- Hover Quick Look -->
+            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+               <span class="text-white bg-black p-4 font-black uppercase text-[10px] tracking-[0.4em] translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Inspect Piece</span>
+            </div>
+          </a>
+
+          <!-- Product Info -->
+          <div class="p-8 border-t-2 border-black flex flex-col gap-4 bg-white z-20">
+            <div class="flex justify-between items-start">
+              <h2 class="text-2xl font-black uppercase tracking-tighter leading-none group-hover:italic transition-all">
+                <a href="{{ product.url }}" class="no-underline text-black">{{ product.title }}</a>
+              </h2>
+              <span class="font-mono font-black text-lg text-black bg-white px-2">
+                {{ product.price | money_without_trailing_zeros }}
+              </span>
+            </div>
+            
+            <div class="flex justify-between items-end mt-4">
+              <div class="flex flex-wrap gap-1">
+                {% for tag in product.tags limit: 2 %}
+                  <span class="text-[8px] font-black uppercase tracking-widest border border-black/10 px-2 py-0.5">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              <a href="{{ product.url }}" class="text-[10px] font-black uppercase tracking-[0.2em] border-b-2 border-black pb-0.5 hover:bg-black hover:text-white px-2 transition-all">Secure +</a>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="col-span-full py-48 bg-white text-center border-t-4 border-black">
+          <h2 class="text-4xl font-black uppercase tracking-tighter mb-4 italic">Reconstruction Pending...</h2>
+          <p class="text-xs font-black uppercase tracking-widest opacity-40">No items available in this category sector.</p>
+        </div>
+      {% endfor %}
+    {% endpaginate %}
+  </div>
+
+  <!-- Footer Branding -->
+  <div class="mt-48 px-6 md:px-12">
+    <div class="max-w-[1400px] mx-auto border-t-8 border-black pt-12 flex flex-col md:flex-row justify-between items-start gap-12">
+      <div class="text-[12rem] md:text-[20rem] font-black uppercase tracking-tighter leading-[0.7] opacity-5 select-none">PTD</div>
+      <div class="md:w-1/3 space-y-8 md:text-right">
+        <h3 class="text-5xl font-black uppercase tracking-tighter leading-none">"WE ARE NOT A BRAND, WE ARE A BANK."</h3>
+        <p class="text-sm font-black uppercase leading-tight italic">
+          Every purchase directly funds the STuDiØ ZØ residency and Verse Capital liquidity pools. We do not seek permission. We build the future.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
