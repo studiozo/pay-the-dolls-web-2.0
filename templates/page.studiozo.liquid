@@ -1,7 +1,7 @@
 {% comment %}
-  ZØVIVAA / STUDIO ZO COMMERCE PROTOCOL v1.2
+  ZØVIVAA / STUDIO ZO COMMERCE PROTOCOL v1.3
   Template: studiozo.liquid
-  Function: Dynamic Shopify Product Feed (Tagged 'Studio Zo')
+  Function: Dynamic Shopify Product Feed (Vendor: STuDiØ ZØ)
 {% endcomment %}
 
 {% layout 'theme' %}
@@ -10,6 +10,13 @@
   .text-outline-white {
     -webkit-text-stroke: 1px white;
     color: transparent;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 </style>
 
@@ -52,13 +59,13 @@
   <!-- Filter Tabs -->
   <div class="relative z-10 px-6 md:px-12 mb-12 flex gap-8 border-b border-[#222] overflow-x-auto whitespace-nowrap scrollbar-hide">
     <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#CCFF00] border-b-2 border-[#CCFF00]" data-tab="paintings">
-      paintings
-    </button>
-    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="rezoed">
-      rezoed
+      PAINTINGS
     </button>
     <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="prints">
-      prints
+      PRINTS
+    </button>
+    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="rezoed">
+      REZØED
     </button>
   </div>
 
@@ -74,12 +81,12 @@
   const ARTWORKS = [
     {%- assign studio_products = collections.all.products -%}
     {%- for product in studio_products -%}
-      {%- if product.tags contains 'Studio Zo' -%}
+      {%- if product.vendor == 'STuDiØ ZØ' -%}
         {%- assign current_category = 'paintings' -%}
-        {%- if product.tags contains 'rezoed' -%}
-          {%- assign current_category = 'rezoed' -%}
-        {%- elsif product.tags contains 'prints' -%}
+        {%- if product.tags contains 'prints' or product.tags contains 'PRINTS' -%}
           {%- assign current_category = 'prints' -%}
+        {%- elsif product.tags contains 'rezoed' or product.tags contains 'REZØED' -%}
+          {%- assign current_category = 'rezoed' -%}
         {%- endif -%}
         {
           id: {{ product.id }},
@@ -172,4 +179,3 @@
       });
     });
   });
-</script>
