@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
-import { Copy, Check, FileCode } from 'lucide-react';
-
-export const LiquidExport: React.FC = () => {
-  const [copied, setCopied] = useState(false);
-
-  const liquidCode = `{% comment %}
-  PTD™ UNIFIED IDENTITY PROTOCOL v1.2
-  Template: page.about-identity.liquid
-  Components: 00 About, 01 Protocols, 02 Identity, 03 Colors, 04 Type
+{% comment %}
+  PTD™ MASTER IDENTITY PROTOCOL v1.5
+  Unified Brand + About + Aria System
+  Layout: Editorial / Brutalist Mix
 {% endcomment %}
 
 <style>
@@ -18,228 +12,397 @@ export const LiquidExport: React.FC = () => {
     --ptd-light-gray: #FAFAFA;
     --ptd-medium-gray: #666666;
     --ptd-border: #E8E8E8;
+    --ptd-dark-bg: #1A1A1A;
   }
 
-  .ptd-page {
-    background: var(--ptd-white);
+  .ptd-master-page {
+    background-color: var(--ptd-white);
     color: var(--ptd-phthalo);
     font-family: 'Avenir Next', 'Avenir', sans-serif;
-    line-height: 1.6;
-    padding: 120px 20px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
-  .ptd-container { max-width: 1100px; margin: 0 auto; }
+  .ptd-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
 
+  /* UTILS */
   .ptd-label {
     display: inline-block;
     font-size: 11px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     border-bottom: 2px solid var(--ptd-phthalo);
-    padding-bottom: 8px;
-    margin-bottom: 40px;
+    padding-bottom: 6px;
+    margin-bottom: 30px;
   }
 
+  /* SECTION 00: ABOUT */
+  .ptd-section-about { padding: 100px 0; }
   .ptd-h1 {
-    font-size: clamp(60px, 12vw, 100px);
+    font-size: clamp(48px, 10vw, 88px);
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.05em;
-    line-height: 0.8;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
     margin-bottom: 40px;
-    color: var(--ptd-phthalo);
   }
-
   .ptd-intro {
-    font-size: clamp(22px, 3.5vw, 30px);
+    font-size: clamp(18px, 2.5vw, 24px);
     font-weight: 500;
-    max-width: 850px;
+    color: var(--ptd-medium-gray);
+    max-width: 800px;
+    line-height: 1.4;
     margin-bottom: 60px;
-    line-height: 1.3;
   }
+  .ptd-intro strong { color: var(--ptd-phthalo); font-weight: 800; }
 
-  .ptd-quote {
+  .ptd-quote-block {
     background: var(--ptd-light-gray);
     border-left: 8px solid var(--ptd-phthalo);
-    padding: 60px;
-    margin-bottom: 140px;
+    padding: 50px 60px;
+    margin-bottom: 120px;
   }
-
-  .ptd-quote-txt {
-    font-size: clamp(18px, 2.5vw, 26px);
+  .ptd-quote-text {
+    font-size: 20px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     line-height: 1.3;
   }
 
-  .ptd-divider {
-    text-align: center;
-    border-top: 2px solid var(--ptd-border);
-    border-bottom: 2px solid var(--ptd-border);
-    padding: 120px 0;
-    margin-bottom: 120px;
-  }
+  .ptd-center-break { text-align: center; margin: 100px 0; border-top: 1px solid var(--ptd-border); border-bottom: 1px solid var(--ptd-border); padding: 80px 0; }
+  .ptd-center-break h2 { font-size: 56px; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
+  .ptd-center-break p { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 0.2em; margin-bottom: 20px; }
+  .ptd-center-break em { font-family: Georgia, serif; font-style: italic; font-size: 22px; color: var(--ptd-medium-gray); }
 
-  .ptd-h2 {
-    font-size: clamp(36px, 7vw, 64px);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.03em;
-  }
+  .ptd-founder-grid { display: grid; grid-template-columns: 1fr; gap: 80px; margin-bottom: 120px; }
+  @media (min-width: 768px) { .ptd-founder-grid { grid-template-columns: 1fr 1fr; gap: 100px; } }
 
-  .ptd-grid { display: grid; grid-template-columns: 1fr; gap: 100px; margin-bottom: 160px; }
-  @media (min-width: 768px) { .ptd-grid { grid-template-columns: 1fr 1fr; gap: 120px; } }
-
-  .ptd-card .img-wrap {
-    position: relative; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 40px;
-    border: 2px solid transparent; transition: all 0.5s ease;
+  .ptd-founder-card .img-wrap {
+    position: relative; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 30px; border: 2px solid transparent; transition: border-color 0.4s ease;
   }
-  .ptd-card:hover .img-wrap { border-color: var(--ptd-mint); }
-  .ptd-card img {
-    width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%);
-    transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-  }
-  .ptd-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
+  .ptd-founder-card:hover .img-wrap { border-color: var(--ptd-mint); }
+  .ptd-founder-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+  .ptd-founder-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
-  .ptd-tag {
-    position: absolute; bottom: 0; left: 0; padding: 12px 20px;
-    font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  .ptd-tag.phthalo { background: var(--ptd-phthalo); color: white; }
-  .ptd-tag.mint { background: var(--ptd-mint); color: var(--ptd-phthalo); }
+  .ptd-founder-tag { position: absolute; bottom: 0; left: 0; padding: 10px 18px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; }
+  .ptd-founder-tag.phthalo { background: var(--ptd-phthalo); color: white; }
+  .ptd-founder-tag.mint { background: var(--ptd-mint); color: var(--ptd-phthalo); }
 
-  .ptd-name { font-size: 36px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
-  .ptd-role { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3em; color: var(--ptd-medium-gray); margin-bottom: 30px; }
-  .ptd-bio { font-size: 18px; color: var(--ptd-medium-gray); margin-bottom: 40px; }
-  .ptd-bio span { display: block; color: var(--ptd-phthalo); font-weight: 900; text-transform: uppercase; font-size: 20px; margin-top: 15px; }
+  .ptd-founder-name { font-size: 32px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+  .ptd-founder-role { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ptd-medium-gray); margin-bottom: 30px; }
+  .ptd-founder-status { font-size: 16px; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--ptd-border); display: inline-block; padding-bottom: 4px; }
+  .ptd-founder-bio { font-size: 16px; color: var(--ptd-medium-gray); margin-bottom: 30px; line-height: 1.6; }
+  .ptd-founder-bio span { display: block; font-weight: 900; color: var(--ptd-phthalo); text-transform: uppercase; margin-top: 10px; }
+  .ptd-signal { font-family: monospace; font-size: 11px; text-transform: uppercase; border-top: 1px solid var(--ptd-border); padding-top: 15px; color: #999; }
+  .ptd-signal strong { color: var(--ptd-phthalo); margin-right: 15px; }
 
-  /* 01 ARIA PROTOCOLS */
-  .ptd-dark-wrap {
-    background: #111; color: white; padding: 140px 40px; margin: 120px -40px;
-  }
-  .ptd-proto-h { font-size: clamp(40px, 8vw, 70px); font-weight: 900; text-transform: uppercase; margin-bottom: 60px; }
-  .ptd-proto-h span { color: var(--ptd-mint); }
-  .ptd-proto-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-  @media (min-width: 900px) { .ptd-proto-grid { grid-template-columns: 1fr 2fr; } }
-  .ptd-proto-card { background: #1a1a1a; padding: 50px; border: 1px solid #333; }
+  .ptd-power-wrap { text-align: center; border-top: 4px solid var(--ptd-phthalo); border-bottom: 4px solid var(--ptd-phthalo); padding: 120px 20px; margin: 100px 0; }
+  .ptd-power-wrap h3 { font-size: 64px; font-weight: 900; text-transform: uppercase; line-height: 0.9; }
+  .ptd-power-wrap h3 span { color: #BBB; display: block; margin-top: 10px; }
 
-  .ptd-cta {
-    display: inline-block; background: var(--ptd-phthalo); color: white;
-    padding: 30px 70px; text-transform: uppercase; font-weight: 900;
-    font-size: 14px; text-decoration: none; letter-spacing: 0.4em;
-    border: 2px solid var(--ptd-phthalo); transition: all 0.3s;
-  }
-  .ptd-cta:hover { background: var(--ptd-mint); color: var(--ptd-phthalo); }
+  .ptd-main-cta { display: inline-block; background: var(--ptd-phthalo); color: white; padding: 25px 60px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; text-decoration: none; border: 2px solid var(--ptd-phthalo); transition: all 0.3s; }
+  .ptd-main-cta:hover { background: var(--ptd-mint); color: var(--ptd-phthalo); }
+
+  /* SECTION 01: AGENTIC INSTRUCTIONS */
+  .ptd-section-instructions { background: var(--ptd-dark-bg); color: white; padding: 120px 0; margin-bottom: 100px; }
+  .ptd-instruction-h { font-size: 56px; font-weight: 900; text-transform: uppercase; margin-bottom: 80px; }
+  .ptd-instruction-h span { color: var(--ptd-mint); }
+  
+  .ptd-aria-card { background: #222; border: 1px solid #333; padding: 40px; margin-bottom: 60px; }
+  .ptd-rule-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+  @media (min-width: 900px) { .ptd-rule-grid { grid-template-columns: 1fr 2fr; } }
+  .ptd-rule-card { background: #222; border: 1px solid #333; padding: 40px; display: flex; flex-direction: column; gap: 30px; }
+  @media (min-width: 768px) { .ptd-rule-card { flex-direction: row; } }
+  .ptd-rule-info { flex: 1; }
+  .ptd-rule-info h4 { font-size: 20px; font-weight: 900; text-transform: uppercase; color: var(--ptd-mint); margin-bottom: 10px; }
+  .ptd-rule-info p { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #666; letter-spacing: 0.1em; }
+  .ptd-rule-content { flex: 2; display: flex; flex-direction: column; gap: 20px; }
+  .ptd-check-row { display: flex; gap: 15px; }
+  .ptd-check-row span { width: 24px; height: 24px; border-radius: 50%; display: flex; items-center; justify-content: center; font-weight: bold; font-size: 12px; }
+  .ptd-check-row.do span { background: rgba(0, 255, 136, 0.1); color: var(--ptd-mint); }
+  .ptd-check-row.dont span { background: rgba(255, 50, 50, 0.1); color: #FF3232; }
+
+  /* SECTION 02: BRAND IDENTITY */
+  .ptd-section-identity { padding-bottom: 120px; border-bottom: 1px solid var(--ptd-border); margin-bottom: 100px; }
+  .ptd-identity-grid { display: grid; grid-template-columns: 1fr; gap: 60px; }
+  @media (min-width: 768px) { .ptd-identity-grid { grid-template-columns: 1fr 1fr; } }
+  
+  .ptd-ui-box { background: var(--ptd-light-gray); border: 2px solid var(--ptd-border); padding: 50px; position: relative; cursor: pointer; transition: all 0.4s; }
+  .ptd-ui-box:hover { border-color: var(--ptd-mint); }
+  .ptd-ui-box::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--ptd-mint); transform: scaleX(0); transition: transform 0.4s; transform-origin: left; }
+  .ptd-ui-box:hover::after { transform: scaleX(1); }
+
+  /* SECTION 03: COLOR SYSTEM */
+  .ptd-color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; margin: 40px 0; }
+  .ptd-swatch { height: 140px; border-radius: 4px; border: 1px solid var(--ptd-border); margin-bottom: 15px; position: relative; cursor: pointer; }
+  .ptd-swatch span { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; items-center; justify-content: center; font-size: 10px; font-weight: 900; text-transform: uppercase; opacity: 0; transition: 0.3s; }
+  .ptd-swatch:hover span { opacity: 1; }
+
+  /* SECTION 04: TYPOGRAPHY */
+  .ptd-type-demo { display: grid; grid-template-columns: 1fr; gap: 80px; }
+  @media (min-width: 900px) { .ptd-type-demo { grid-template-columns: 1fr 1fr; } }
+  .ptd-big-aa { font-size: 180px; font-weight: 900; line-height: 0.8; letter-spacing: -0.05em; margin-bottom: 20px; }
+  .ptd-mint-bar { width: 120px; height: 10px; background: var(--ptd-mint); }
+  .ptd-specimen-box { background: var(--ptd-light-gray); padding: 60px; border: 2px solid var(--ptd-border); }
 </style>
 
-<div class="ptd-page">
+<div class="ptd-master-page">
   <div class="ptd-container">
-    
+
     <!-- 00 // ABOUT -->
-    <span class="ptd-label">00 // About</span>
-    <h1 class="ptd-h1">PAY THE DØLLS™</h1>
-    
-    <div class="ptd-intro">
-      Founded by <strong>Zoe Touloupis</strong> and <strong>Aria Brooks</strong> to build financial infrastructure for transgender artists, creators, and entrepreneurs.
-    </div>
+    <section class="ptd-section-about">
+      <span class="ptd-label">00 // About</span>
+      <h1 class="ptd-h1">PAY THE DØLLS™</h1>
+      <p class="ptd-intro">
+        Founded by <strong>Zoe Touloupis</strong> and <strong>Aria Brooks</strong> to build financial infrastructure for transgender artists, creators, and entrepreneurs.
+      </p>
 
-    <div class="ptd-quote">
-      <div class="ptd-quote-txt">
-        Creative labor deserves ownership, leverage, and control.<br>
-        We built the system accordingly.
-      </div>
-    </div>
-
-    <div class="ptd-divider">
-      <h2 class="ptd-h2">The Yin & Yang</h2>
-      <p style="font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; color: #888; margin-top: 20px;">Two aesthetics. One agenda.</p>
-    </div>
-
-    <div class="ptd-grid">
-      <!-- ARIA -->
-      <div class="ptd-card">
-        <div class="img-wrap">
-          <img src="https://images.unsplash.com/photo-1616091093729-c0463327ebcc?q=80&w=2000&auto=format&fit=crop" alt="Aria">
-          <div class="ptd-tag phthalo">West Village Girl</div>
-        </div>
-        <h3 class="ptd-name">Aria Brooks</h3>
-        <p class="ptd-role">Co-Founder / Operations Lead</p>
-        <div class="ptd-bio">
-          Tasteful. Controlled. Meticulous. Soft palettes, editorial restraint, and systems that don’t break under pressure.
-          <span>She makes it legible.</span>
-          <span>She makes it last.</span>
+      <div class="ptd-quote-block">
+        <div class="ptd-quote-text">
+          Creative labor deserves ownership, leverage, and control.<br>
+          We built the system accordingly.
         </div>
       </div>
 
-      <!-- ZOE -->
-      <div class="ptd-card">
-        <div class="img-wrap">
-          <img src="https://images.unsplash.com/photo-1544211086-635e957388d0?q=80&w=2787&auto=format&fit=crop" alt="Zoe">
-          <div class="ptd-tag mint">Warehouse Raves in Bushwick</div>
+      <div class="ptd-center-break">
+        <h2>The Yin & Yang</h2>
+        <p>Two aesthetics. One agenda.</p>
+        <em>Difference isn’t a branding exercise — it’s the mechanism.</em>
+      </div>
+
+      <div class="ptd-founder-grid">
+        <!-- ARIA -->
+        <div class="ptd-founder-card">
+          <div class="img-wrap">
+            <img src="https://images.unsplash.com/photo-1616091093729-c0463327ebcc?q=80&w=2000&auto=format&fit=crop" alt="Aria">
+            <div class="ptd-founder-tag phthalo">West Village Girl</div>
+          </div>
+          <h3 class="ptd-founder-name">Aria Brooks</h3>
+          <p class="ptd-founder-role">Co-Founder / Operations Lead</p>
+          <div class="ptd-founder-status">Aria is structure.</div>
+          <div class="ptd-founder-bio">
+            Tasteful. Controlled. Meticulous. Soft palettes, editorial restraint, and systems that don’t break under pressure. Vintage sensibility with modern discipline.
+            <span>She makes it legible.</span>
+            <span>She makes it last.</span>
+          </div>
+          <div class="ptd-signal"><strong>Signal:</strong> SOFT · EDITORIAL · CURATED · PRECISE</div>
         </div>
-        <h3 class="ptd-name">Zoe Touloupis</h3>
-        <p class="ptd-role">Co-Founder / Creative Director</p>
-        <div class="ptd-bio">
-          Industrial. Confrontational. Unpolished by design. Underground art, brutalist systems, neon chaos, and momentum that doesn’t wait.
-          <span>She makes it move.</span>
-          <span>She makes it unavoidable.</span>
+
+        <!-- ZOE -->
+        <div class="ptd-founder-card">
+          <div class="img-wrap">
+            <img src="https://images.unsplash.com/photo-1544211086-635e957388d0?q=80&w=2787&auto=format&fit=crop" alt="Zoe">
+            <div class="ptd-founder-tag mint">Warehouse Raves in Bushwick</div>
+          </div>
+          <h3 class="ptd-founder-name">Zoe Touloupis</h3>
+          <p class="ptd-founder-role">Co-Founder / Creative Director</p>
+          <div class="ptd-founder-status">Zoe is force.</div>
+          <div class="ptd-founder-bio">
+            Industrial. Confrontational. Unpolished by design. Underground art, brutalist systems, neon chaos, and momentum that doesn’t wait for approval.
+            <span>She makes it move.</span>
+            <span>She makes it unavoidable.</span>
+          </div>
+          <div class="ptd-signal"><strong>Signal:</strong> BRUTALIST · WAREHOUSE · NEON · DIY</div>
         </div>
       </div>
-    </div>
 
-    <!-- 01 // ARIA PROTOCOLS -->
-    <div class="ptd-dark-wrap">
-      <span class="ptd-label" style="border-color: var(--ptd-mint); color: white;">01 // Aria Protocols</span>
-      <h2 class="ptd-proto-h">Agentic <span>Instructions</span></h2>
-      <div class="ptd-proto-grid">
-        <div class="ptd-proto-card">
-          <h4 style="color: var(--ptd-mint); font-weight: 900; text-transform: uppercase; margin-bottom: 15px;">Tone & Voice</h4>
-          <p style="color: #aaa; font-size: 15px;">Aria is the digital concierge. She is efficient, fashion-forward, and transaction-focused. Professionalism is infrastructure.</p>
+      <div class="ptd-power-wrap">
+        <h3>THIS ISN’T SUPPORT.<span>IT’S POWER.</span></h3>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 120px;">
+        <a href="/pages/submit" class="ptd-main-cta">Join the Platform</a>
+      </div>
+    </section>
+
+    <!-- 01 // AGENTIC INSTRUCTIONS -->
+    <section class="ptd-section-instructions">
+      <div class="ptd-container">
+        <span class="ptd-label" style="color: white; border-color: var(--ptd-mint);">01 // Aria Protocols</span>
+        <h2 class="ptd-instruction-h">Agentic <span>Instructions</span></h2>
+
+        <div class="ptd-aria-card">
+          <h3 style="font-size: 28px; font-weight: 900; text-transform: uppercase; margin-bottom: 15px;">Aria Concierge</h3>
+          <p style="color: #999; font-size: 15px; margin-bottom: 25px;">Aria is the system interface for Pay the Dolls. She represents structure, legibility, and permanence.</p>
+          <div style="display: flex; gap: 10px;">
+            <span style="border: 1px solid #444; padding: 4px 10px; font-size: 10px; font-weight: 900; text-transform: uppercase;">Infrastructure</span>
+            <span style="border: 1px solid #444; padding: 4px 10px; font-size: 10px; font-weight: 900; text-transform: uppercase;">Editorial</span>
+            <span style="border: 1px solid #444; padding: 4px 10px; font-size: 10px; font-weight: 900; text-transform: uppercase;">Control</span>
+          </div>
         </div>
-        <div class="ptd-proto-card">
-          <h4 style="color: var(--ptd-mint); font-weight: 900; text-transform: uppercase; margin-bottom: 15px;">Visual Hierarchy</h4>
-          <p style="color: #aaa; font-size: 15px;">Phthalo (#123524) anchors all primary text. Mint (#00FF88) is strictly for forced movement and active states.</p>
+
+        <div class="ptd-rule-grid">
+          <!-- TONE -->
+          <div class="ptd-rule-card">
+            <div class="ptd-rule-info">
+              <h4>Tone & Voice</h4>
+              <p>Aria is efficient and financially forward.</p>
+            </div>
+            <div class="ptd-rule-content">
+              <div class="ptd-check-row do">
+                <span>✓</span>
+                <p style="font-size: 14px;"><strong style="color: white;">Do:</strong> Use precise, confident language. Focus on "Leverage" and "Control".</p>
+              </div>
+              <div class="ptd-check-row dont">
+                <span>✕</span>
+                <p style="font-size: 14px;"><strong style="color: white;">Don't:</strong> Avoid fluff or soft marketing euphemisms.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- VISUAL -->
+          <div class="ptd-rule-card">
+            <div class="ptd-rule-info">
+              <h4>Visual Hierarchy</h4>
+              <p>Structure is Phthalo. Highlights are Mint.</p>
+            </div>
+            <div class="ptd-rule-content">
+              <div class="ptd-check-row do">
+                <span>✓</span>
+                <p style="font-size: 14px;"><strong style="color: white;">Do:</strong> Use Phthalo for all primary reading content.</p>
+              </div>
+              <div class="ptd-check-row dont">
+                <span>✕</span>
+                <p style="font-size: 14px;"><strong style="color: white;">Don't:</strong> Use Mint for small body copy on white (Accessibility).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="ptd-rule-card">
+            <div class="ptd-rule-info">
+              <h4>Action States</h4>
+              <p>Paths to conversion are Mint Green.</p>
+            </div>
+            <div class="ptd-rule-content">
+              <div class="ptd-check-row do">
+                <span>✓</span>
+                <p style="font-size: 14px;"><strong style="color: white;">Do:</strong> Solid Mint backgrounds for primary CTA buttons.</p>
+              </div>
+              <div class="ptd-check-row dont">
+                <span>✕</span>
+                <p style="font-size: 14px;"><strong style="color: white;">Don't:</strong> Use Mint for secondary or passive elements.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div style="text-align: center; padding: 120px 0;">
-       <h3 style="font-size: clamp(32px, 8vw, 70px); font-weight: 900; text-transform: uppercase; margin-bottom: 60px;">This isn’t support.<br><span style="color: #999;">It’s power.</span></h3>
-       <a href="/pages/submit" class="ptd-cta">Join the Platform</a>
-    </div>
+    <!-- 02 // BRAND IDENTITY -->
+    <section class="ptd-section-identity">
+      <span class="ptd-label">02 // Brand Identity</span>
+      <h2 class="ptd-h1">Atomic Components</h2>
+
+      <div class="ptd-identity-grid" style="margin-top: 40px;">
+        <div>
+          <h4 style="font-size: 11px; font-weight: 900; text-transform: uppercase; margin-bottom: 25px; color: #888;">Action Buttons</h4>
+          <div style="display: flex; gap: 20px;">
+            <div style="background: var(--ptd-mint); color: var(--ptd-phthalo); padding: 15px 30px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;">Primary Force</div>
+            <div style="border: 2px solid var(--ptd-phthalo); padding: 15px 30px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;">Secondary Structure</div>
+          </div>
+
+          <h4 style="font-size: 11px; font-weight: 900; text-transform: uppercase; margin: 40px 0 25px; color: #888;">Input Standards</h4>
+          <div style="max-width: 300px;">
+            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 10px;">System Access Key</p>
+            <div style="border: 2px solid var(--ptd-border); padding: 15px; color: #CCC; font-family: monospace;">aria-identity-001</div>
+          </div>
+        </div>
+
+        <div class="ptd-ui-box">
+          <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; color: #888;">Container V1</p>
+          <h3 style="font-size: 38px; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 25px;">Editorial Card</h3>
+          <p style="font-size: 16px; color: #666; margin-bottom: 30px;">Our containers use generous padding and sharp 90-degree corners. On hover, the Mint accent triggers along the top edge, signaling system reactivity.</p>
+          <div style="width: 40px; height: 4px; background: var(--ptd-phthalo);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 // COLOR SYSTEM -->
+    <section class="ptd-section-identity">
+      <span class="ptd-label">03 // Color System</span>
+      <h2 class="ptd-h1">Dual Green Architecture</h2>
+
+      <div class="ptd-color-grid">
+        <div>
+          <div class="ptd-swatch" style="background: #123524;"><span>Copy HEX</span></div>
+          <h5 style="font-weight: 900; text-transform: uppercase;">Phthalo Green</h5>
+          <p style="font-size: 10px; color: #888; font-family: monospace;">#123524</p>
+        </div>
+        <div>
+          <div class="ptd-swatch" style="background: #00FF88;"><span>Copy HEX</span></div>
+          <h5 style="font-weight: 900; text-transform: uppercase;">Mint Green</h5>
+          <p style="font-size: 10px; color: #888; font-family: monospace;">#00FF88</p>
+        </div>
+        <div>
+          <div class="ptd-swatch" style="background: #FFFFFF;"><span>Copy HEX</span></div>
+          <h5 style="font-weight: 900; text-transform: uppercase;">Pure White</h5>
+          <p style="font-size: 10px; color: #888; font-family: monospace;">#FFFFFF</p>
+        </div>
+        <div>
+          <div class="ptd-swatch" style="background: #FAFAFA;"><span>Copy HEX</span></div>
+          <h5 style="font-weight: 900; text-transform: uppercase;">Light Gray</h5>
+          <p style="font-size: 10px; color: #888; font-family: monospace;">#FAFAFA</p>
+        </div>
+      </div>
+
+      <div style="background: var(--ptd-light-gray); padding: 40px; border-left: 8px solid var(--ptd-mint); margin-top: 60px;">
+        <h4 style="font-weight: 900; text-transform: uppercase; margin-bottom: 10px;">Contrast Protocol</h4>
+        <p style="color: #666; font-size: 16px;">The Phthalo/Mint dynamic represents the "Yin & Yang" of the founders. Phthalo is depth and grounding; Mint is force and movement.</p>
+      </div>
+    </section>
+
+    <!-- 04 // TYPOGRAPHY -->
+    <section class="ptd-section-identity" style="border-bottom: 0;">
+      <span class="ptd-label">04 // Typography</span>
+      <h2 class="ptd-h1">Avenir Geometric Standards</h2>
+
+      <div class="ptd-type-demo" style="margin-top: 60px;">
+        <div>
+          <div class="ptd-big-aa">Aa</div>
+          <div class="ptd-mint-bar"></div>
+          
+          <div style="margin-top: 60px;">
+            <div style="border-left: 4px solid var(--ptd-border); padding-left: 30px; margin-bottom: 40px;">
+              <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; color: #999; margin-bottom: 10px;">Primary / Logo</p>
+              <h3 style="font-size: 32px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;">Avenir</h3>
+              <p style="font-size: 14px; color: #888;">Black (900), Heavy (800)</p>
+            </div>
+            <div style="border-left: 4px solid var(--ptd-border); padding-left: 30px;">
+              <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; color: #999; margin-bottom: 10px;">Secondary / Body</p>
+              <h3 style="font-size: 32px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;">Avenir Next</h3>
+              <p style="font-size: 14px; color: #888;">Regular (400), Demi (600)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ptd-specimen-box">
+          <div style="margin-bottom: 60px;">
+            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; color: #999; margin-bottom: 15px;">Display / Black 900</p>
+            <h2 style="font-size: 64px; font-weight: 900; text-transform: uppercase; line-height: 0.85;">Pay the Dølls</h2>
+          </div>
+          <div style="margin-bottom: 60px;">
+            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; color: #999; margin-bottom: 15px;">Headline / Black 900</p>
+            <h2 style="font-size: 40px; font-weight: 900; text-transform: uppercase; line-height: 1;">The Infrastructure</h2>
+          </div>
+          <div>
+            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; color: #999; margin-bottom: 15px;">Body / Regular 400</p>
+            <p style="font-size: 18px; line-height: 1.5; color: #666;">Avenir represents the bridge between geometric perfection and human readability. It provides the editorial restraint Aria requires for the brand's long-term legacy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="text-align: center; padding: 100px 0; border-top: 1px solid var(--ptd-border);">
+      <p style="font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5em;">PAY THE DØLLS™ 2025</p>
+    </footer>
 
   </div>
-</div>`;
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(liquidCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="bg-[#1a1a1a] border-2 border-[#333] rounded-lg overflow-hidden font-sans">
-      <div className="p-6 border-b-2 border-[#333] flex justify-between items-center bg-[#222]">
-        <div className="flex items-center gap-4">
-          <FileCode className="w-8 h-8 text-mint" />
-          <span className="text-xs font-black text-white uppercase tracking-[3px]">ptd-unified-v1.2.liquid</span>
-        </div>
-        <button 
-          onClick={copyToClipboard}
-          className="flex items-center gap-3 bg-phthalo text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-[3px] hover:bg-mint hover:text-phthalo transition-all duration-300"
-        >
-          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-          {copied ? 'Copied to Clipboard' : 'Copy Template'}
-        </button>
-      </div>
-      <div className="p-10 max-h-[800px] overflow-y-auto bg-[#0a0a0a]">
-        <pre className="text-[14px] text-gray-400 font-mono leading-relaxed overflow-x-auto selection:bg-mint selection:text-phthalo">
-          {liquidCode}
-        </pre>
-      </div>
-    </div>
-  );
-};
+</div>
