@@ -1,53 +1,353 @@
-{% layout 'theme' %}
+import React, { useState, useEffect } from 'react';
 
-<div class="bg-white min-h-screen text-black font-sans">
-  <!-- Header -->
-  <div class="pt-32 pb-20 px-6 md:px-12 max-w-[1200px] mx-auto border-b border-brand-border">
-    <span class="text-xs font-mono uppercase tracking-[0.2em] text-[#999] block mb-4">Protocol V3.0</span>
+type FontKey = 'bodoni' | 'garamond' | 'bookman' | 'myriad';
+type StyleKey = 'solid' | 'outline';
+
+interface FontOption {
+  name: string;
+  description: string;
+  css: string;
+  importUrl: string | null;
+}
+
+const FONTS: Record<FontKey, FontOption> = {
+  bodoni: {
+    name: 'Bodoni',
+    description: 'High contrast, editorial fashion, strict.',
+    css: "'Bodoni Moda', 'Didot', 'Bodoni MT', serif",
+    importUrl: "https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;700&display=swap"
+  },
+  garamond: {
+    name: 'Garamond (ITC Style)',
+    description: 'Institutional, academic, timeless.',
+    css: "'EB Garamond', 'Garamond', 'Georgia', serif",
+    importUrl: "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&display=swap"
+  },
+  bookman: {
+    name: 'Bookman / Haarlemmer',
+    description: 'Classic elegance, warmth, literary.',
+    css: "'Bookman Old Style', 'Bookman', 'URW Bookman L', 'Georgia', serif",
+    importUrl: null // System font stack usually suffices for Bookman, or web safe
+  },
+  myriad: {
+    name: 'Apple Myriad / System',
+    description: 'Modern, clean, corporate, "Apple" aesthetic.',
+    css: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+    importUrl: null
+  }
+};
+
+export const VersePageBuilder: React.FC = () => {
+  // Updated Defaults per request: Bodoni + Solid
+  const [selectedFont, setSelectedFont] = useState<FontKey>('bodoni');
+  const [titleStyle, setTitleStyle] = useState<StyleKey>('solid');
+
+  // Inject font for preview
+  useEffect(() => {
+    const font = FONTS[selectedFont];
+    if (font.importUrl) {
+      const link = document.createElement('link');
+      link.href = font.importUrl;
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+      return () => {
+        document.head.removeChild(link);
+      };
+    }
+  }, [selectedFont]);
+
+  const generateCode = () => {
+    const font = FONTS[selectedFont];
     
-    <!-- Updated Typography to 'Thesis Font' (Outlined Black on White) -->
-    <h1 class="text-6xl md:text-9xl font-bold uppercase tracking-tight text-transparent leading-[0.8] mb-8" style="-webkit-text-stroke: 2px black;">
-      VERSE CAPITAL
+    // Style logic for the title (Hollow vs Solid)
+    const titleCss = titleStyle === 'outline' 
+      ? `color: transparent; -webkit-text-stroke: 2px black;` 
+      : `color: black;`;
+
+    return `{% layout 'theme' %}
+
+<!-- VERSE CAPITAL: ${font.name.toUpperCase()} KIT -->
+${font.importUrl ? `<link href="${font.importUrl}" rel="stylesheet">` : ''}
+
+<style>
+  .verse-wrapper {
+    font-family: ${font.css};
+    background-color: white;
+    color: black;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+  
+  .verse-title {
+    ${titleCss}
+  }
+
+  /* Custom Selection Color for that "High Finance" feel */
+  .verse-wrapper ::selection {
+    background: black;
+    color: white;
+  }
+  
+  /* Link Underline Animation */
+  .verse-link {
+    position: relative;
+    text-decoration: none;
+    color: black;
+  }
+  .verse-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  .verse-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+</style>
+
+<div class="verse-wrapper">
+  <!-- Header -->
+  <div class="pt-32 pb-20 px-6 md:px-12 max-w-[1200px] mx-auto border-b border-black">
+    
+    <!-- Title -->
+    <h1 class="verse-title text-5xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight leading-[0.9] mb-8">
+      VERSE CAPITAL™
     </h1>
     
-    <p class="text-xl md:text-2xl leading-relaxed max-w-2xl text-[#333]">
-      We will provide autonomous grants, inventory financing, and cultural underwriting for creators.
+    <!-- Subtitle -->
+    <h2 class="text-xl md:text-2xl font-bold italic mb-6">
+       Dolls have always been well-versed.
+    </h2>
+
+    <!-- Description -->
+    <p class="text-lg md:text-xl leading-relaxed max-w-2xl text-[#111] mb-12">
+      Grants, project financing, and cultural underwriting for dolls building the future in plain sight. If it’s iconic, experimental, or ahead of its time — we’re probably in.
     </p>
-  </div>
 
-  <!-- Stats Grid - Stripped Values -->
-  <div class="grid grid-cols-1 md:grid-cols-3 border-b border-brand-border">
-    <div class="p-12 border-b md:border-b-0 md:border-r border-brand-border min-h-[200px] flex flex-col justify-between">
-      <span class="block text-xs font-mono uppercase text-[#666]">Total Volume</span>
-      <!-- STRIPPED -->
-      <span class="text-4xl font-mono font-bold text-brand-dark opacity-10">// ---</span>
-    </div>
-    <div class="p-12 border-b md:border-b-0 md:border-r border-brand-border min-h-[200px] flex flex-col justify-between">
-      <span class="block text-xs font-mono uppercase text-[#666]">Active Grants</span>
-      <!-- STRIPPED -->
-      <span class="text-4xl font-mono font-bold text-brand-dark opacity-10">// ---</span>
-    </div>
-    <div class="p-12 min-h-[200px] flex flex-col justify-between">
-      <span class="block text-xs font-mono uppercase text-[#666]">First Filing</span>
-      <span class="text-3xl font-mono font-bold text-brand-dark">Q1 / 2026, allegedly.</span>
+    <!-- Call to Action -->
+    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+        <span class="text-sm uppercase tracking-widest font-bold">Want to open a position?</span>
+        <a href="/pages/submit" class="inline-block bg-black text-white px-8 py-3 text-xs uppercase tracking-[0.2em] font-bold hover:bg-gray-800 transition-colors">
+            Submit Here
+        </a>
     </div>
   </div>
 
-  <!-- Manifesto / Portfolio - BLANK / STRUCTURAL ONLY -->
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 border-b border-black">
+    <div class="p-12 border-b md:border-b-0 md:border-r border-black min-h-[200px] flex flex-col justify-between hover:bg-black hover:text-white transition-colors duration-500 cursor-crosshair">
+      <span class="block text-xs uppercase text-current opacity-60">Total Volume</span>
+      <span class="text-4xl font-bold opacity-30">// ---</span>
+    </div>
+    <div class="p-12 border-b md:border-b-0 md:border-r border-black min-h-[200px] flex flex-col justify-between hover:bg-black hover:text-white transition-colors duration-500 cursor-crosshair">
+      <span class="block text-xs uppercase text-current opacity-60">Active Grants</span>
+      <span class="text-4xl font-bold opacity-30">// ---</span>
+    </div>
+    <div class="p-12 min-h-[200px] flex flex-col justify-between hover:bg-black hover:text-white transition-colors duration-500 cursor-crosshair">
+      <span class="block text-xs uppercase text-current opacity-60">First Filing</span>
+      <span class="text-3xl font-bold">Q1 / 2026, allegedly.</span>
+    </div>
+  </div>
+
+  <!-- Manifesto / Portfolio -->
   <div class="grid grid-cols-1 md:grid-cols-2 min-h-[60vh]">
-    <div class="bg-brand-dark text-white p-12 md:p-24 flex flex-col justify-start">
-      <h2 class="text-sm font-bold uppercase tracking-[0.3em] mb-6 border-b border-white/20 pb-4 inline-block w-full">The Thesis</h2>
-      <!-- Blank space for 'Antigravity' feel -->
-      <div class="flex-grow flex items-end opacity-50 font-mono text-xs">
-         // [REDACTED]
+    <!-- Thesis -->
+    <div class="bg-black text-white p-12 md:p-24 flex flex-col justify-start">
+      <h2 class="text-xs font-bold uppercase tracking-[0.3em] mb-8 border-b border-white/20 pb-4 inline-block w-full">The Thesis</h2>
+      
+      <p class="text-xl md:text-2xl leading-relaxed font-serif italic mb-8">
+        "We believe that culture is the ultimate asset class. By underwriting the avant-garde, we capture value where others only see noise."
+      </p>
+
+      <div class="flex-grow flex items-end opacity-50 text-[10px] tracking-widest font-mono mt-12">
+         // [REDACTED_FOR_PUBLIC_VIEW]
       </div>
     </div>
+    
+    <!-- Portfolio -->
     <div class="p-12 md:p-24 bg-[#F5F5F5] flex flex-col justify-start">
-       <h3 class="text-sm font-bold uppercase tracking-[0.3em] mb-8 text-[#999] border-b border-black/10 pb-4">Portfolio (STILL PRE-OP)</h3>
-       <!-- Blank space for 'Antigravity' feel -->
-       <div class="flex-grow flex items-end opacity-50 font-mono text-xs">
-         // [AWAITING_DEPLOYMENT]
+       <h3 class="text-xs font-bold uppercase tracking-[0.3em] mb-8 text-[#999] border-b border-black/10 pb-4">Portfolio</h3>
+       
+       <div class="text-sm space-y-2 mb-12">
+          <div class="flex justify-between border-b border-black/10 pb-2">
+            <span>PTD™ (House)</span>
+            <span class="opacity-50">Active</span>
+          </div>
+          <div class="flex justify-between border-b border-black/10 pb-2">
+            <span>Studio ZØ</span>
+            <span class="opacity-50">Active</span>
+          </div>
+       </div>
+
+       <div class="flex-grow flex items-end opacity-50 text-[10px] tracking-widest font-mono">
+         // [AWAITING_DEPLOYMENT_SEQUENCE]
        </div>
     </div>
   </div>
-</div>
+</div>`;
+  };
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(generateCode());
+    alert('Verse Capital code copied! Paste into a new Page template.');
+  };
+
+  const activeFont = FONTS[selectedFont];
+
+  return (
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden bg-white">
+      {/* LEFT: Controls */}
+      <div className="w-full lg:w-1/3 border-r border-gray-200 p-6 overflow-y-auto bg-gray-50">
+        <h2 className="text-xl font-bold mb-6 text-black uppercase tracking-widest">Verse Capital Kit</h2>
+        
+        <div className="space-y-8">
+          
+          {/* Font Selector */}
+          <div>
+            <label className="block text-xs font-bold uppercase text-gray-400 mb-3 tracking-wider">Select Typography</label>
+            <div className="space-y-3">
+              {(Object.keys(FONTS) as FontKey[]).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setSelectedFont(key)}
+                  className={`w-full text-left p-4 border transition-all duration-200 ${
+                    selectedFont === key 
+                      ? 'border-black bg-white shadow-lg scale-[1.02]' 
+                      : 'border-gray-200 bg-white hover:border-gray-400 opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <div className="text-lg mb-1" style={{ fontFamily: FONTS[key].css }}>
+                    Verse Capital
+                  </div>
+                  <div className="text-[10px] uppercase tracking-widest text-gray-500">
+                    {FONTS[key].name}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Style Selector */}
+          <div>
+            <label className="block text-xs font-bold uppercase text-gray-400 mb-3 tracking-wider">Header Style</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setTitleStyle('outline')}
+                className={`p-3 border text-xs font-bold uppercase tracking-wider ${
+                  titleStyle === 'outline' ? 'bg-black text-white border-black' : 'bg-white text-gray-500 border-gray-200'
+                }`}
+              >
+                Outline
+              </button>
+              <button
+                onClick={() => setTitleStyle('solid')}
+                className={`p-3 border text-xs font-bold uppercase tracking-wider ${
+                  titleStyle === 'solid' ? 'bg-black text-white border-black' : 'bg-white text-gray-500 border-gray-200'
+                }`}
+              >
+                Solid Black
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* CENTER: Preview */}
+      <div className="w-full lg:w-2/3 bg-white overflow-y-auto relative">
+        <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-100 p-4 flex justify-between items-center">
+             <span className="text-xs font-mono text-gray-400">PREVIEWING: {activeFont.name.toUpperCase()}</span>
+             <button 
+                onClick={copyCode}
+                className="bg-black text-white px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors"
+             >
+                Copy Liquid
+             </button>
+        </div>
+
+        {/* THE PREVIEW CANVAS */}
+        <div 
+            className="p-8 md:p-12 min-h-screen"
+            style={{ 
+                fontFamily: activeFont.css,
+                color: 'black',
+                backgroundColor: 'white'
+            }}
+        >
+            <div className="max-w-[1000px] mx-auto border-b border-black pb-12 mb-12">
+                <h1 
+                    className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight leading-[0.9] mb-8"
+                    style={{
+                        color: titleStyle === 'outline' ? 'transparent' : 'black',
+                        WebkitTextStroke: titleStyle === 'outline' ? '2px black' : '0'
+                    }}
+                >
+                    VERSE CAPITAL™
+                </h1>
+                
+                <h2 className="text-2xl font-bold italic mb-6">
+                    Dolls have always been well-versed.
+                </h2>
+
+                <p className="text-lg leading-relaxed max-w-2xl mb-12 text-[#111]">
+                    Grants, project financing, and cultural underwriting for dolls building the future in plain sight. If it’s iconic, experimental, or ahead of its time — we’re probably in.
+                </p>
+
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                    <span className="text-sm uppercase tracking-widest font-bold">Want to open a position?</span>
+                    <button className="bg-black text-white px-8 py-3 text-xs uppercase tracking-[0.2em] font-bold">
+                        Submit Here
+                    </button>
+                </div>
+            </div>
+
+            <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-3 border-t border-black">
+                <div className="py-12 pr-12 border-b md:border-b-0 md:border-r border-black min-h-[200px] flex flex-col justify-between">
+                    <span className="text-xs uppercase opacity-60">Total Volume</span>
+                    <span className="text-4xl font-bold opacity-20">// ---</span>
+                </div>
+                <div className="py-12 px-0 md:px-12 border-b md:border-b-0 md:border-r border-black min-h-[200px] flex flex-col justify-between">
+                    <span className="text-xs uppercase opacity-60">Active Grants</span>
+                    <span className="text-4xl font-bold opacity-20">// ---</span>
+                </div>
+                <div className="py-12 pl-0 md:pl-12 min-h-[200px] flex flex-col justify-between">
+                    <span className="text-xs uppercase opacity-60">First Filing</span>
+                    <span className="text-3xl font-bold">Q1 / 2026, allegedly.</span>
+                </div>
+            </div>
+            
+            <div className="max-w-[1000px] mx-auto mt-24 grid grid-cols-1 md:grid-cols-2">
+                <div className="bg-black text-white p-12">
+                     <h2 className="text-xs font-bold uppercase tracking-[0.3em] mb-8 border-b border-white/20 pb-4">The Thesis</h2>
+                     <p className="text-xl leading-relaxed font-serif italic mb-8">
+                        "We believe that culture is the ultimate asset class. By underwriting the avant-garde, we capture value where others only see noise."
+                     </p>
+                     <div className="font-mono text-[10px] tracking-widest opacity-50 mt-12">// [REDACTED_FOR_PUBLIC_VIEW]</div>
+                </div>
+                <div className="bg-[#F5F5F5] p-12">
+                     <h2 className="text-xs font-bold uppercase tracking-[0.3em] mb-8 text-[#999] border-b border-black/10 pb-4">Portfolio</h2>
+                     <div className="text-sm space-y-2 mb-12">
+                        <div className="flex justify-between border-b border-black/10 pb-2">
+                            <span>PTD™ (House)</span>
+                            <span className="opacity-50">Active</span>
+                        </div>
+                        <div className="flex justify-between border-b border-black/10 pb-2">
+                            <span>Studio ZØ</span>
+                            <span className="opacity-50">Active</span>
+                        </div>
+                     </div>
+                     <div className="font-mono text-[10px] tracking-widest opacity-50">// [AWAITING_DEPLOYMENT]</div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
