@@ -1,58 +1,336 @@
-<!-- PAY THE DØLLS — Shop Structure [MAIN SHOP PAGE] -->
+<!-- PAY THE DØLLS — Shop Structure -->
+<!-- 
+  NOTE: This replaces standard page containers to allow full-width 'cunty' styling.
+  Ensure your products are tagged with: Apparel, Accessories, Artifacts, Art, Aura
+-->
+
 <div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
   <div class="max-w-[1400px] mx-auto py-24 px-6 md:px-12">
     
+    <!-- HEADER SECTION -->
     <header class="mb-16 text-center max-w-4xl mx-auto">
-      <h1 class="text-4xl md:text-7xl font-bold uppercase tracking-tight mb-6 text-black">PAY THE DØLLS™ — Shop</h1>
-      <h2 class="text-xl md:text-2xl font-medium uppercase tracking-widest mb-8 border-b-2 border-black pb-4 inline-block">The house brand. Secure the bag.</h2>
+      <h1 class="text-4xl md:text-7xl font-bold uppercase tracking-tight mb-6">
+        PAY THE DØLLS™ — Shop
+      </h1>
+      <h2 class="text-xl md:text-2xl font-medium uppercase tracking-widest mb-8 border-b border-black pb-4 inline-block">
+        The house brand. Secure the bag.
+      </h2>
       
+      <!-- CATEGORY NAVIGATION (THE BOXES) -->
+      <!-- Clicking these jumps down to the section -->
       <nav class="flex flex-wrap justify-center gap-4 mb-12">
-        <a href="#apparel" class="px-6 py-3 border-2 border-black uppercase font-black tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-300">Apparel</a>
-        <a href="#accessories" class="px-6 py-3 border-2 border-black uppercase font-black tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-300">Accessories</a>
-        <a href="#artifacts" class="px-6 py-3 border-2 border-black uppercase font-black tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-300">Artifacts</a>
-        <a href="#art" class="px-6 py-3 border-2 border-black uppercase font-black tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-300">Art</a>
-        <a href="#aura" class="px-6 py-3 border-2 border-black uppercase font-black tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-300">Aura</a>
+        
+        <a href="#apparel" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Apparel
+        </a>
+        <a href="#accessories" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Accessories
+        </a>
+        <a href="#artifacts" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Artifacts
+        </a>
+        <a href="#art" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Art
+        </a>
+        <a href="#aura" class="px-6 py-3 border border-black uppercase font-bold tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-300">
+          Aura
+        </a>
       </nav>
 
-      <div class="w-24 h-1 bg-black mx-auto mb-12"></div>
-      <p class="text-black text-xl font-black leading-relaxed max-w-2xl mx-auto italic text-center uppercase tracking-tighter">
-        "All profit fuels Verse Capital. Create without Permission. Profit without Limit."
+      <div class="w-16 h-px bg-black mx-auto mb-12"></div>
+
+      <p class="text-[#666] text-lg font-light leading-relaxed max-w-2xl mx-auto">
+        All profit fuels Verse Capital. We curate the baseline, but the platform is yours. Submit your designs. If we print it, you split it—50% revenue share.
       </p>
     </header>
 
+    <!-- AUTOMATIC SECTIONS LOOP -->
+    <!-- This finds products in the 'all' collection and filters them visually by tag -->
     {% assign source_collection = collections['all'] %}
-    <div class="space-y-48">
+    {% if source_collection.products.size == 0 %}
+      {% assign source_collection = collections['all'] %}
+    {% endif %}
+
+    <div class="space-y-32">
 
       <!-- APPAREL -->
       <section id="apparel" class="ptd-section scroll-mt-32">
-        <div class="flex items-end justify-between border-b-4 border-black mb-12 pb-6">
-           <h3 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">Apparel</h3>
-           <a href="/collections/paythedolls-apparel" class="text-xs font-black uppercase tracking-[0.2em] border-2 border-black px-4 py-2 hover:bg-black hover:text-white transition-all">Archive Sync -></a>
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Apparel</h3>
+           <a href="/collections/all/apparel" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Apparel
+           </a>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black border-4 border-black">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
           {% assign count = 0 %}
+          
           {% for product in source_collection.products %}
             {% if product.tags contains 'Apparel' %}
               {% assign count = count | plus: 1 %}
+              
+              <!-- PRODUCT CARD -->
               <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
-                 <div class="absolute inset-0"><img src="{{ product.featured_image | img_url: '1000x' }}" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-110" loading="lazy"/></div>
-                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 flex flex-col justify-end p-8">
-                    <div class="bg-white text-black p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t-8 border-black">
-                       <h4 class="font-black uppercase tracking-tight text-2xl leading-none mb-2">{{ product.title }}</h4>
-                       <div class="flex justify-between items-center mt-4 border-t-2 border-black pt-4">
-                          <span class="font-mono font-black text-lg">{{ product.price | money_without_trailing_zeros }}</span>
-                          <span class="text-[10px] font-black uppercase tracking-widest bg-black text-white px-4 py-2">Secure</span>
+                 
+                 <!-- Image -->
+                 <div class="absolute inset-0">
+                    <img 
+                      src="{{ product.featured_image | img_url: '800x' }}" 
+                      alt="{{ product.title }}"
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                 </div>
+
+                 <!-- Overlay Info -->
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
                        </div>
                     </div>
                  </div>
               </a>
+
             {% endif %}
           {% endfor %}
+
+          <!-- Empty State (Only shows if 0 products found for this tag) -->
+          {% if count == 0 %}
+            <div class="col-span-full py-12 text-center bg-gray-50 text-gray-500 font-mono text-sm">
+              No products found with tag "<strong>Apparel</strong>". <br/>
+              Go to Shopify Admin > Products and add the tag <strong>Apparel</strong> to your items.
+            </div>
+          {% endif %}
         </div>
       </section>
-      
-      <!-- Repeat for other sections... -->
-      
+
+      <!-- ACCESSORIES -->
+      <section id="accessories" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Accessories</h3>
+           <a href="/collections/all/accessories" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Accessories
+           </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% assign count = 0 %}
+          
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Accessories' %}
+              {% assign count = count | plus: 1 %}
+              
+              <!-- PRODUCT CARD -->
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 
+                 <!-- Image -->
+                 <div class="absolute inset-0">
+                    <img 
+                      src="{{ product.featured_image | img_url: '800x' }}" 
+                      alt="{{ product.title }}"
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                 </div>
+
+                 <!-- Overlay Info -->
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+
+            {% endif %}
+          {% endfor %}
+
+          <!-- Empty State (Only shows if 0 products found for this tag) -->
+          {% if count == 0 %}
+            <div class="col-span-full py-12 text-center bg-gray-50 text-gray-500 font-mono text-sm">
+              No products found with tag "<strong>Accessories</strong>". <br/>
+              Go to Shopify Admin > Products and add the tag <strong>Accessories</strong> to your items.
+            </div>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- ARTIFACTS -->
+      <section id="artifacts" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Artifacts</h3>
+           <a href="/collections/all/artifacts" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Artifacts
+           </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% assign count = 0 %}
+          
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Artifacts' %}
+              {% assign count = count | plus: 1 %}
+              
+              <!-- PRODUCT CARD -->
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 
+                 <!-- Image -->
+                 <div class="absolute inset-0">
+                    <img 
+                      src="{{ product.featured_image | img_url: '800x' }}" 
+                      alt="{{ product.title }}"
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                 </div>
+
+                 <!-- Overlay Info -->
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+
+            {% endif %}
+          {% endfor %}
+
+          <!-- Empty State (Only shows if 0 products found for this tag) -->
+          {% if count == 0 %}
+            <div class="col-span-full py-12 text-center bg-gray-50 text-gray-500 font-mono text-sm">
+              No products found with tag "<strong>Artifacts</strong>". <br/>
+              Go to Shopify Admin > Products and add the tag <strong>Artifacts</strong> to your items.
+            </div>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- ART -->
+      <section id="art" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Art</h3>
+           <a href="/collections/all/art" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Art
+           </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% assign count = 0 %}
+          
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Art' %}
+              {% assign count = count | plus: 1 %}
+              
+              <!-- PRODUCT CARD -->
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 
+                 <!-- Image -->
+                 <div class="absolute inset-0">
+                    <img 
+                      src="{{ product.featured_image | img_url: '800x' }}" 
+                      alt="{{ product.title }}"
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                 </div>
+
+                 <!-- Overlay Info -->
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+
+            {% endif %}
+          {% endfor %}
+
+          <!-- Empty State (Only shows if 0 products found for this tag) -->
+          {% if count == 0 %}
+            <div class="col-span-full py-12 text-center bg-gray-50 text-gray-500 font-mono text-sm">
+              No products found with tag "<strong>Art</strong>". <br/>
+              Go to Shopify Admin > Products and add the tag <strong>Art</strong> to your items.
+            </div>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- AURA -->
+      <section id="aura" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
+           <h3 class="text-5xl font-bold uppercase tracking-tighter">Aura</h3>
+           <a href="/collections/all/aura" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">
+              View All Aura
+           </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
+          {% assign count = 0 %}
+          
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Aura' %}
+              {% assign count = count | plus: 1 %}
+              
+              <!-- PRODUCT CARD -->
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 
+                 <!-- Image -->
+                 <div class="absolute inset-0">
+                    <img 
+                      src="{{ product.featured_image | img_url: '800x' }}" 
+                      alt="{{ product.title }}"
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                 </div>
+
+                 <!-- Overlay Info -->
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                    <div class="bg-white text-black p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                       <h4 class="font-bold uppercase tracking-tight text-lg">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                          <span class="font-mono text-sm">{{ product.price | money }}</span>
+                          <span class="text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">View</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+
+            {% endif %}
+          {% endfor %}
+
+          <!-- Empty State (Only shows if 0 products found for this tag) -->
+          {% if count == 0 %}
+            <div class="col-span-full py-12 text-center bg-gray-50 text-gray-500 font-mono text-sm">
+              No products found with tag "<strong>Aura</strong>". <br/>
+              Go to Shopify Admin > Products and add the tag <strong>Aura</strong> to your items.
+            </div>
+          {% endif %}
+        </div>
+      </section>
+
     </div>
+
+    <!-- CLOSING TAGLINE -->
+    <div class="mt-32 pt-12 border-t border-black text-center">
+        <h2 class="text-2xl md:text-4xl font-black uppercase tracking-tighter italic">
+            "Create without Permission. Profit without Limit."
+        </h2>
+    </div>
+
   </div>
 </div>
