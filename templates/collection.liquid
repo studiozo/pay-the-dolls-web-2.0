@@ -1,77 +1,88 @@
 {% layout 'theme' %}
-
-<div class="min-h-screen bg-white pb-24">
+<!-- PAY THE DØLLS — Collection Template [ROUTED] -->
+<div class="min-h-screen bg-white pb-24 text-black font-sans selection:bg-black selection:text-white">
   <!-- Header -->
-  <div class="pt-32 px-6 md:px-12 text-center">
-    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-4 uppercase">
+  <div class="pt-32 px-6 md:px-12 text-center max-w-5xl mx-auto">
+    <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-4 uppercase leading-none">
       {{ collection.title | default: 'The Cøllection' }}
     </h1>
-    <p class="text-[#666] tracking-[1px] uppercase text-xs md:text-sm mb-12">
+    <p class="text-[#666] tracking-[2px] uppercase text-[10px] md:text-xs mb-12 font-bold italic">
       {% if collection.description != blank %}
         {{ collection.description }}
       {% else %}
-        Season 03 — "Liquidity"
+        Season 03 — "Liquidity" / Verse Capital Sync
       {% endif %}
     </p>
     
-    <!-- Categories Bar (Static Links to Collections) -->
-    <div class="flex flex-wrap justify-center gap-6 md:gap-12 mb-16 border-t border-b border-brand-border py-6">
-        {% assign categories = "All,Apparel,Objects,Art,Wellness" | split: ',' %}
-        <a href="/collections/all" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'all' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+    <!-- Categories Bar (Corrected PTD Routing) -->
+    <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16 border-t border-b border-black py-8">
+        <a href="/collections/all" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'all' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
            All
         </a>
-        <a href="/collections/apparel" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'apparel' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+        <a href="/collections/paythedolls-apparel" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-apparel' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
            Apparel
         </a>
-        <a href="/collections/objects" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'objects' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
-           Objects
+        <a href="/collections/paythedolls-accessories" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-accessories' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
+           Accessories
         </a>
-        <a href="/collections/art" class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] transition-colors duration-300 {% if collection.handle == 'art' %}text-brand-dark underline decoration-brand-neon decoration-2 underline-offset-4{% else %}text-[#999] hover:text-black{% endif %} no-underline">
+        <a href="/collections/paythedolls-artifacts" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-artifacts' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
+           Artifacts
+        </a>
+        <a href="/collections/paythedolls-art" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-art' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
            Art
+        </a>
+        <a href="/collections/paythedolls-aura" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-aura' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
+           Aura
         </a>
     </div>
   </div>
 
   <!-- Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-brand-border">
-    {% paginate collection.products by 24 %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-black bg-gray-200 gap-px">
+    {% paginate collection.products by 48 %}
       {% for product in collection.products %}
-        <a href="{{ product.url }}" class="group cursor-pointer border-b border-r border-brand-border p-6 relative flex flex-col no-underline bg-white hover:z-10">
-          <div class="aspect-[3/4] bg-[#f8f8f8] mb-6 overflow-hidden relative">
+        <a href="{{ product.url }}" class="group cursor-pointer p-8 relative flex flex-col no-underline bg-white hover:z-10 transition-ptd">
+          <div class="aspect-[3/4] bg-[#f8f8f8] mb-8 overflow-hidden relative">
              <img 
-               src="{{ product.featured_image | img_url: '600x' }}" 
+               src="{{ product.featured_image | img_url: '800x' }}" 
                alt="{{ product.featured_image.alt | escape }}"
-               class="w-full h-full object-cover mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+               loading="lazy"
              />
              {% for tag in product.tags limit: 1 %}
-                <span class="absolute top-4 left-4 bg-brand-dark text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest">
+                <span class="absolute top-4 left-4 bg-black text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest z-10">
                   {{ tag }}
                 </span>
              {% endfor %}
           </div>
 
           <div class="mt-auto">
-            <h3 class="text-lg font-bold leading-tight mb-2 text-black group-hover:text-brand-neon transition-colors">{{ product.title }}</h3>
-            <div class="flex justify-between items-center">
-              <span class="text-sm font-mono text-[#666]">{{ product.price | money }}</span>
-              <span class="text-xs font-bold uppercase tracking-widest text-black border-b border-black pb-0.5 opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                View Item
+            <h3 class="text-xl font-bold uppercase tracking-tight leading-none mb-4 text-black group-hover:italic transition-all">{{ product.title }}</h3>
+            <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+              <span class="text-xs font-mono font-bold text-[#666] tracking-widest">{{ product.price | money }}</span>
+              <span class="text-[9px] font-black uppercase tracking-[0.2em] text-white bg-black px-3 py-1 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 flex items-center gap-2">
+                Secure <span class="text-[12px]">+</span>
               </span>
             </div>
           </div>
         </a>
       {% else %}
-         <div class="col-span-full py-20 text-center">
-             <h2 class="text-2xl font-bold mb-4">No products found.</h2>
-             <a href="/collections/all" class="text-brand-neon underline">View all products</a>
+         <div class="col-span-full py-32 text-center bg-white">
+             <h2 class="text-2xl font-black uppercase mb-4 italic">No products found.</h2>
+             <a href="/collections/all" class="text-[10px] font-black uppercase tracking-widest border-b border-black pb-1 hover:bg-black hover:text-white px-2 py-1 transition-ptd">Back to Archive</a>
          </div>
       {% endfor %}
 
       {% if paginate.pages > 1 %}
-        <div class="col-span-full py-12 flex justify-center gap-4">
-           {{ paginate | default_pagination }}
+        <div class="col-span-full py-12 flex justify-center gap-4 bg-white border-t border-black">
+           {{ paginate | default_pagination: next: 'Next', previous: 'Prev' }}
         </div>
       {% endif %}
     {% endpaginate %}
+  </div>
+
+  <!-- Global Footer Branding -->
+  <div class="mt-24 text-center border-t border-black pt-12">
+    <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter">"PROFIT WITHOUT LIMIT."</h2>
   </div>
 </div>
