@@ -260,7 +260,7 @@
         <div class="ptd-rule-grid">
           <div class="ptd-rule-card" style="background: #222; border: 1px solid #333;">
             <div style="flex: 1;">
-              <h3 style="font-size: 26px; font-weight: 800; text-transform: uppercase; margin-bottom: 10px;">Aria Concierge</h3>
+              <h3 style="font-size: 26px; font-weight: 800; text-transform: uppercase; margin-bottom: 10px;">Concierge</h3>
               <p style="color: #888; font-size: 14px; line-height: 1.5;">Miranda is the system interface for Pay the Dolls. She represents structure, legibility, and permanence.</p>
             </div>
           </div>
@@ -268,7 +268,7 @@
           <div class="ptd-rule-card">
             <div class="ptd-rule-header">
               <h4>Tone & Voice</h4>
-              <p>Aria is professional & direct.</p>
+              <p>Miranda is professional & direct.</p>
             </div>
             <div style="flex: 2;">
               <div class="ptd-check-row do">
@@ -382,33 +382,3 @@
 
   </div>
 </div>`;
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(liquidCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="bg-[#1a1a1a] border-2 border-[#333] rounded-lg overflow-hidden font-sans">
-      <div className="p-6 border-b-2 border-[#333] flex justify-between items-center bg-[#222]">
-        <div className="flex items-center gap-4">
-          <FileCode className="w-8 h-8 text-mint" />
-          <span className="text-xs font-black text-white uppercase tracking-[3px]">ptd-master-protocol.liquid</span>
-        </div>
-        <button 
-          onClick={copyToClipboard}
-          className="flex items-center gap-3 bg-phthalo text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-[3px] hover:bg-mint hover:text-phthalo transition-all duration-300"
-        >
-          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-          {copied ? 'Copied' : 'Copy Protocol'}
-        </button>
-      </div>
-      <div className="p-10 max-h-[800px] overflow-y-auto bg-[#0a0a0a]">
-        <pre className="text-[14px] text-gray-400 font-mono leading-relaxed overflow-x-auto selection:bg-mint selection:text-phthalo">
-          {liquidCode}
-        </pre>
-      </div>
-    </div>
-  );
-};
