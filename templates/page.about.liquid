@@ -1,4 +1,10 @@
-{% comment %}
+import React, { useState } from 'react';
+import { Copy, Check, FileCode } from 'lucide-react';
+
+export const LiquidExport: React.FC = () => {
+  const [copied, setCopied] = useState(false);
+
+  const liquidCode = `{% comment %}
   PTD™ UNIFIED IDENTITY PROTOCOL v1.2
   Template: page.about-identity.liquid
   Components: 00 About, 01 Protocols, 02 Identity, 03 Colors, 04 Type
@@ -206,4 +212,34 @@
     </div>
 
   </div>
-</div>
+</div>`;
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(liquidCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="bg-[#1a1a1a] border-2 border-[#333] rounded-lg overflow-hidden font-sans">
+      <div className="p-6 border-b-2 border-[#333] flex justify-between items-center bg-[#222]">
+        <div className="flex items-center gap-4">
+          <FileCode className="w-8 h-8 text-mint" />
+          <span className="text-xs font-black text-white uppercase tracking-[3px]">ptd-unified-v1.2.liquid</span>
+        </div>
+        <button 
+          onClick={copyToClipboard}
+          className="flex items-center gap-3 bg-phthalo text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-[3px] hover:bg-mint hover:text-phthalo transition-all duration-300"
+        >
+          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+          {copied ? 'Copied to Clipboard' : 'Copy Template'}
+        </button>
+      </div>
+      <div className="p-10 max-h-[800px] overflow-y-auto bg-[#0a0a0a]">
+        <pre className="text-[14px] text-gray-400 font-mono leading-relaxed overflow-x-auto selection:bg-mint selection:text-phthalo">
+          {liquidCode}
+        </pre>
+      </div>
+    </div>
+  );
+};
