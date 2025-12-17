@@ -50,6 +50,34 @@
           {% endfor %}
         </div>
       </section>
+
+       <!-- ART -->
+      <section id="apparel" class="ptd-section scroll-mt-32">
+        <div class="flex items-end justify-between border-b-4 border-black mb-12 pb-6">
+           <h3 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">Apparel</h3>
+           <a href="/collections/paythedolls-apparel" class="text-xs font-black uppercase tracking-[0.2em] border-2 border-black px-4 py-2 hover:bg-black hover:text-white transition-all">Archive Sync -></a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black border-4 border-black">
+          {% assign count = 0 %}
+          {% for product in source_collection.products %}
+            {% if product.tags contains 'Apparel' %}
+              {% assign count = count | plus: 1 %}
+              <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
+                 <div class="absolute inset-0"><img src="{{ product.featured_image | img_url: '1000x' }}" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-110" loading="lazy"/></div>
+                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 flex flex-col justify-end p-8">
+                    <div class="bg-white text-black p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t-8 border-black">
+                       <h4 class="font-black uppercase tracking-tight text-2xl leading-none mb-2">{{ product.title }}</h4>
+                       <div class="flex justify-between items-center mt-4 border-t-2 border-black pt-4">
+                          <span class="font-mono font-black text-lg">{{ product.price | money_without_trailing_zeros }}</span>
+                          <span class="text-[10px] font-black uppercase tracking-widest bg-black text-white px-4 py-2">Secure</span>
+                       </div>
+                    </div>
+                 </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
       
       <!-- Repeat for other sections... -->
       
