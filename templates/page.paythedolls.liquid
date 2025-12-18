@@ -1,453 +1,535 @@
 {% comment %}
-  PAY THE DØLLS™ — Product Page Template (v2.0)
-  Template: product.paythedolls.liquid
+  PAY THE DØLLS™ — Shop Page (v3.0)
+  Template: paythedolls.liquid
   
-  FIXES:
-  - Product images fit within container (no cropping)
-  - object-contain instead of object-cover
-  - Maintains aspect ratio
-  - Clean minimal layout matching brand aesthetic
+  FEATURES:
+  - Tabbed category navigation (Apparel, Accessories, Artifacts, Art, Aura)
+  - "View All" expands to show ALL variant colorways inline (no redirect)
+  - Sort controls: Newest, Price Low→High, Price High→Low, A-Z
+  - Collage grid with variant images
+  
+  REQUIREMENTS:
+  - Vendor must be exactly: PAY THE DØLLS
+  - Products must have category tag: apparel, accessories, artifacts, art, or aura
 {% endcomment %}
 
 {% layout 'theme' %}
 
 <style>
-  /* Product image container - fits image without cropping */
-  .ptd-product-image-container {
-    position: relative;
-    width: 100%;
-    background: #fafafa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
+  .ptd-scrollbar-hide::-webkit-scrollbar { display: none; }
+  .ptd-scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Collage grid for expanded view */
+  .ptd-collage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 2px;
   }
   
   @media (min-width: 768px) {
-    .ptd-product-image-container {
-      min-height: 500px;
-      max-height: 80vh;
+    .ptd-collage-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
   }
   
-  .ptd-product-image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-  }
-  
-  /* Thumbnail gallery */
-  .ptd-thumbnail {
-    border: 2px solid transparent;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    background: #fafafa;
-  }
-  
-  .ptd-thumbnail:hover,
-  .ptd-thumbnail.active {
-    border-color: black;
-  }
-  
-  .ptd-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  
-  /* Variant buttons */
-  .ptd-variant-btn {
-    border: 1px solid #e5e5e5;
-    transition: all 0.2s ease;
-  }
-  
-  .ptd-variant-btn:hover {
-    border-color: #999;
-  }
-  
-  .ptd-variant-btn.selected {
-    border-color: black;
-    background: black;
-    color: white;
-  }
-  
-  .ptd-variant-btn.unavailable {
-    opacity: 0.4;
-    text-decoration: line-through;
-  }
-  
-  /* Quantity input */
-  .ptd-qty-input {
-    -moz-appearance: textfield;
-  }
-  
-  .ptd-qty-input::-webkit-outer-spin-button,
-  .ptd-qty-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
-  /* Add to cart button */
-  .ptd-add-to-cart {
-    transition: all 0.3s ease;
-  }
-  
-  .ptd-add-to-cart:hover:not(:disabled) {
-    background: #333;
-  }
-  
-  .ptd-add-to-cart:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Sticky image on desktop */
   @media (min-width: 1024px) {
-    .ptd-sticky-image {
-      position: sticky;
-      top: 100px;
+    .ptd-collage-grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     }
+  }
+  
+  /* Standard grid */
+  .ptd-standard-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1px;
+  }
+  
+  @media (min-width: 768px) {
+    .ptd-standard-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .ptd-standard-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  /* Fade in animation */
+  @keyframes ptd-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .ptd-fade-in {
+    animation: ptd-fade-in 0.3s ease-out forwards;
+  }
+  
+  /* Sort dropdown styling */
+  .ptd-sort-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
   }
 </style>
 
 <div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
-  
-  <!-- Breadcrumb -->
-  <div class="border-b border-gray-100">
-    <div class="max-w-[1400px] mx-auto px-4 md:px-8 py-4">
-      <nav class="text-xs font-mono uppercase tracking-widest text-gray-400">
-        <a href="/" class="hover:text-black transition-colors">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/pages/paythedolls" class="hover:text-black transition-colors">Shop</a>
-        <span class="mx-2">/</span>
-        <span class="text-black">{{ product.title }}</span>
-      </nav>
-    </div>
-  </div>
+  <div class="max-w-[1800px] mx-auto py-24 px-4 md:px-8">
+    
+    <!-- Header -->
+    <header class="mb-16 text-center max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-7xl font-bold uppercase tracking-tight mb-6">PAY THE DØLLS™</h1>
+      <h2 class="text-xl md:text-2xl font-medium uppercase tracking-widest mb-8 border-b border-black pb-4 inline-block">Secure the Bag</h2>
+      
+      <div class="w-16 h-px bg-black mx-auto mb-12"></div>
+      <p class="text-[#666] text-lg font-light leading-relaxed max-w-2xl mx-auto italic text-center">
+        "Create without Permission. Profit without Limit."
+      </p>
+    </header>
 
-  <div class="max-w-[1400px] mx-auto px-4 md:px-8 py-8 md:py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-      
-      <!-- LEFT: Product Images -->
-      <div class="ptd-sticky-image">
-        
-        <!-- Main Image Container -->
-        <div class="ptd-product-image-container border border-gray-100 mb-4" id="main-image-container">
-          <img 
-            id="main-product-image"
-            src="{{ product.featured_image | img_url: '1200x' }}" 
-            alt="{{ product.title }}"
-            class="p-4"
-          />
-        </div>
-        
-        <!-- Thumbnail Gallery -->
-        {% if product.images.size > 1 %}
-          <div class="grid grid-cols-5 gap-2">
-            {% for image in product.images %}
-              <button 
-                class="ptd-thumbnail aspect-square p-2 {% if forloop.first %}active{% endif %}"
-                data-image-url="{{ image | img_url: '1200x' }}"
-                data-image-alt="{{ image.alt | default: product.title }}"
-                onclick="changeMainImage(this)"
-              >
-                <img 
-                  src="{{ image | img_url: '200x' }}" 
-                  alt="{{ image.alt | default: product.title }}"
-                  loading="lazy"
-                />
-              </button>
-            {% endfor %}
-          </div>
-        {% endif %}
-        
-      </div>
-      
-      <!-- RIGHT: Product Info -->
-      <div>
-        
-        <!-- Title -->
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight leading-tight mb-4">
-          {{ product.title }}
-        </h1>
-        
-        <!-- Vendor Badge -->
-        <div class="mb-6">
-          <span class="inline-block border border-black px-4 py-2 text-xs font-bold uppercase tracking-widest">
-            Created by {{ product.vendor }}
-          </span>
-        </div>
-        
-        <!-- Price -->
-        <div class="mb-8">
-          <span id="product-price" class="text-3xl md:text-4xl font-bold">
-            {{ product.selected_or_first_available_variant.price | money }}
-          </span>
-          {% if product.compare_at_price_max > product.price %}
-            <span class="text-lg text-gray-400 line-through ml-3">
-              {{ product.compare_at_price_max | money }}
-            </span>
-          {% endif %}
-        </div>
-        
-        <!-- Product Form -->
-        <form id="product-form" action="/cart/add" method="post" enctype="multipart/form-data">
-          
-          <!-- Variant Options -->
-          {% unless product.has_only_default_variant %}
-            {% for option in product.options_with_values %}
-              <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-widest mb-3">
-                  {{ option.name }}
-                </label>
-                <div class="flex flex-wrap gap-2">
-                  {% for value in option.values %}
-                    <button 
-                      type="button"
-                      class="ptd-variant-btn px-4 py-3 text-sm font-bold uppercase tracking-wider min-w-[60px] {% if option.selected_value == value %}selected{% endif %}"
-                      data-option-index="{{ forloop.parentloop.index0 }}"
-                      data-value="{{ value }}"
-                      onclick="selectOption(this)"
-                    >
-                      {{ value }}
-                    </button>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endfor %}
-          {% endunless %}
-          
-          <!-- Hidden variant select (for form submission) -->
-          <select name="id" id="variant-select" class="hidden">
-            {% for variant in product.variants %}
-              <option 
-                value="{{ variant.id }}" 
-                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
-                data-available="{{ variant.available }}"
-                data-price="{{ variant.price | money }}"
-                data-image="{{ variant.image | img_url: '1200x' }}"
-                {% for option in variant.options %}
-                  data-option{{ forloop.index }}="{{ option }}"
-                {% endfor %}
-              >
-                {{ variant.title }}
-              </option>
-            {% endfor %}
-          </select>
-          
-          <!-- Quantity & Add to Cart -->
-          <div class="flex gap-4 mb-8">
-            
-            <!-- Quantity -->
-            <div class="flex border border-black">
-              <button 
-                type="button" 
-                class="px-4 py-3 text-lg font-bold hover:bg-gray-100 transition-colors"
-                onclick="adjustQuantity(-1)"
-              >−</button>
-              <input 
-                type="number" 
-                name="quantity" 
-                id="quantity-input"
-                value="1" 
-                min="1" 
-                class="ptd-qty-input w-16 text-center text-lg font-bold border-l border-r border-black"
-              />
-              <button 
-                type="button" 
-                class="px-4 py-3 text-lg font-bold hover:bg-gray-100 transition-colors"
-                onclick="adjustQuantity(1)"
-              >+</button>
-            </div>
-            
-            <!-- Add to Cart -->
-            <button 
-              type="submit" 
-              id="add-to-cart-btn"
-              class="ptd-add-to-cart flex-1 bg-black text-white font-bold uppercase tracking-widest text-sm py-4 px-8"
-              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
-            >
-              {% if product.selected_or_first_available_variant.available %}
-                Add to Cart
-              {% else %}
-                Sold Out
-              {% endif %}
-            </button>
-            
-          </div>
-          
-        </form>
-        
-        <!-- Description -->
-        {% if product.description != blank %}
-          <div class="border-t border-gray-200 pt-8 mb-8">
-            <div class="prose prose-sm max-w-none text-gray-600 leading-relaxed">
-              {{ product.description }}
-            </div>
-          </div>
-        {% endif %}
-        
-        <!-- Product Meta -->
-        <div class="border-t border-gray-200 pt-8 space-y-3 text-xs font-mono uppercase tracking-widest text-gray-400">
-          {% if product.type != blank %}
-            <p>Type: <span class="text-black">{{ product.type }}</span></p>
-          {% endif %}
-          {% if product.vendor != blank %}
-            <p>Vendor: <span class="text-black">{{ product.vendor }}</span></p>
-          {% endif %}
-          <p>SKU: <span class="text-black" id="product-sku">{{ product.selected_or_first_available_variant.sku | default: 'N/A' }}</span></p>
-        </div>
-        
-        <!-- Tags -->
-        {% if product.tags.size > 0 %}
-          <div class="border-t border-gray-200 pt-8 mt-8">
-            <div class="flex flex-wrap gap-2">
-              {% for tag in product.tags %}
-                <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 border border-gray-200 px-3 py-1">
-                  {{ tag }}
-                </span>
-              {% endfor %}
-            </div>
-          </div>
-        {% endif %}
-        
-      </div>
-      
+    <!-- Tab Navigation -->
+    <div class="mb-8 flex flex-wrap justify-center gap-3 md:gap-4 border-b border-gray-200 pb-6 ptd-scrollbar-hide overflow-x-auto">
+      <button class="ptd-tab-btn px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs transition-all duration-300 bg-black text-white" data-tab="apparel">
+        Apparel
+      </button>
+      <button class="ptd-tab-btn px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs transition-all duration-300 hover:bg-black hover:text-white" data-tab="accessories">
+        Accessories
+      </button>
+      <button class="ptd-tab-btn px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs transition-all duration-300 hover:bg-black hover:text-white" data-tab="artifacts">
+        Artifacts
+      </button>
+      <button class="ptd-tab-btn px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs transition-all duration-300 hover:bg-black hover:text-white" data-tab="art">
+        Art
+      </button>
+      <button class="ptd-tab-btn px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs transition-all duration-300 hover:bg-black hover:text-white" data-tab="aura">
+        Aura
+      </button>
     </div>
+
+    <!-- Section Header with Controls -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-black mb-8 pb-4 gap-4">
+      <div class="flex items-baseline gap-4">
+        <h3 id="ptd-section-title" class="text-4xl md:text-5xl font-bold uppercase tracking-tighter">Apparel</h3>
+        <span id="ptd-product-count" class="text-xs font-mono text-gray-400 uppercase tracking-widest"></span>
+      </div>
+      
+      <div class="flex items-center gap-4 flex-wrap">
+        <!-- Sort Dropdown -->
+        <div class="flex items-center gap-2">
+          <label for="ptd-sort" class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Sort</label>
+          <select id="ptd-sort" class="ptd-sort-select border border-black px-3 py-2 text-xs font-bold uppercase tracking-wider bg-white cursor-pointer hover:bg-gray-50 transition-colors">
+            <option value="manual">Featured</option>
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="alpha-asc">A → Z</option>
+            <option value="alpha-desc">Z → A</option>
+          </select>
+        </div>
+        
+        <!-- View All Toggle -->
+        <button id="ptd-view-all-btn" class="text-xs font-mono uppercase tracking-widest border border-black px-4 py-2 hover:bg-black hover:text-white transition-all duration-300">
+          View All Variants
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Grid Container -->
+    <div id="ptd-product-grid" class="ptd-standard-grid bg-gray-200 border border-gray-200">
+      <!-- Products injected by JS -->
+    </div>
+    
+    <!-- Back to Top (shows in expanded view) -->
+    <div id="ptd-back-to-top" class="hidden fixed bottom-8 right-8 z-50">
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-black text-white p-4 shadow-lg hover:bg-gray-800 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+      </button>
+    </div>
+
   </div>
-  
 </div>
 
 <script>
-  // Store variant data
-  const variants = [
-    {% for variant in product.variants %}
-      {
-        id: {{ variant.id }},
-        available: {{ variant.available }},
-        price: {{ variant.price | money | json }},
-        sku: {{ variant.sku | json }},
-        image: {{ variant.image | img_url: '1200x' | json }},
-        options: [
-          {% for option in variant.options %}
-            {{ option | json }}{% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ]
-      }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
-  
-  // Current selected options
-  let selectedOptions = [
-    {% for option in product.options_with_values %}
-      {{ option.selected_value | json }}{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
-  
-  // Change main product image
-  function changeMainImage(thumbnailEl) {
-    const mainImage = document.getElementById('main-product-image');
-    const imageUrl = thumbnailEl.dataset.imageUrl;
-    const imageAlt = thumbnailEl.dataset.imageAlt;
-    
-    mainImage.src = imageUrl;
-    mainImage.alt = imageAlt;
-    
-    // Update active state
-    document.querySelectorAll('.ptd-thumbnail').forEach(t => t.classList.remove('active'));
-    thumbnailEl.classList.add('active');
-  }
-  
-  // Select variant option
-  function selectOption(buttonEl) {
-    const optionIndex = parseInt(buttonEl.dataset.optionIndex);
-    const value = buttonEl.dataset.value;
-    
-    // Update selected options
-    selectedOptions[optionIndex] = value;
-    
-    // Update button states for this option group
-    buttonEl.parentElement.querySelectorAll('.ptd-variant-btn').forEach(btn => {
-      btn.classList.remove('selected');
-    });
-    buttonEl.classList.add('selected');
-    
-    // Find matching variant
-    const matchingVariant = variants.find(v => {
-      return v.options.every((opt, idx) => opt === selectedOptions[idx]);
-    });
-    
-    if (matchingVariant) {
-      updateVariant(matchingVariant);
-    }
-  }
-  
-  // Update page with new variant
-  function updateVariant(variant) {
-    // Update hidden select
-    document.getElementById('variant-select').value = variant.id;
-    
-    // Update price
-    document.getElementById('product-price').textContent = variant.price;
-    
-    // Update SKU
-    document.getElementById('product-sku').textContent = variant.sku || 'N/A';
-    
-    // Update image if variant has one
-    if (variant.image) {
-      document.getElementById('main-product-image').src = variant.image;
-    }
-    
-    // Update add to cart button
-    const addToCartBtn = document.getElementById('add-to-cart-btn');
-    if (variant.available) {
-      addToCartBtn.disabled = false;
-      addToCartBtn.textContent = 'Add to Cart';
-    } else {
-      addToCartBtn.disabled = true;
-      addToCartBtn.textContent = 'Sold Out';
-    }
-    
-    // Update URL without reload
-    const url = new URL(window.location.href);
-    url.searchParams.set('variant', variant.id);
-    window.history.replaceState({}, '', url);
-  }
-  
-  // Adjust quantity
-  function adjustQuantity(delta) {
-    const input = document.getElementById('quantity-input');
-    const newValue = Math.max(1, parseInt(input.value) + delta);
-    input.value = newValue;
-  }
-  
-  // Initialize: check URL for variant param
-  document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const variantId = urlParams.get('variant');
-    
-    if (variantId) {
-      const variant = variants.find(v => v.id === parseInt(variantId));
-      if (variant) {
-        // Update selected options based on variant
-        selectedOptions = [...variant.options];
+  // PRODUCT DATA — Filtered by Vendor: PAY THE DØLLS
+  // Includes ALL variants with their images
+  const PTD_PRODUCTS = [
+    {%- assign first_item = true -%}
+    {%- assign product_index = 0 -%}
+    {%- for product in collections.all.products -%}
+      
+      {%- if product.vendor == 'PAY THE DØLLS' -%}
         
-        // Update button states
-        document.querySelectorAll('.ptd-variant-btn').forEach(btn => {
-          const optionIndex = parseInt(btn.dataset.optionIndex);
-          const value = btn.dataset.value;
-          
-          if (selectedOptions[optionIndex] === value) {
-            btn.classList.add('selected');
+        {%- assign type_lower = product.type | downcase -%}
+        {%- assign all_tags_lower = '' -%}
+        {%- for tag in product.tags -%}
+          {%- assign tag_l = tag | downcase -%}
+          {%- assign all_tags_lower = all_tags_lower | append: '|' | append: tag_l | append: '|' -%}
+        {%- endfor -%}
+        
+        {%- assign product_category = '' -%}
+        
+        {%- comment -%} APPAREL {%- endcomment -%}
+        {%- if all_tags_lower contains '|apparel|' 
+            or all_tags_lower contains '|clothing|' 
+            or all_tags_lower contains '|tops|' 
+            or all_tags_lower contains '|tøps|'
+            or all_tags_lower contains '|bottoms|'
+            or all_tags_lower contains '|bøttoms|'
+            or all_tags_lower contains '|shirt|'
+            or all_tags_lower contains '|tee|'
+            or all_tags_lower contains '|hoodie|'
+            or all_tags_lower contains '|tank|'
+            or all_tags_lower contains '|pants|'
+            or all_tags_lower contains '|shorts|'
+            or type_lower contains 'apparel'
+            or type_lower contains 't-shirt'
+            or type_lower contains 'shirt'
+            or type_lower contains 'hoodie'
+            or type_lower contains 'tank'
+            or type_lower contains 'sweatshirt'
+            or type_lower contains 'sweatpants'
+            or type_lower contains 'tracksuit'
+            or type_lower contains 'polo'
+            or type_lower contains 'shorts'
+            or type_lower contains 'clothing' -%}
+          {%- assign product_category = 'apparel' -%}
+        {%- endif -%}
+        
+        {%- comment -%} ACCESSORIES {%- endcomment -%}
+        {%- if all_tags_lower contains '|accessories|' 
+            or all_tags_lower contains '|accessory|'
+            or all_tags_lower contains '|hat|'
+            or all_tags_lower contains '|cap|'
+            or all_tags_lower contains '|bag|'
+            or all_tags_lower contains '|tote|'
+            or all_tags_lower contains '|wallet|'
+            or all_tags_lower contains '|jewelry|'
+            or all_tags_lower contains '|sunglasses|'
+            or all_tags_lower contains '|shoes|'
+            or all_tags_lower contains '|sandals|'
+            or type_lower contains 'accessor'
+            or type_lower contains 'hat'
+            or type_lower contains 'cap'
+            or type_lower contains 'bag'
+            or type_lower contains 'tote'
+            or type_lower contains 'sandal'
+            or type_lower contains 'jewelry' -%}
+          {%- assign product_category = 'accessories' -%}
+        {%- endif -%}
+        
+        {%- comment -%} ARTIFACTS {%- endcomment -%}
+        {%- if all_tags_lower contains '|artifacts|' 
+            or all_tags_lower contains '|artifact|'
+            or all_tags_lower contains '|collectible|'
+            or all_tags_lower contains '|limited|'
+            or all_tags_lower contains '|zine|'
+            or all_tags_lower contains '|home|'
+            or all_tags_lower contains '|mug|'
+            or all_tags_lower contains '|towel|'
+            or all_tags_lower contains '|doormat|'
+            or all_tags_lower contains '|cards|'
+            or all_tags_lower contains '|gift|'
+            or type_lower contains 'artifact'
+            or type_lower contains 'collectible'
+            or type_lower contains 'mug'
+            or type_lower contains 'doormat'
+            or type_lower contains 'towel'
+            or type_lower contains 'tray'
+            or type_lower contains 'cards'
+            or type_lower contains 'doll'
+            or type_lower contains 'wrap' -%}
+          {%- assign product_category = 'artifacts' -%}
+        {%- endif -%}
+        
+        {%- comment -%} ART {%- endcomment -%}
+        {%- if all_tags_lower contains '|art|'
+            or all_tags_lower contains '|print|'
+            or all_tags_lower contains '|prints|'
+            or all_tags_lower contains '|painting|'
+            or all_tags_lower contains '|artwork|'
+            or all_tags_lower contains '|canvas|'
+            or all_tags_lower contains '|stickers|'
+            or type_lower contains 'print'
+            or type_lower contains 'painting'
+            or type_lower contains 'poster'
+            or type_lower contains 'sticker' -%}
+          {%- assign product_category = 'art' -%}
+        {%- endif -%}
+        
+        {%- comment -%} AURA {%- endcomment -%}
+        {%- if all_tags_lower contains '|aura|'
+            or all_tags_lower contains '|fragrance|'
+            or all_tags_lower contains '|candle|'
+            or all_tags_lower contains '|incense|'
+            or all_tags_lower contains '|wellness|'
+            or all_tags_lower contains '|selfcare|'
+            or all_tags_lower contains '|soap|'
+            or all_tags_lower contains '|supplements|'
+            or type_lower contains 'aura'
+            or type_lower contains 'fragrance'
+            or type_lower contains 'candle'
+            or type_lower contains 'wellness'
+            or type_lower contains 'supplement' -%}
+          {%- assign product_category = 'aura' -%}
+        {%- endif -%}
+        
+        {%- if product_category != '' -%}
+          {%- unless first_item -%},{%- endunless -%}
+          {%- assign first_item = false -%}
+          {%- assign product_index = product_index | plus: 1 -%}
+          {
+            id: {{ product.id }},
+            handle: {{ product.handle | json }},
+            title: {{ product.title | json }},
+            price: {{ product.price | money | json }},
+            priceRaw: {{ product.price }},
+            img: {{ product.featured_image | img_url: '800x' | json }},
+            url: {{ product.url | json }},
+            category: '{{ product_category }}',
+            vendor: {{ product.vendor | json }},
+            type: {{ product.type | json }},
+            tags: {{ product.tags | json }},
+            createdAt: {{ product.created_at | date: "%s" }},
+            position: {{ product_index }},
+            variants: [
+              {%- assign first_variant = true -%}
+              {%- for variant in product.variants -%}
+                {%- unless first_variant -%},{%- endunless -%}
+                {%- assign first_variant = false -%}
+                {
+                  id: {{ variant.id }},
+                  title: {{ variant.title | json }},
+                  sku: {{ variant.sku | json }},
+                  price: {{ variant.price | money | json }},
+                  priceRaw: {{ variant.price }},
+                  option1: {{ variant.option1 | json }},
+                  option2: {{ variant.option2 | json }},
+                  option3: {{ variant.option3 | json }},
+                  img: {% if variant.image %}{{ variant.image | img_url: '800x' | json }}{% else %}{{ product.featured_image | img_url: '800x' | json }}{% endif %},
+                  available: {{ variant.available }}
+                }
+              {%- endfor -%}
+            ]
+          }
+        {%- endif -%}
+        
+      {%- endif -%}
+    {%- endfor -%}
+  ];
+
+  // Category metadata
+  const PTD_CATEGORIES = {
+    apparel: { title: 'Apparel', collection: '/collections/apparel' },
+    accessories: { title: 'Accessories', collection: '/collections/accessories' },
+    artifacts: { title: 'Artifacts', collection: '/collections/artifacts' },
+    art: { title: 'Art', collection: '/collections/art' },
+    aura: { title: 'Aura', collection: '/collections/aura' }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const gridEl = document.getElementById('ptd-product-grid');
+    const sectionTitle = document.getElementById('ptd-section-title');
+    const productCount = document.getElementById('ptd-product-count');
+    const viewAllBtn = document.getElementById('ptd-view-all-btn');
+    const sortSelect = document.getElementById('ptd-sort');
+    const backToTop = document.getElementById('ptd-back-to-top');
+    const tabBtns = document.querySelectorAll('.ptd-tab-btn');
+    
+    let activeTab = 'apparel';
+    let expandedView = false;
+    let currentSort = 'manual';
+
+    // Debug
+    console.log('=== PAY THE DØLLS v3.0 ===');
+    console.log('Products loaded:', PTD_PRODUCTS.length);
+    console.log('Total variants:', PTD_PRODUCTS.reduce((sum, p) => sum + p.variants.length, 0));
+
+    // Sort functions
+    const sortFunctions = {
+      'manual': (a, b) => a.position - b.position,
+      'newest': (a, b) => b.createdAt - a.createdAt,
+      'price-asc': (a, b) => a.priceRaw - b.priceRaw,
+      'price-desc': (a, b) => b.priceRaw - a.priceRaw,
+      'alpha-asc': (a, b) => a.title.localeCompare(b.title),
+      'alpha-desc': (a, b) => b.title.localeCompare(a.title)
+    };
+
+    // Render standard grid (products only)
+    const renderStandardGrid = (category) => {
+      let items = PTD_PRODUCTS.filter(item => item.category === category);
+      items = items.sort(sortFunctions[currentSort]);
+      
+      const categoryMeta = PTD_CATEGORIES[category];
+      sectionTitle.textContent = categoryMeta.title;
+      productCount.textContent = `${items.length} products`;
+      
+      gridEl.className = 'ptd-standard-grid bg-gray-200 border border-gray-200';
+      backToTop.classList.add('hidden');
+      
+      if (items.length === 0) {
+        gridEl.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-white text-gray-400 font-mono text-sm uppercase tracking-widest">
+            No products found in ${categoryMeta.title}
+          </div>`;
+        return;
+      }
+
+      gridEl.innerHTML = items.map((item, idx) => `
+        <a href="${item.url}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10 ptd-fade-in" style="animation-delay: ${idx * 30}ms">
+          <div class="absolute inset-0">
+            <img 
+              src="${item.img}" 
+              alt="${item.title}"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              loading="lazy"
+            />
+          </div>
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 flex flex-col justify-end p-4 md:p-6 transition-colors duration-300">
+            <div class="bg-white text-black p-3 md:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+              <h4 class="font-bold uppercase tracking-tight text-sm md:text-base leading-tight">${item.title}</h4>
+              <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
+                <span class="font-mono text-xs md:text-sm">${item.price}</span>
+                <span class="text-[9px] md:text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">${item.variants.length} Options</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    };
+
+    // Render expanded collage grid (all variants)
+    const renderExpandedGrid = (category) => {
+      let items = PTD_PRODUCTS.filter(item => item.category === category);
+      items = items.sort(sortFunctions[currentSort]);
+      
+      const categoryMeta = PTD_CATEGORIES[category];
+      sectionTitle.textContent = categoryMeta.title + ' — All Variants';
+      
+      // Flatten all variants
+      const allVariants = [];
+      items.forEach(product => {
+        product.variants.forEach(variant => {
+          allVariants.push({
+            ...variant,
+            productTitle: product.title,
+            productUrl: product.url,
+            productHandle: product.handle,
+            category: product.category,
+            priceRaw: variant.priceRaw
+          });
+        });
+      });
+      
+      productCount.textContent = `${allVariants.length} variants`;
+      
+      gridEl.className = 'ptd-collage-grid bg-gray-100';
+      backToTop.classList.remove('hidden');
+      
+      if (allVariants.length === 0) {
+        gridEl.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-white text-gray-400 font-mono text-sm uppercase tracking-widest">
+            No variants found
+          </div>`;
+        return;
+      }
+
+      gridEl.innerHTML = allVariants.map((v, idx) => {
+        // Build variant URL with option params
+        let variantUrl = v.productUrl;
+        if (v.id) {
+          variantUrl += `?variant=${v.id}`;
+        }
+        
+        // Get color/option display
+        const optionDisplay = v.option1 || v.title || '';
+        
+        return `
+          <a href="${variantUrl}" class="group bg-white relative aspect-square overflow-hidden block ptd-fade-in" style="animation-delay: ${Math.min(idx * 15, 500)}ms">
+            <img 
+              src="${v.img}" 
+              alt="${v.productTitle} - ${optionDisplay}"
+              class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" 
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-300 flex flex-col justify-end">
+              <div class="p-2 md:p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <p class="text-white text-[10px] md:text-xs font-bold uppercase tracking-tight leading-tight truncate">${v.productTitle.replace('PAY THE DØLLS ', '')}</p>
+                <p class="text-white/70 text-[9px] md:text-[10px] uppercase tracking-wider mt-1">${optionDisplay}</p>
+                <p class="text-white font-mono text-[10px] md:text-xs mt-1">${v.price}</p>
+              </div>
+            </div>
+            ${!v.available ? '<div class="absolute top-2 right-2 bg-black/80 text-white text-[8px] px-2 py-1 uppercase tracking-widest">Sold Out</div>' : ''}
+          </a>
+        `;
+      }).join('');
+    };
+
+    // Main render function
+    const render = () => {
+      if (expandedView) {
+        renderExpandedGrid(activeTab);
+        viewAllBtn.textContent = 'Show Products';
+        viewAllBtn.classList.add('bg-black', 'text-white');
+      } else {
+        renderStandardGrid(activeTab);
+        viewAllBtn.textContent = 'View All Variants';
+        viewAllBtn.classList.remove('bg-black', 'text-white');
+      }
+    };
+
+    // Initial render
+    render();
+
+    // View All toggle
+    viewAllBtn.addEventListener('click', () => {
+      expandedView = !expandedView;
+      render();
+      gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Sort change
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      render();
+    });
+
+    // Tab switching
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newTab = btn.getAttribute('data-tab');
+        if (newTab === activeTab) return;
+        
+        activeTab = newTab;
+        expandedView = false; // Reset to standard view on tab change
+        
+        tabBtns.forEach(b => {
+          if (b.getAttribute('data-tab') === activeTab) {
+            b.classList.add('bg-black', 'text-white');
+            b.classList.remove('hover:bg-black', 'hover:text-white');
           } else {
-            btn.classList.remove('selected');
+            b.classList.remove('bg-black', 'text-white');
+            b.classList.add('hover:bg-black', 'hover:text-white');
           }
         });
-        
-        updateVariant(variant);
+
+        render();
+        gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Show/hide back to top based on scroll
+    window.addEventListener('scroll', () => {
+      if (expandedView && window.scrollY > 500) {
+        backToTop.classList.remove('hidden');
+      } else if (!expandedView) {
+        backToTop.classList.add('hidden');
       }
-    }
+    });
   });
 </script>
