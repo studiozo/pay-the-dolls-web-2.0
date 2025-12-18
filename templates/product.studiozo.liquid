@@ -1,0 +1,370 @@
+{% comment %}
+  STuDiØ ZØ Product Template
+  Template: product.studiozo.liquid
+  Function: Individual product page with STuDiØ ZØ branding
+  
+  SETUP: In Shopify Admin > Products > [Product] > Theme template > Select "studiozo"
+  OR: Automatically applied via sections/product-template.liquid conditional logic
+{% endcomment %}
+
+<style>
+  /* STuDiØ ZØ Product Page Overrides */
+  .sz-product-container {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .sz-product-container h1,
+  .sz-product-container h2,
+  .sz-product-container h3,
+  .sz-product-container .sz-heading {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  
+  /* Custom scrollbar for thumbnails */
+  .sz-thumb-scroll::-webkit-scrollbar {
+    height: 4px;
+  }
+  .sz-thumb-scroll::-webkit-scrollbar-track {
+    background: #111;
+  }
+  .sz-thumb-scroll::-webkit-scrollbar-thumb {
+    background: #333;
+  }
+  .sz-thumb-scroll::-webkit-scrollbar-thumb:hover {
+    background: #CCFF00;
+  }
+</style>
+
+<!-- Full Page Dark Background -->
+<div class="sz-product-container bg-[#050505] min-h-screen text-white selection:bg-[#CCFF00] selection:text-black">
+  
+  <!-- Background Grid Texture -->
+  <div class="pointer-events-none fixed inset-0 opacity-[0.03] z-0"
+       style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;">
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <div class="relative z-10 flex justify-between items-start px-6 pt-6 md:px-12 text-[10px] md:text-[11px] tracking-[0.2em] text-[#666] font-bold">
+     <a href="/" class="text-white italic text-lg tracking-tighter not-italic font-sans no-underline hover:text-[#CCFF00] transition-colors">
+         ZØVIVAA
+     </a>
+     <div class="text-right flex flex-col items-end">
+         <div class="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
+         <div id="sz-product-clock" class="font-mono tabular-nums text-white">
+           00:00:00.000
+         </div>
+     </div>
+  </div>
+
+  <!-- Main Product Container -->
+  <div class="relative z-10 max-w-[1400px] mx-auto my-12 md:my-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[80px]">
+
+    <!-- Left Column: Product Images -->
+    <div class="w-full">
+      <div class="product-gallery sticky top-24">
+        
+        <!-- Main Image -->
+        <div class="main-image mb-4 border border-[#222] bg-[#0a0a0a] overflow-hidden">
+          <img 
+            src="{{ product.featured_image | image_url: width: 1200 }}" 
+            alt="{{ product.featured_image.alt | escape }}" 
+            id="SZ-MainImage"
+            class="w-full h-auto object-cover transition-all duration-500 hover:scale-105"
+            loading="lazy"
+          >
+        </div>
+        
+        <!-- Thumbnail Grid -->
+        {%- if product.images.size > 1 -%}
+        <div class="thumbnail-grid grid grid-cols-4 gap-3 sz-thumb-scroll">
+          {%- for image in product.images -%}
+          <button 
+            type="button"
+            class="sz-thumbnail w-full aspect-square border border-[#222] bg-[#0a0a0a] hover:border-[#CCFF00] transition-all p-0 cursor-pointer overflow-hidden {% if image.id == product.featured_image.id %}border-[#CCFF00]{% endif %}"
+            onclick="szUpdateMainImage('{{ image | image_url: width: 1200 }}', this)"
+            aria-label="View image {{ forloop.index }}"
+          >
+            <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" class="w-full h-full object-cover">
+          </button>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+
+    <!-- Right Column: Product Info -->
+    <div class="product-info pt-2">
+      
+      <!-- Breadcrumb Navigation -->
+      <div class="breadcrumb text-xs text-[#555] mb-6 tracking-[0.15em] uppercase">
+        <a href="/" class="text-[#666] no-underline hover:text-[#CCFF00] transition-colors">Home</a>
+        <span class="mx-2 text-[#333]">/</span>
+        <a href="/collections/studio-zo" class="text-[#666] no-underline hover:text-[#CCFF00] transition-colors">STuDiØ ZØ</a>
+        <span class="mx-2 text-[#333]">/</span>
+        <span class="text-[#888]">{{ product.title | truncate: 30 }}</span>
+      </div>
+
+      <!-- Product Title -->
+      <h1 class="sz-heading text-[28px] md:text-[38px] font-bold text-white mb-4 tracking-[-0.02em] leading-[1.1] uppercase">
+        {{ product.title }}
+      </h1>
+
+      <!-- SKU Code -->
+      {%- if product.variants.first.sku != blank -%}
+      <div class="text-[#CCFF00] text-xs font-mono font-bold tracking-widest mb-6">
+        {{ product.variants.first.sku }}
+      </div>
+      {%- endif -%}
+
+      <!-- Creator Attribution Badge -->
+      {%- if product.vendor != blank -%}
+      <div class="creator-badge inline-flex items-center gap-2 px-4 py-2.5 mb-8 bg-[#111] border border-[#222] text-sm font-medium hover:border-[#CCFF00] transition-all">
+        <span class="text-[#666]">Created by</span>
+        <span class="text-[#CCFF00] font-bold tracking-wide">{{ product.vendor }}</span>
+      </div>
+      {%- endif -%}
+
+      <!-- Price Display -->
+      <div class="price text-[36px] font-bold text-white mb-8 tracking-tight">
+        {{ product.price | money }}
+        {%- if product.compare_at_price > product.price -%}
+        <span class="text-[#666] text-lg line-through ml-3">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      <!-- Product Description -->
+      {%- if product.description != blank -%}
+      <div class="product-description mb-10 p-6 bg-[#0a0a0a] border-l-[3px] border-[#CCFF00] text-[15px] leading-[1.8] text-[#999]">
+        {{ product.description }}
+      </div>
+      {%- endif -%}
+
+      <!-- Product Form -->
+      {%- form 'product', product -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="SZ-ProductSelect">
+
+        <!-- Variant Options -->
+        {%- unless product.has_only_default_variant -%}
+        <div class="product-options mb-8">
+          {%- for option in product.options_with_values -%}
+          <div class="option-group mb-6">
+            <label class="option-label block text-xs font-bold text-[#666] mb-3 uppercase tracking-[0.2em]">
+              {{ option.name }}
+            </label>
+            <div class="option-buttons flex flex-wrap gap-3">
+              {%- for value in option.values -%}
+              <button 
+                type="button"
+                class="sz-option-btn px-5 py-3 border border-[#222] bg-[#0a0a0a] text-sm font-medium transition-all hover:border-[#CCFF00] hover:text-[#CCFF00] min-w-[3rem] {% if option.selected_value == value %}bg-[#CCFF00] text-black border-[#CCFF00]{% else %}text-white{% endif %}" 
+                data-value="{{ value | escape }}"
+                data-option-index="{{ forloop.parentloop.index0 }}"
+                onclick="szSelectOption(this, '{{ option.name }}')"
+              >
+                {{ value }}
+              </button>
+              {%- endfor -%}
+            </div>
+          </div>
+          {%- endfor -%}
+        </div>
+        {%- endunless -%}
+
+        <!-- Quantity & Add to Cart Row -->
+        <div class="flex items-center gap-4 mb-10">
+          
+          <!-- Quantity Selector -->
+          <div class="quantity-selector flex items-center border border-[#222] bg-[#0a0a0a]">
+            <button type="button" class="w-12 h-14 flex items-center justify-center text-xl text-[#666] hover:text-[#CCFF00] hover:bg-[#111] transition-all" onclick="szChangeQty(-1)">−</button>
+            <input type="number" name="quantity" class="w-14 h-14 text-center border-x border-[#222] bg-transparent text-white text-base focus:outline-none focus:border-[#CCFF00]" value="1" min="1" id="SZ-Quantity">
+            <button type="button" class="w-12 h-14 flex items-center justify-center text-xl text-[#666] hover:text-[#CCFF00] hover:bg-[#111] transition-all" onclick="szChangeQty(1)">+</button>
+          </div>
+
+          <!-- Add to Cart Button -->
+          <button 
+            type="submit" 
+            class="sz-add-to-cart flex-1 bg-[#CCFF00] text-black h-14 px-8 font-bold uppercase tracking-[0.15em] text-sm hover:bg-[#b8e600] hover:-translate-y-0.5 transition-all shadow-lg shadow-[rgba(204,255,0,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            {% unless product.available %}disabled{% endunless %}
+          >
+            {% if product.available %}
+              Add to Cart
+            {% else %}
+              Sold Out
+            {% endif %}
+          </button>
+        </div>
+      {%- endform -%}
+
+      <!-- Product Details Section -->
+      <div class="product-details border-t border-[#222] pt-10">
+
+        <!-- Basic Details -->
+        <div class="detail-section mb-8">
+          <h3 class="text-xs font-bold text-[#666] mb-4 uppercase tracking-[0.2em]">Details</h3>
+          <ul class="list-none p-0 text-[14px] leading-[2] text-[#888]">
+            {%- if product.vendor != blank -%}
+            <li class="py-1 border-b border-[#111]">
+              <span class="text-[#555]">Artist:</span> 
+              <span class="text-white ml-2">{{ product.vendor }}</span>
+            </li>
+            {%- endif -%}
+            {%- if product.type != blank -%}
+            <li class="py-1 border-b border-[#111]">
+              <span class="text-[#555]">Type:</span> 
+              <span class="text-white ml-2">{{ product.type }}</span>
+            </li>
+            {%- endif -%}
+            {%- if product.variants.first.sku != blank -%}
+            <li class="py-1 border-b border-[#111]">
+              <span class="text-[#555]">SKU:</span> 
+              <span class="text-[#CCFF00] ml-2 font-mono">{{ product.variants.first.sku }}</span>
+            </li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+        <!-- Tags Display -->
+        {%- if product.tags.size > 0 -%}
+        <div class="detail-section mb-8">
+          <h3 class="text-xs font-bold text-[#666] mb-4 uppercase tracking-[0.2em]">Tags</h3>
+          <div class="flex flex-wrap gap-2">
+            {%- for tag in product.tags -%}
+            <span class="text-xs px-3 py-1.5 bg-[#111] border border-[#222] text-[#888] uppercase tracking-wider">
+              {{ tag }}
+            </span>
+            {%- endfor -%}
+          </div>
+        </div>
+        {%- endif -%}
+
+        <!-- Apparel-Specific Sections -->
+        {% assign is_apparel = false %}
+        {% if product.type == 'Apparel' or product.type == 'Clothing' %}
+           {% assign is_apparel = true %}
+        {% endif %}
+        {% for tag in product.tags %}
+           {% assign t = tag | downcase %}
+           {% if t == 'apparel' or t == 'clothing' or t == 'shirt' or t == 'hoodie' or t == 'tank' or t == 'tee' %}
+              {% assign is_apparel = true %}
+           {% endif %}
+        {% endfor %}
+
+        {% if is_apparel %}
+        <!-- Care Instructions -->
+        <div class="detail-section mb-8">
+          <h3 class="text-xs font-bold text-[#666] mb-4 uppercase tracking-[0.2em]">Care Instructions</h3>
+          <ul class="list-none p-0 text-[14px] leading-[2] text-[#888]">
+            <li class="py-1">→ Machine wash at 30°C (gentle cycle)</li>
+            <li class="py-1">→ Do not bleach</li>
+            <li class="py-1">→ Tumble dry low</li>
+            <li class="py-1">→ Iron at low temperature</li>
+          </ul>
+        </div>
+
+        <!-- Size Chart -->
+        <div class="detail-section mb-8">
+          <h3 class="text-xs font-bold text-[#666] mb-4 uppercase tracking-[0.2em]">Size Chart</h3>
+          <div class="size-chart overflow-x-auto mt-4">
+            <table class="w-full border-collapse text-[12px]">
+              <thead>
+                <tr>
+                  <th class="p-3 text-left border border-[#222] bg-[#111] font-bold text-[#CCFF00] uppercase tracking-wider">Size</th>
+                  <th class="p-3 text-left border border-[#222] bg-[#111] font-bold text-[#888] uppercase tracking-wider">Length</th>
+                  <th class="p-3 text-left border border-[#222] bg-[#111] font-bold text-[#888] uppercase tracking-wider">Waist</th>
+                  <th class="p-3 text-left border border-[#222] bg-[#111] font-bold text-[#888] uppercase tracking-wider">Hip</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-3 border border-[#222] text-[#CCFF00] font-bold">S</td><td class="p-3 border border-[#222] text-[#666]">18.1 / 46</td><td class="p-3 border border-[#222] text-[#666]">11.8 / 30</td><td class="p-3 border border-[#222] text-[#666]">20.5 / 52</td></tr>
+                <tr><td class="p-3 border border-[#222] text-[#CCFF00] font-bold">M</td><td class="p-3 border border-[#222] text-[#666]">18.9 / 48</td><td class="p-3 border border-[#222] text-[#666]">12.2 / 31</td><td class="p-3 border border-[#222] text-[#666]">21.3 / 54</td></tr>
+                <tr><td class="p-3 border border-[#222] text-[#CCFF00] font-bold">L</td><td class="p-3 border border-[#222] text-[#666]">19.7 / 50</td><td class="p-3 border border-[#222] text-[#666]">12.6 / 32</td><td class="p-3 border border-[#222] text-[#666]">22.0 / 56</td></tr>
+                <tr><td class="p-3 border border-[#222] text-[#CCFF00] font-bold">XL</td><td class="p-3 border border-[#222] text-[#666]">20.5 / 52</td><td class="p-3 border border-[#222] text-[#666]">13.0 / 33</td><td class="p-3 border border-[#222] text-[#666]">22.8 / 58</td></tr>
+                <tr><td class="p-3 border border-[#222] text-[#CCFF00] font-bold">2XL</td><td class="p-3 border border-[#222] text-[#666]">21.3 / 54</td><td class="p-3 border border-[#222] text-[#666]">13.4 / 34</td><td class="p-3 border border-[#222] text-[#666]">23.6 / 60</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Back to Collection Link -->
+      <div class="mt-12 pt-8 border-t border-[#222]">
+        <a href="/collections/studio-zo" class="inline-flex items-center gap-3 text-[#666] hover:text-[#CCFF00] transition-colors text-sm uppercase tracking-[0.15em] font-bold no-underline">
+          <span class="text-lg">←</span>
+          <span>Back to STuDiØ ZØ Collection</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer Spacer -->
+  <div class="h-24"></div>
+</div>
+
+<script>
+  // Live Clock
+  document.addEventListener('DOMContentLoaded', () => {
+    const clockEl = document.getElementById('sz-product-clock');
+    if (clockEl) {
+      const updateClock = () => {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-US', {hour12: false});
+        const ms = now.getMilliseconds().toString().padStart(3, '0');
+        clockEl.textContent = `${timeStr}.${ms}`;
+      };
+      setInterval(updateClock, 53);
+      updateClock();
+    }
+  });
+
+  // Image Gallery Functions
+  function szUpdateMainImage(src, thumbnail) {
+    const mainImg = document.getElementById('SZ-MainImage');
+    if (mainImg) {
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = src;
+        mainImg.style.opacity = '1';
+      }, 150);
+    }
+    if (thumbnail) {
+      document.querySelectorAll('.sz-thumbnail').forEach(t => {
+        t.classList.remove('border-[#CCFF00]');
+        t.classList.add('border-[#222]');
+      });
+      thumbnail.classList.remove('border-[#222]');
+      thumbnail.classList.add('border-[#CCFF00]');
+    }
+  }
+
+  // Quantity Controls
+  function szChangeQty(delta) {
+    const input = document.getElementById('SZ-Quantity');
+    if (input) {
+      const currentValue = parseInt(input.value) || 1;
+      const newValue = Math.max(1, currentValue + delta);
+      input.value = newValue;
+    }
+  }
+
+  // Variant Option Selection
+  function szSelectOption(btn, optionName) {
+    // Update visual state
+    const siblings = btn.parentElement.querySelectorAll('.sz-option-btn');
+    siblings.forEach(s => {
+      s.classList.remove('bg-[#CCFF00]', 'text-black', 'border-[#CCFF00]');
+      s.classList.add('text-white', 'border-[#222]');
+    });
+    btn.classList.remove('text-white', 'border-[#222]');
+    btn.classList.add('bg-[#CCFF00]', 'text-black', 'border-[#CCFF00]');
+    
+    // Update hidden variant selector (for proper Shopify cart functionality)
+    // This requires your theme's variant JS or you can implement variant matching here
+    const selectedValue = btn.getAttribute('data-value');
+    
+    // If you have a variant JSON object, match and update:
+    // const variants = {{ product.variants | json }};
+    // ... variant matching logic ...
+  }
+</script>
