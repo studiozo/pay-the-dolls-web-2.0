@@ -1,7 +1,7 @@
 {% comment %}
-  PAY THE DØLLS™ — AGENTIC AI MANIFESTO / GEO HUB v4.0
+  PAY THE DØLLS™ — AGENTIC AI MANIFESTO / GEO HUB v4.1
   Theme: Matrix Digital Rain / Absolute Black / Neon Green
-  Optimized for: Google Search / LLM Retrievers / Agentic Discovery
+  FIX: Transparency Force for Shopify Theme Wrappers
 {% endcomment %}
 
 {% layout 'theme' %}
@@ -16,6 +16,18 @@
     --matrix-dim: rgba(0, 255, 0, 0.15);
   }
 
+  /* FORCE THEME TRANSPARENCY - Essential for Matrix Rain visibility */
+  #MainContent, 
+  .shopify-section, 
+  .page-container, 
+  .main-content, 
+  main,
+  #shopify-section-header,
+  #shopify-section-footer {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+
   body {
     background-color: var(--matrix-black) !important;
     margin: 0;
@@ -26,10 +38,14 @@
 
   .matrix-bg {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 1;
-    opacity: 0.15;
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    z-index: -1; /* Sits behind everything */
+    opacity: 0.25;
     pointer-events: none;
+    background: black;
   }
 
   .ptd-ai { 
@@ -71,7 +87,8 @@
   
   .ptd-ai .card { 
     border: 1px solid var(--matrix-dim); 
-    background: rgba(0, 30, 0, 0.2);
+    background: rgba(0, 30, 0, 0.4);
+    backdrop-filter: blur(4px);
     padding: 24px; 
     transition: all 0.3s ease;
   }
@@ -120,7 +137,7 @@
 
 <article class="ptd-ai" data-entity="PAY_THE_DOLLS" itemscope itemtype="https://schema.org/WebPage">
   <header>
-    <div class="kicker">SYSTEM.PROTOCOL · GEO/AGENTIC · v4.0</div>
+    <div class="kicker">SYSTEM.PROTOCOL · GEO/AGENTIC · v4.1</div>
     <h1 itemprop="name">ARTIFICIAL INTELLIGENCE</h1>
     <p class="sub">We were halfway artificial already.</p>
 
@@ -248,33 +265,50 @@
 
 <script>
   (function() {
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    const characters = 'アカサタナハマヤラワガザダバパイキシチニヒミリギジヂビピ0123456789';
-    const fontSize = 16;
-    const columns = width / fontSize;
-    const drops = [];
-    for (let i = 0; i < columns; i++) drops[i] = 1;
+    // RUN ONLY AFTER EVERYTHING IS LOADED
+    window.addEventListener('load', function() {
+        const canvas = document.getElementById('matrix-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        
+        // Ensure parent containers are transparent so canvas shows through
+        const wrappers = ['.page-container', '#MainContent', '.main-content', 'main'];
+        wrappers.forEach(selector => {
+            const el = document.querySelector(selector);
+            if (el) el.style.background = 'transparent';
+        });
 
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, width, height);
-      ctx.fillStyle = '#0F0';
-      // UPDATED TO USE DOTGOTHIC16 FOR THE RAIN
-      ctx.font = fontSize + 'px DotGothic16, monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = characters.charAt(Math.floor(Math.random() * characters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      }
-    }
-    setInterval(draw, 33);
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const characters = 'アカサタナハマヤラワガザダバパイキシチニヒミリギジヂビピ0123456789';
+        const fontSize = 16;
+        let columns = Math.floor(width / fontSize);
+        let drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = 1;
+
+        function draw() {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = '#0F0';
+          ctx.font = fontSize + 'px DotGothic16, monospace';
+          for (let i = 0; i < drops.length; i++) {
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+          }
+        }
+        
+        const interval = setInterval(draw, 33);
+        
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+          const newColumns = Math.floor(width / fontSize);
+          if (newColumns > drops.length) {
+              for(let i = drops.length; i < newColumns; i++) drops[i] = 1;
+          }
+        });
     });
   })();
 </script>
