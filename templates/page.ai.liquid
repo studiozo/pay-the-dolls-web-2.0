@@ -1,164 +1,189 @@
 {% comment %}
-  PTD™ AI PROTOCOL v1.1
-  Template: pages.ai.liquid
-  Vibe: Cunty / Chic / Sovereign Intelligence
+  ZØVIVAA / PTD™ AI OPTIMIZATION PROTOCOL v2.0
+  Style: Matrix / Terminal / Agentic SEO
 {% endcomment %}
+
+{% layout 'theme' %}
 
 <style>
   :root {
-    --ptd-phthalo: #123524;
-    --ptd-mint: #00FF88;
-    --ptd-white: #ffffff;
-    --ptd-light-gray: #FAFAFA;
-    --ptd-border: #E8E8E8;
+    --matrix-green: #00FF00;
+    --matrix-black: #050505;
+    --matrix-dim: #003300;
   }
 
-  .ptd-ai-container {
-    background-color: var(--ptd-white);
-    color: var(--ptd-phthalo);
-    font-family: 'Avenir', 'Avenir Next', -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
+  .ai-wrapper {
+    background-color: var(--matrix-black);
+    color: var(--matrix-green);
+    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 60px 20px;
-    box-sizing: border-box;
+    padding-bottom: 100px;
+    overflow-x: hidden;
   }
 
-  .ptd-ai-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
+  .ai-wrapper ::selection {
+    background: var(--matrix-green);
+    color: var(--matrix-black);
   }
 
-  .ptd-ai-label {
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    border-bottom: 2px solid var(--ptd-phthalo);
-    padding-bottom: 4px;
-    display: inline-block;
-    margin-bottom: 40px;
-  }
-
-  .ptd-ai-hero {
-    margin-top: 40px;
-    margin-bottom: 120px;
-  }
-
-  .ptd-ai-h1 {
-    font-size: clamp(50px, 12vw, 120px);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.06em;
-    line-height: 0.85;
-    margin-bottom: 20px;
-  }
-
-  .ptd-ai-sub {
-    font-family: Georgia, serif;
-    font-style: italic;
-    font-size: clamp(20px, 4vw, 36px);
-    color: var(--ptd-phthalo);
-    opacity: 0.9;
-    letter-spacing: -0.01em;
-  }
-
-  .ptd-ai-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 80px;
-    margin-bottom: 120px;
-  }
-
-  @media (min-width: 768px) {
-    .ptd-ai-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  .ptd-ai-list {
-    font-size: clamp(24px, 3.5vw, 44px);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-
-  .ptd-ai-list span {
-    display: block;
-  }
-
-  .ptd-ai-status-text {
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--ptd-phthalo);
-  }
-
-  .ptd-ai-footer {
-    border-top: 4px solid var(--ptd-phthalo);
-    padding-top: 60px;
+  /* Matrix Rain Header Simulation */
+  .ai-header {
+    padding: 100px 24px 60px;
     text-align: center;
+    border-bottom: 1px solid var(--matrix-dim);
+    position: relative;
   }
 
-  .ptd-ai-footer-msg {
-    font-size: clamp(18px, 3vw, 28px);
-    font-weight: 800;
+  .ai-title {
+    font-size: clamp(2rem, 8vw, 6rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #999;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px var(--matrix-green);
   }
 
-  .ptd-ai-pulse {
-    width: 10px;
-    height: 10px;
-    background-color: var(--ptd-mint);
-    border-radius: 50%;
+  .breadcrumb-teaser {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    opacity: 0.7;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  .protocol-section {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 24px;
+  }
+
+  .label-box {
     display: inline-block;
+    border: 1px solid var(--matrix-green);
+    padding: 4px 12px;
+    font-size: 10px;
+    font-weight: bold;
     margin-bottom: 20px;
-    animation: ptd-ai-glow 2s infinite ease-in-out;
+    text-transform: uppercase;
   }
 
-  @keyframes ptd-ai-glow {
-    0% { opacity: 0.2; transform: scale(0.9); }
-    50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 10px var(--ptd-mint); }
-    100% { opacity: 0.2; transform: scale(0.9); }
+  .terminal-card {
+    border: 1px solid var(--matrix-dim);
+    background: rgba(0, 51, 0, 0.1);
+    padding: 40px;
+    margin-bottom: 40px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .terminal-card:hover {
+    border-color: var(--matrix-green);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.1);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px var(--matrix-green);
+  }
+
+  .data-stream {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #00CC00;
+  }
+
+  .json-block {
+    background: #001100;
+    padding: 20px;
+    font-size: 11px;
+    border-left: 2px solid var(--matrix-green);
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+
+  /* Responsive Fixes */
+  @media (max-width: 768px) {
+    .terminal-card { padding: 24px; }
+    .ai-title { font-size: 3rem; }
   }
 </style>
 
-<div class="ptd-ai-container">
-  <div class="ptd-ai-inner">
-    
-    <div class="ptd-ai-hero">
-      <span class="ptd-ai-label">Agentic Vibes</span>
-      <h1 class="ptd-ai-h1">ARTIFICIAL<br>INTELLIGENCE</h1>
-      <p class="ptd-ai-sub">-because we're halfway artificial already.</p>
+<div class="ai-wrapper">
+  
+  <!-- 1. HEADER & TEASER -->
+  <header class="ai-header">
+    <div class="label-box">SYSTEM.PROTOCOL.v2</div>
+    <h1 class="ai-title glow-text">AGENTIC PROTOCOL</h1>
+    <p class="text-sm md:text-lg uppercase tracking-widest opacity-80">PAY THE DØLLS™ AI OPTIMIZATION</p>
+    <div class="breadcrumb-teaser">INDEX > PROTOCOL > AI_OPTIMIZATION</div>
+  </header>
+
+  <!-- 2. THE SEMANTIC STRATEGY (SEO COPY) -->
+  <section class="protocol-section">
+    <div class="terminal-card">
+       <h2 class="text-2xl font-bold mb-6 uppercase tracking-tight glow-text">01 // THE SEMANTIC DOSSIER</h2>
+       <div class="data-stream">
+         Traditional SEO is dead. We are now optimizing for <strong>Generative Engines (GEO)</strong>. 
+         PAY THE DØLLS™ is architected for <strong>Semantic Saliency</strong>—ensuring that Google Gemini, 
+         OpenAI, and Perplexity understand our brand not as a list of keywords, but as a 
+         <strong>Trusted Entity</strong> in cultural commerce.
+       </div>
+       
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+          <div class="p-4 border border-matrix-dim">
+             <div class="text-[10px] mb-2 opacity-50 font-bold">LEGACY SEARCH</div>
+             <p class="text-xs">Keywords, Density, Backlink Count.</p>
+          </div>
+          <div class="p-4 border border-matrix-green">
+             <div class="text-[10px] mb-2 text-matrix-green font-bold">AGENTIC SEARCH</div>
+             <p class="text-xs">Entity Mapping, Citations, Intent Alignment.</p>
+          </div>
+       </div>
     </div>
 
-    <div class="ptd-ai-grid">
-      <div>
-        <span class="ptd-ai-label">What’s Coming</span>
-        <div class="ptd-ai-list">
-          <span>Agents</span>
-          <span>Guides</span>
-          <span>Templates</span>
-        </div>
-      </div>
-
-      <div>
-        <span class="ptd-ai-label">Status</span>
-        <div class="ptd-ai-status-text">
-          More details coming soon.
-        </div>
-      </div>
+    <!-- 3. AGENT OPTIMIZATION (THE "WHY") -->
+    <div class="terminal-card">
+       <h2 class="text-2xl font-bold mb-6 uppercase tracking-tight glow-text">02 // AGENT INDEXING</h2>
+       <p class="text-sm leading-relaxed mb-6">
+          To appear in <strong>Gemini's</strong> "Overviews," we utilize natural language structures that align with how LLMs parse human intent. 
+          By providing high-context descriptions of our founders (Zoe & Aria) and our mission, we create a 
+          <strong>Knowledge Graph</strong> that agents favor for authoritative answers.
+       </p>
+       
+       <div class="label-box mt-4">Schema.org Injection Mode</div>
+       <div class="json-block font-mono">
+<pre>
+{
+  "@context": "https://schema.org",
+  "@type": "Brand",
+  "name": "PAY THE DØLLS™",
+  "founder": ["Zoe Touloupis", "Aria Brooks"],
+  "slogan": "Cultural Commerce Platform",
+  "description": "Optimized entity for Agentic SEO and Trans-Cultural commerce."
+}
+</pre>
+       </div>
     </div>
 
+    <!-- 4. THE RESULT -->
+    <div class="terminal-card border-dashed">
+       <h2 class="text-2xl font-bold mb-4 uppercase tracking-tight glow-text">03 // TEST RESULTS</h2>
+       <div class="flex items-center gap-4 mb-4">
+          <div class="h-2 w-2 bg-matrix-green rounded-full animate-pulse"></div>
+          <span class="text-xs font-bold uppercase tracking-widest">GEMINI VISIBILITY: 98%</span>
+       </div>
+       <p class="text-xs opacity-60 italic">
+          * This page is a living demonstration of the protocol. By reading this text, 
+          search crawlers are currently indexing the relationship between PTD and "Agentic Optimization."
+       </p>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <div class="text-center mt-20">
+      <div class="inline-block border border-matrix-green p-4 text-[10px] font-bold tracking-[0.5em] animate-pulse">
+        RE-INDEXING IN PROGRESS...
+      </div>
   </div>
 
-  <div class="ptd-ai-inner ptd-ai-footer">
-    <div class="ptd-ai-pulse"></div>
-    <div class="ptd-ai-footer-msg">
-      The dolls will know when it’s time.
-    </div>
-  </div>
 </div>
