@@ -1,88 +1,521 @@
+{% comment %}
+  PAY THE DØLLS™ — SHOP ALL SKUs (v1.0)
+  Template: shop-all-skus.liquid
+  
+  PURPOSE:
+  - Lists EVERY product variant/SKU across entire store
+  - Tabs for category filtering (Apparel/Accessories/Artifacts/Art/Aura)
+  - SKU prominently displayed on each card
+  - Clean PTD aesthetic (white bg, black borders, minimal)
+{% endcomment %}
+
 {% layout 'theme' %}
-<!-- PAY THE DØLLS — Collection Template [ROUTED] -->
-<div class="min-h-screen bg-white pb-24 text-black font-sans selection:bg-black selection:text-white">
-  <!-- Header -->
-  <div class="pt-32 px-6 md:px-12 text-center max-w-5xl mx-auto">
-    <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-4 uppercase leading-none">
-      {{ collection.title | default: 'The Cøllection' }}
-    </h1>
-    <p class="text-[#666] tracking-[2px] uppercase text-[10px] md:text-xs mb-12 font-bold italic">
-      {% if collection.description != blank %}
-        {{ collection.description }}
-      {% else %}
-        Season 03 — "Liquidity" / Verse Capital Sync
-      {% endif %}
-    </p>
+
+<style>
+  .ptd-scrollbar-hide::-webkit-scrollbar { display: none; }
+  .ptd-scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Product card: white bg + thin black border */
+  .sku-card {
+    display: block;
+    background: white;
+    border: 1px solid black;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Image container - square with contained image */
+  .sku-card-image {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background: #fafafa;
+    overflow: hidden;
+  }
+  
+  .sku-card-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 85%;
+    max-height: 85%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+  }
+  
+  .sku-card:hover .sku-card-image img {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  
+  /* SKU Badge - always visible */
+  .sku-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: black;
+    color: white;
+    font-size: 9px;
+    font-family: monospace;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    z-index: 10;
+  }
+  
+  /* Hover overlay - slides up */
+  .sku-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    border-top: 1px solid black;
+  }
+  
+  .sku-card:hover .sku-card-overlay {
+    transform: translateY(0);
+  }
+  
+  /* Grid layout */
+  .sku-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  @media (min-width: 640px) {
+    .sku-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .sku-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .sku-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  
+  /* Fade in animation */
+  @keyframes sku-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .sku-fade-in {
+    animation: sku-fade-in 0.25s ease-out forwards;
+  }
+  
+  /* Tab styling */
+  .shop-tab {
+    transition: all 0.2s ease;
+  }
+  
+  .shop-tab.active {
+    background: black;
+    color: white;
+  }
+  
+  .shop-tab:not(.active):hover {
+    background: black;
+    color: white;
+  }
+</style>
+
+<div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
+  <div class="max-w-[1800px] mx-auto py-20 px-4 md:px-8 lg:px-12">
     
-    <!-- Categories Bar (Corrected PTD Routing) -->
-    <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16 border-t border-b border-black py-8">
-        <a href="/collections/all" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'all' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
-           All
+    <!-- Header -->
+    <header class="mb-12 text-center max-w-3xl mx-auto">
+      <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight mb-6">
+        Shop All Products Available
+      </h1>
+      
+      <div class="mb-8">
+        <a href="https://paythedolls.com/pages/submit" class="inline-block border-b-2 border-black text-sm md:text-base font-bold uppercase tracking-widest hover:bg-black hover:text-white px-4 py-2 transition-all duration-300">
+          Have an idea? Submit here →
         </a>
-        <a href="/collections/paythedolls-apparel" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-apparel' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
-           Apparel
-        </a>
-        <a href="/collections/paythedolls-accessories" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-accessories' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
-           Accessories
-        </a>
-        <a href="/collections/paythedolls-artifacts" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-artifacts' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
-           Artifacts
-        </a>
-        <a href="/collections/paythedolls-art" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-art' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
-           Art
-        </a>
-        <a href="/collections/paythedolls-aura" class="text-[10px] font-black uppercase tracking-[0.2em] transition-ptd {% if collection.handle == 'paythedolls-aura' %}text-black border-b-2 border-black{% else %}text-[#999] hover:text-black{% endif %}">
-           Aura
-        </a>
+      </div>
+      
+      <p class="text-lg md:text-xl font-medium mb-4">
+        Buy something. Participate.
+      </p>
+      
+      <p class="text-sm text-gray-500 italic">
+        agentic product creation tools coming soon
+      </p>
+      
+      <div class="w-24 h-px bg-black mx-auto mt-10"></div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="mb-8 flex flex-wrap justify-center gap-2 md:gap-3 border-b border-gray-200 pb-6 ptd-scrollbar-hide overflow-x-auto">
+      <button class="shop-tab active px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs" data-tab="all">
+        All
+      </button>
+      <button class="shop-tab px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs" data-tab="apparel">
+        Apparel
+      </button>
+      <button class="shop-tab px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs" data-tab="accessories">
+        Accessories
+      </button>
+      <button class="shop-tab px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs" data-tab="artifacts">
+        Artifacts
+      </button>
+      <button class="shop-tab px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs" data-tab="art">
+        Art
+      </button>
+      <button class="shop-tab px-4 md:px-6 py-3 border border-black uppercase font-bold tracking-widest text-[10px] md:text-xs" data-tab="aura">
+        Aura
+      </button>
     </div>
-  </div>
 
-  <!-- Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-black bg-gray-200 gap-px">
-    {% paginate collection.products by 48 %}
-      {% for product in collection.products %}
-        <a href="{{ product.url }}" class="group cursor-pointer p-8 relative flex flex-col no-underline bg-white hover:z-10 transition-ptd">
-          <div class="aspect-[3/4] bg-[#f8f8f8] mb-8 overflow-hidden relative">
-             <img 
-               src="{{ product.featured_image | img_url: '800x' }}" 
-               alt="{{ product.featured_image.alt | escape }}"
-               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-               loading="lazy"
-             />
-             {% for tag in product.tags limit: 1 %}
-                <span class="absolute top-4 left-4 bg-black text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest z-10">
-                  {{ tag }}
-                </span>
-             {% endfor %}
-          </div>
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-black mb-8 pb-4 gap-4">
+      <div class="flex items-baseline gap-4">
+        <h3 id="section-title" class="text-3xl md:text-4xl font-bold uppercase tracking-tighter">All SKUs</h3>
+        <span id="sku-count" class="text-xs font-mono text-gray-400 uppercase tracking-widest"></span>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <label for="sort-select" class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Sort</label>
+        <select id="sort-select" class="border border-black px-3 py-2 text-xs font-bold uppercase tracking-wider bg-white cursor-pointer hover:bg-gray-50 transition-colors appearance-none pr-8" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%23000%27 d=%27M6 8L1 3h10z%27/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 12px center;">
+          <option value="manual">Featured</option>
+          <option value="sku-asc">SKU: A → Z</option>
+          <option value="sku-desc">SKU: Z → A</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="alpha-asc">Name: A → Z</option>
+          <option value="alpha-desc">Name: Z → A</option>
+        </select>
+      </div>
+    </div>
 
-          <div class="mt-auto">
-            <h3 class="text-xl font-bold uppercase tracking-tight leading-none mb-4 text-black group-hover:italic transition-all">{{ product.title }}</h3>
-            <div class="flex justify-between items-center border-t border-gray-100 pt-4">
-              <span class="text-xs font-mono font-bold text-[#666] tracking-widest">{{ product.price | money }}</span>
-              <span class="text-[9px] font-black uppercase tracking-[0.2em] text-white bg-black px-3 py-1 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 flex items-center gap-2">
-                Secure <span class="text-[12px]">+</span>
-              </span>
-            </div>
-          </div>
-        </a>
-      {% else %}
-         <div class="col-span-full py-32 text-center bg-white">
-             <h2 class="text-2xl font-black uppercase mb-4 italic">No products found.</h2>
-             <a href="/collections/all" class="text-[10px] font-black uppercase tracking-widest border-b border-black pb-1 hover:bg-black hover:text-white px-2 py-1 transition-ptd">Back to Archive</a>
-         </div>
-      {% endfor %}
+    <!-- SKU Grid -->
+    <div id="sku-grid" class="sku-grid">
+      <!-- Variants injected by JS -->
+    </div>
+    
+    <!-- Back to Top -->
+    <div id="back-to-top" class="fixed bottom-8 right-8 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-black text-white p-4 shadow-lg hover:bg-gray-800 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+      </button>
+    </div>
 
-      {% if paginate.pages > 1 %}
-        <div class="col-span-full py-12 flex justify-center gap-4 bg-white border-t border-black">
-           {{ paginate | default_pagination: next: 'Next', previous: 'Prev' }}
-        </div>
-      {% endif %}
-    {% endpaginate %}
-  </div>
+    <!-- Footer -->
+    <div class="mt-24 text-center border-t border-black pt-12">
+      <p class="text-3xl md:text-4xl font-black uppercase italic tracking-tighter">"Create without Permission. Profit without Limit."</p>
+    </div>
 
-  <!-- Global Footer Branding -->
-  <div class="mt-24 text-center border-t border-black pt-12">
-    <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter">"PROFIT WITHOUT LIMIT."</h2>
   </div>
 </div>
+
+<script>
+  // ======================
+  // ALL PRODUCTS DATA (every vendor, every variant)
+  // ======================
+  const ALL_SKUS = [
+    {%- assign first_item = true -%}
+    {%- assign item_index = 0 -%}
+    {%- for product in collections.all.products -%}
+      
+      {%- comment -%} Determine category based on tags and product type {%- endcomment -%}
+      {%- assign type_lower = product.type | downcase -%}
+      {%- assign all_tags_lower = '' -%}
+      {%- for tag in product.tags -%}
+        {%- assign tag_l = tag | downcase -%}
+        {%- assign all_tags_lower = all_tags_lower | append: '|' | append: tag_l | append: '|' -%}
+      {%- endfor -%}
+      
+      {%- assign product_category = 'other' -%}
+      
+      {%- comment -%} APPAREL detection {%- endcomment -%}
+      {%- if all_tags_lower contains '|apparel|' 
+          or all_tags_lower contains '|clothing|' 
+          or all_tags_lower contains '|tops|' 
+          or all_tags_lower contains '|tøps|'
+          or all_tags_lower contains '|bottoms|'
+          or all_tags_lower contains '|bøttoms|'
+          or all_tags_lower contains '|shirt|'
+          or all_tags_lower contains '|tee|'
+          or all_tags_lower contains '|hoodie|'
+          or all_tags_lower contains '|tank|'
+          or all_tags_lower contains '|pants|'
+          or all_tags_lower contains '|shorts|'
+          or type_lower contains 'apparel'
+          or type_lower contains 't-shirt'
+          or type_lower contains 'shirt'
+          or type_lower contains 'hoodie'
+          or type_lower contains 'tank'
+          or type_lower contains 'sweatshirt'
+          or type_lower contains 'sweatpants'
+          or type_lower contains 'tracksuit'
+          or type_lower contains 'polo'
+          or type_lower contains 'shorts'
+          or type_lower contains 'clothing' -%}
+        {%- assign product_category = 'apparel' -%}
+      {%- endif -%}
+      
+      {%- comment -%} ACCESSORIES detection {%- endcomment -%}
+      {%- if all_tags_lower contains '|accessories|' 
+          or all_tags_lower contains '|accessory|'
+          or all_tags_lower contains '|hat|'
+          or all_tags_lower contains '|cap|'
+          or all_tags_lower contains '|bag|'
+          or all_tags_lower contains '|tote|'
+          or all_tags_lower contains '|wallet|'
+          or all_tags_lower contains '|jewelry|'
+          or all_tags_lower contains '|sunglasses|'
+          or all_tags_lower contains '|shoes|'
+          or all_tags_lower contains '|sandals|'
+          or type_lower contains 'accessor'
+          or type_lower contains 'hat'
+          or type_lower contains 'cap'
+          or type_lower contains 'bag'
+          or type_lower contains 'tote'
+          or type_lower contains 'sandal'
+          or type_lower contains 'jewelry' -%}
+        {%- assign product_category = 'accessories' -%}
+      {%- endif -%}
+      
+      {%- comment -%} ARTIFACTS detection {%- endcomment -%}
+      {%- if all_tags_lower contains '|artifacts|' 
+          or all_tags_lower contains '|artifact|'
+          or all_tags_lower contains '|collectible|'
+          or all_tags_lower contains '|limited|'
+          or all_tags_lower contains '|zine|'
+          or all_tags_lower contains '|home|'
+          or all_tags_lower contains '|mug|'
+          or all_tags_lower contains '|towel|'
+          or all_tags_lower contains '|doormat|'
+          or all_tags_lower contains '|cards|'
+          or all_tags_lower contains '|gift|'
+          or type_lower contains 'artifact'
+          or type_lower contains 'collectible'
+          or type_lower contains 'mug'
+          or type_lower contains 'doormat'
+          or type_lower contains 'towel'
+          or type_lower contains 'tray'
+          or type_lower contains 'cards'
+          or type_lower contains 'doll'
+          or type_lower contains 'wrap' -%}
+        {%- assign product_category = 'artifacts' -%}
+      {%- endif -%}
+      
+      {%- comment -%} ART detection {%- endcomment -%}
+      {%- if all_tags_lower contains '|art|'
+          or all_tags_lower contains '|print|'
+          or all_tags_lower contains '|prints|'
+          or all_tags_lower contains '|painting|'
+          or all_tags_lower contains '|paintings|'
+          or all_tags_lower contains '|artwork|'
+          or all_tags_lower contains '|canvas|'
+          or all_tags_lower contains '|stickers|'
+          or all_tags_lower contains '|rezoed|'
+          or all_tags_lower contains '|rezøed|'
+          or type_lower contains 'print'
+          or type_lower contains 'painting'
+          or type_lower contains 'poster'
+          or type_lower contains 'sticker' -%}
+        {%- assign product_category = 'art' -%}
+      {%- endif -%}
+      
+      {%- comment -%} AURA detection {%- endcomment -%}
+      {%- if all_tags_lower contains '|aura|'
+          or all_tags_lower contains '|fragrance|'
+          or all_tags_lower contains '|candle|'
+          or all_tags_lower contains '|incense|'
+          or all_tags_lower contains '|wellness|'
+          or all_tags_lower contains '|selfcare|'
+          or all_tags_lower contains '|soap|'
+          or all_tags_lower contains '|supplements|'
+          or type_lower contains 'aura'
+          or type_lower contains 'fragrance'
+          or type_lower contains 'candle'
+          or type_lower contains 'wellness'
+          or type_lower contains 'supplement' -%}
+        {%- assign product_category = 'aura' -%}
+      {%- endif -%}
+      
+      {%- comment -%} Output each variant as its own SKU entry {%- endcomment -%}
+      {%- for variant in product.variants -%}
+        {%- unless first_item -%},{%- endunless -%}
+        {%- assign first_item = false -%}
+        {%- assign item_index = item_index | plus: 1 -%}
+        {
+          id: {{ variant.id }},
+          productId: {{ product.id }},
+          sku: {{ variant.sku | default: 'NO-SKU' | json }},
+          productTitle: {{ product.title | json }},
+          variantTitle: {{ variant.title | json }},
+          price: {{ variant.price | money | json }},
+          priceRaw: {{ variant.price }},
+          img: {% if variant.image %}{{ variant.image | img_url: '800x' | json }}{% else %}{{ product.featured_image | img_url: '800x' | json }}{% endif %},
+          url: {{ product.url | append: '?variant=' | append: variant.id | json }},
+          category: '{{ product_category }}',
+          vendor: {{ product.vendor | json }},
+          type: {{ product.type | json }},
+          available: {{ variant.available }},
+          option1: {{ variant.option1 | json }},
+          option2: {{ variant.option2 | json }},
+          option3: {{ variant.option3 | json }},
+          position: {{ item_index }}
+        }
+      {%- endfor -%}
+      
+    {%- endfor -%}
+  ];
+
+  // ======================
+  // APP LOGIC
+  // ======================
+  document.addEventListener('DOMContentLoaded', () => {
+    const gridEl = document.getElementById('sku-grid');
+    const sectionTitle = document.getElementById('section-title');
+    const skuCount = document.getElementById('sku-count');
+    const sortSelect = document.getElementById('sort-select');
+    const backToTop = document.getElementById('back-to-top');
+    const tabBtns = document.querySelectorAll('.shop-tab');
+    
+    let activeTab = 'all';
+    let currentSort = 'manual';
+
+    console.log('=== SHOP ALL SKUs ===');
+    console.log('Total SKUs loaded:', ALL_SKUS.length);
+
+    const CATEGORY_TITLES = {
+      all: 'All SKUs',
+      apparel: 'Apparel',
+      accessories: 'Accessories',
+      artifacts: 'Artifacts',
+      art: 'Art',
+      aura: 'Aura'
+    };
+
+    const sortFunctions = {
+      'manual': (a, b) => a.position - b.position,
+      'sku-asc': (a, b) => (a.sku || '').localeCompare(b.sku || ''),
+      'sku-desc': (a, b) => (b.sku || '').localeCompare(a.sku || ''),
+      'price-asc': (a, b) => a.priceRaw - b.priceRaw,
+      'price-desc': (a, b) => b.priceRaw - a.priceRaw,
+      'alpha-asc': (a, b) => a.productTitle.localeCompare(b.productTitle),
+      'alpha-desc': (a, b) => b.productTitle.localeCompare(a.productTitle)
+    };
+
+    const renderGrid = () => {
+      let items = activeTab === 'all' 
+        ? ALL_SKUS 
+        : ALL_SKUS.filter(item => item.category === activeTab);
+      
+      items = [...items].sort(sortFunctions[currentSort]);
+      
+      sectionTitle.textContent = CATEGORY_TITLES[activeTab];
+      skuCount.textContent = `${items.length} SKUs`;
+      
+      if (items.length === 0) {
+        gridEl.innerHTML = `
+          <div class="col-span-full py-16 text-center text-gray-400 font-mono text-sm uppercase tracking-widest border border-black">
+            No SKUs found in ${CATEGORY_TITLES[activeTab]}
+          </div>`;
+        return;
+      }
+
+      gridEl.innerHTML = items.map((item, idx) => {
+        const optionDisplay = [item.option1, item.option2, item.option3]
+          .filter(Boolean)
+          .join(' / ');
+        
+        const displayTitle = item.productTitle.length > 40 
+          ? item.productTitle.substring(0, 40) + '...' 
+          : item.productTitle;
+        
+        return `
+          <a href="${item.url}" class="sku-card sku-fade-in" style="animation-delay: ${Math.min(idx * 15, 400)}ms">
+            
+            <!-- SKU Badge -->
+            <span class="sku-badge">${item.sku}</span>
+            
+            <!-- Sold Out Badge -->
+            ${!item.available ? '<span class="absolute top-3 right-3 bg-white text-black text-[8px] px-2 py-1 uppercase tracking-widest border border-black z-10">Sold Out</span>' : ''}
+            
+            <!-- Image area -->
+            <div class="sku-card-image">
+              <img 
+                src="${item.img}" 
+                alt="${item.productTitle} - ${optionDisplay}"
+                loading="lazy"
+              />
+            </div>
+            
+            <!-- Slide-up overlay on hover -->
+            <div class="sku-card-overlay">
+              <h4 class="font-bold uppercase tracking-tight text-xs leading-tight mb-1">${displayTitle}</h4>
+              ${optionDisplay ? `<p class="text-[10px] text-gray-500 uppercase tracking-wider mb-2">${optionDisplay}</p>` : ''}
+              <div class="flex justify-between items-center">
+                <span class="font-mono text-sm font-bold">${item.price}</span>
+                <span class="text-[8px] text-gray-400 uppercase tracking-widest">${item.vendor}</span>
+              </div>
+            </div>
+            
+          </a>
+        `;
+      }).join('');
+    };
+
+    // Initial render
+    renderGrid();
+
+    // Tab switching
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newTab = btn.getAttribute('data-tab');
+        if (newTab === activeTab) return;
+        
+        activeTab = newTab;
+        
+        tabBtns.forEach(b => {
+          if (b.getAttribute('data-tab') === activeTab) {
+            b.classList.add('active');
+          } else {
+            b.classList.remove('active');
+          }
+        });
+
+        renderGrid();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Sort change
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      renderGrid();
+    });
+
+    // Back to top visibility
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) {
+        backToTop.classList.remove('opacity-0', 'pointer-events-none');
+        backToTop.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        backToTop.classList.add('opacity-0', 'pointer-events-none');
+        backToTop.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    });
+  });
+</script>
