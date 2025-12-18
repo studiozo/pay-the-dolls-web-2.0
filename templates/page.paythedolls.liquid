@@ -32,7 +32,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-px gap-y-px bg-gray-200 border border-gray-200">
           {% assign count = 0 %}
           {% for product in source_collection.products %}
-            {% if product.tags contains 'Apparel' %}
+            {% if product.tags contains 'apparel' %}
               {% assign count = count | plus: 1 %}
               <a href="{{ product.url }}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10">
                  <div class="absolute inset-0"><img src="{{ product.featured_image | img_url: '800x' }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"/></div>
