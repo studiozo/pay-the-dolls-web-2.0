@@ -1,4 +1,24 @@
+{% comment %}
+  ZØVIVAA / STUDIO ZO COMMERCE PROTOCOL v1.4
+  Template: studiozo.liquid
+  Function: Dynamic Single-Page Catalog (Vendor: STuDiØ ZØ)
+{% endcomment %}
+
 {% layout 'theme' %}
+
+<style>
+  .text-outline-white {
+    -webkit-text-stroke: 1px white;
+    color: transparent;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
 
 <div class="bg-[#050505] min-h-screen text-white font-mono relative selection:bg-[#CCFF00] selection:text-black pb-24">
   
@@ -15,7 +35,6 @@
      <div class="text-right flex flex-col items-end">
          <div class="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
          <div id="sys-clock" class="font-mono tabular-nums text-white">
-           <!-- Time will be injected here -->
            00:00:00.000
          </div>
          <a href="/pages/brands" class="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300 no-underline text-[#666] hover:text-black">
@@ -26,11 +45,10 @@
 
   <!-- Hero Header -->
   <div class="relative z-10 px-6 md:px-12 mt-12 mb-20">
-     <h1 class="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-transparent text-outline-white tracking-tighter font-sans select-none" style="-webkit-text-stroke: 1px white;">
+     <h1 class="text-[14vw] md:text-[160px] leading-[0.8] font-bold text-outline-white tracking-tighter font-sans select-none">
         STuDiØ ZØ
      </h1>
      <div class="mt-6 flex items-center gap-4">
-         <!-- Gradient Line Accent -->
          <div class="h-[3px] w-32 bg-gradient-to-r from-[#FF3333] to-[#CCFF00]"></div>
          <span class="text-white font-bold tracking-[0.2em] uppercase text-sm md:text-base">
             // CØMMERCE
@@ -39,15 +57,15 @@
   </div>
 
   <!-- Filter Tabs -->
-  <div class="relative z-10 px-6 md:px-12 mb-12 flex gap-8 border-b border-[#222]">
+  <div class="relative z-10 px-6 md:px-12 mb-12 flex gap-8 border-b border-[#222] overflow-x-auto whitespace-nowrap scrollbar-hide">
     <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#CCFF00] border-b-2 border-[#CCFF00]" data-tab="paintings">
-      paintings
-    </button>
-    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="rezoed">
-      rezoed
+      PAINTINGS
     </button>
     <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="prints">
-      prints
+      PRINTS
+    </button>
+    <button class="tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white" data-tab="rezoed">
+      REZØED
     </button>
   </div>
 
@@ -59,21 +77,32 @@
 </div>
 
 <script>
-  // Mock Data
+  // DYNAMIC LIQUID INJECTION
   const ARTWORKS = [
-    { id: 1, code: 'PNT-001', title: 'Entropy No. 5', price: 1200, img: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1000&auto=format&fit=crop', category: 'paintings' },
-    { id: 2, code: 'PNT-002', title: 'Static Noise', price: 950, img: 'https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1000&auto=format&fit=crop', category: 'paintings' },
-    { id: 3, code: 'PNT-003', title: 'The Void', price: 2400, img: 'https://images.unsplash.com/photo-1515405295579-ba7f9f92f413?q=80&w=1000&auto=format&fit=crop', category: 'paintings' },
-    { id: 4, code: 'RZO-001', title: 'Glitch Portrait', price: 450, img: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop', category: 'rezoed' },
-    { id: 5, code: 'RZO-002', title: 'Data Decay', price: 450, img: 'https://images.unsplash.com/photo-1614850523060-8da1d56e37ad?q=80&w=1000&auto=format&fit=crop', category: 'rezoed' },
-    { id: 6, code: 'PRT-001', title: 'Structure A', price: 85, img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
-    { id: 7, code: 'PRT-002', title: 'Structure B', price: 85, img: 'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
-    { id: 8, code: 'PRT-003', title: 'Untitled 04', price: 120, img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
-    { id: 9, code: 'PRT-004', title: 'Untitled 05', price: 120, img: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1000&auto=format&fit=crop', category: 'prints' },
+    {%- assign first_match = true -%}
+    {%- for product in collections.all.products -%}
+      {%- if product.vendor == 'STuDiØ ZØ' -%}
+        {%- assign current_category = 'paintings' -%}
+        {%- if product.tags contains 'prints' or product.tags contains 'PRINTS' -%}
+          {%- assign current_category = 'prints' -%}
+        {%- elsif product.tags contains 'rezoed' or product.tags contains 'REZØED' -%}
+          {%- assign current_category = 'rezoed' -%}
+        {%- endif -%}
+        {%- unless first_match -%},{%- endunless -%}{%- assign first_match = false -%}
+        {
+          id: {{ product.id }},
+          code: {{ product.variants.first.sku | default: "ZO-ART" | json }},
+          title: {{ product.title | json }},
+          price: {{ product.price | money_without_currency }},
+          img: {{ product.featured_image | img_url: '1000x' | json }},
+          category: '{{ current_category }}',
+          url: {{ product.url | json }}
+        }
+      {%- endif -%}
+    {%- endfor -%}
   ];
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Clock
     const clockEl = document.getElementById('sys-clock');
     const updateClock = () => {
       const now = new Date();
@@ -84,21 +113,26 @@
     setInterval(updateClock, 53);
     updateClock();
 
-    // Tabs & Grid
     const gridEl = document.getElementById('artwork-grid');
     const tabBtns = document.querySelectorAll('.tab-btn');
     let activeTab = 'paintings';
 
     const renderGrid = (category) => {
       const items = ARTWORKS.filter(item => item.category === category);
+      
+      if (items.length === 0) {
+        gridEl.innerHTML = `<div class="col-span-full py-20 text-[#333] font-bold text-center uppercase tracking-widest">[ NO DATA DETECTED FOR ${category.toUpperCase()} ]</div>`;
+        return;
+      }
+
       gridEl.innerHTML = items.map(item => `
-        <div class="group cursor-pointer">
+        <a href="${item.url}" class="group cursor-pointer block no-underline decoration-transparent">
            <div class="aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]">
               <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20">
                  ${item.code}
               </span>
               <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 group-hover:opacity-20 transition-opacity duration-300">
-                 <span class="text-4xl md:text-5xl font-black text-[#222] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
+                 <span class="text-3xl md:text-4xl font-black text-[#1a1a1a] -rotate-45 whitespace-nowrap uppercase tracking-tighter select-none transform scale-125">
                     ${item.title}
                  </span>
               </div>
@@ -106,20 +140,19 @@
                  src="${item.img}" 
                  alt="${item.title}"
                  class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-normal z-0 grayscale group-hover:grayscale-0"
+                 loading="lazy"
               />
            </div>
            <div class="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
               <h3 class="text-xl md:text-2xl font-bold uppercase text-white tracking-tight">${item.title}</h3>
               <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors">$${item.price}</span>
            </div>
-        </div>
+        </a>
       `).join('');
     };
 
-    // Initial Render
     renderGrid(activeTab);
 
-    // Tab Logic
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const newTab = btn.getAttribute('data-tab');
@@ -127,7 +160,6 @@
         
         activeTab = newTab;
         
-        // Update Buttons
         tabBtns.forEach(b => {
           if (b.getAttribute('data-tab') === activeTab) {
              b.classList.remove('text-[#555]', 'hover:text-white', 'border-transparent');
@@ -138,7 +170,6 @@
           }
         });
 
-        // Render Grid
         renderGrid(activeTab);
       });
     });
