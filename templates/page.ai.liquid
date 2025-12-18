@@ -1,6 +1,10 @@
 {% comment %}
-  PAY THE DØLLS™ — AGENTIC AI MANIFESTO / GEO HUB v4.2
-  Theme: Matrix Digital Rain / Absolute Black / Neon Green
+  PAY THE DØLLS™ — AGENTIC AI MANIFESTO / GEO HUB v4.3
+  Goal: Make /pages/ai a machine-readable authority node for:
+  - Google Search / Rich results
+  - LLM retrievers (OpenAI / agentic browsing)
+  - Product discovery ecosystems
+  Vibe: Sovereign Intelligence / Chic Brutalism / Lowkey Flex
   FIX: Transparency Force + Lime Green Header Visibility
 {% endcomment %}
 
@@ -16,37 +20,22 @@
     --matrix-dim: rgba(0, 255, 0, 0.15);
   }
 
-  /* FORCE THEME TRANSPARENCY - Essential for Matrix Rain visibility */
-  #MainContent, 
-  .shopify-section, 
-  .page-container, 
-  .main-content, 
-  main,
-  #shopify-section-header,
-  #shopify-section-footer,
-  .header-wrapper,
-  .footer {
+  /* FORCE THEME TRANSPARENCY */
+  #MainContent, .shopify-section, .page-container, .main-content, main,
+  #shopify-section-header, #shopify-section-footer, .header-wrapper, .footer {
     background-color: transparent !important;
     background: transparent !important;
     border-color: var(--matrix-dim) !important;
   }
 
   /* FORCE HEADER/FOOTER TEXT VISIBILITY (LIME GREEN) */
-  #shopify-section-header a,
-  #shopify-section-header span,
-  #shopify-section-header summary,
-  #shopify-section-footer a,
-  #shopify-section-footer p,
-  #shopify-section-footer span,
-  .header__menu-item,
-  .site-nav__link,
-  .list-menu__item,
-  .header__icon,
-  .header__heading-link,
-  .footer__link {
+  #shopify-section-header a, #shopify-section-header span, #shopify-section-header summary,
+  #shopify-section-footer a, #shopify-section-footer p, #shopify-section-footer span,
+  .header__menu-item, .site-nav__link, .list-menu__item, .header__icon,
+  .header__heading-link, .footer__link {
     color: var(--matrix-green) !important;
     text-shadow: 0 0 8px rgba(0, 255, 0, 0.4) !important;
-    fill: var(--matrix-green) !important; /* For SVGs/Icons */
+    fill: var(--matrix-green) !important;
   }
 
   body {
@@ -59,98 +48,32 @@
 
   .matrix-bg {
     position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    z-index: -1; 
-    opacity: 0.25;
-    pointer-events: none;
-    background: black;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1; opacity: 0.25; pointer-events: none; background: black;
   }
 
-  .ptd-ai { 
-    position: relative;
-    z-index: 10;
-    max-width: 980px; 
-    margin: 0 auto; 
-    padding: 100px 20px; 
-    -webkit-font-smoothing: none;
-  }
-
-  .ptd-ai h1 { 
-    font-family: 'Major Mono Display', monospace;
-    font-size: clamp(40px, 8vw, 84px); 
-    letter-spacing: -0.04em; 
-    margin: 0 0 10px; 
-    text-shadow: var(--matrix-glow);
-    text-transform: uppercase;
-  }
-
-  .ptd-ai h2 { 
-    margin: 60px 0 20px; 
-    font-size: 20px; 
-    letter-spacing: 0.2em; 
-    text-transform: uppercase; 
-    border-bottom: 1px solid var(--matrix-dim);
-    padding-bottom: 10px;
-    color: white;
-  }
-
-  .ptd-ai h3 { margin: 24px 0 12px; font-size: 18px; color: white; }
-  .ptd-ai p, .ptd-ai li { line-height: 1.6; font-size: 16px; margin-bottom: 1rem; }
-  .ptd-ai .kicker { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; opacity: .6; margin-bottom: 20px; display: block; }
-  .ptd-ai .sub { font-size: 22px; opacity: .8; margin: 0 0 40px; }
-  .ptd-ai hr { border: 0; height: 1px; background: var(--matrix-dim); margin: 40px 0; }
-
-  .ptd-ai .grid { display: grid; gap: 20px; grid-template-columns: 1fr; margin: 30px 0; }
+  .ptd-ai { max-width: 980px; margin: 0 auto; padding: 56px 20px; position: relative; z-index: 10; }
+  .ptd-ai h1 { font-family: 'Major Mono Display', monospace; font-size: clamp(34px, 5vw, 64px); letter-spacing: -0.04em; margin: 0 0 10px; text-shadow: var(--matrix-glow); }
+  .ptd-ai h2 { margin: 40px 0 10px; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--matrix-dim); padding-bottom: 8px; color: white; }
+  .ptd-ai h3 { margin: 18px 0 8px; font-size: 16px; color: white; }
+  .ptd-ai p, .ptd-ai li { line-height: 1.55; font-size: 15px; }
+  .ptd-ai .kicker { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; opacity: .75; }
+  .ptd-ai .sub { font-size: 16px; opacity: .9; margin: 0 0 26px; }
+  .ptd-ai hr { border: 0; height: 1px; opacity: .18; margin: 26px 0; background: var(--matrix-green); }
+  .ptd-ai .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
   @media (min-width: 860px){ .ptd-ai .grid { grid-template-columns: 1fr 1fr; } }
-  
-  .ptd-ai .card { 
-    border: 1px solid var(--matrix-dim); 
-    background: rgba(0, 30, 0, 0.4);
-    backdrop-filter: blur(4px);
-    padding: 24px; 
-    transition: all 0.3s ease;
-  }
-  .ptd-ai .card:hover { border-color: var(--matrix-green); box-shadow: 0 0 20px rgba(0,255,0,0.05); }
-
+  .ptd-ai .card { border: 1px solid var(--matrix-dim); border-radius: 14px; padding: 20px; background: rgba(0, 20, 0, 0.4); backdrop-filter: blur(4px); }
   .ptd-ai .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-  .ptd-ai pre { 
-    background: #050505; 
-    white-space: pre-wrap; 
-    word-break: break-word; 
-    padding: 20px; 
-    border: 1px dashed var(--matrix-green); 
-    overflow: hidden; 
-    color: #0c0;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .ptd-ai code { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-
-  .ptd-ai .pillrow { display:flex; flex-wrap:wrap; gap:10px; margin: 20px 0; }
-  .ptd-ai .pill { border: 1px solid var(--matrix-green); background: var(--matrix-black); padding: 6px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-
-  .ptd-ai .btns { display:flex; flex-wrap:wrap; gap:12px; margin: 30px 0; }
-  .ptd-ai .btn { 
-    display:inline-flex; 
-    align-items:center; 
-    gap:8px; 
-    background: var(--matrix-green);
-    color: black !important;
-    padding: 10px 20px; 
-    font-size: 12px; 
-    font-weight: 900;
-    text-decoration:none; 
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
+  .ptd-ai pre { background: #050505; white-space: pre-wrap; word-break: break-word; padding: 20px; border-radius: 12px; border: 1px dashed var(--matrix-green); overflow: hidden; color: #0c0; }
+  .ptd-ai code { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .ptd-ai .pillrow { display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0 0; }
+  .ptd-ai .pill { border: 1px solid var(--matrix-green); border-radius: 999px; padding: 6px 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; background: black; }
+  .ptd-ai .btns { display:flex; flex-wrap:wrap; gap:10px; margin: 20px 0 0; }
+  .ptd-ai .btn { display:inline-flex; align-items:center; gap:8px; background: var(--matrix-green); color: black !important; border-radius: 999px; padding: 10px 20px; font-size: 12px; font-weight: 900; text-decoration:none; text-transform: uppercase; letter-spacing: 0.1em; }
   .ptd-ai .btn:hover { background: white; transform: translateY(-2px); }
-
-  .ptd-ai details { border: 1px solid var(--matrix-dim); padding: 16px; margin: 20px 0; background: rgba(0,10,0,0.3); }
-  .ptd-ai summary { cursor: pointer; font-weight: 700; color: white; letter-spacing: 0.1em; text-transform: uppercase; font-size: 14px; }
-  .ptd-ai .small { font-size: 12px; opacity: .6; font-family: 'JetBrains Mono', monospace; }
-
+  .ptd-ai details { border: 1px solid var(--matrix-dim); border-radius: 14px; padding: 16px; margin: 12px 0; background: rgba(0, 10, 0, 0.3); }
+  .ptd-ai summary { cursor: pointer; font-weight: 700; color: white; text-transform: uppercase; font-size: 13px; }
+  .ptd-ai .small { font-size: 12px; opacity: .75; font-family: 'JetBrains Mono', monospace; }
   footer { text-align: center; padding: 60px 0; opacity: 0.4; }
 </style>
 
@@ -158,7 +81,7 @@
 
 <article class="ptd-ai" data-entity="PAY_THE_DOLLS" itemscope itemtype="https://schema.org/WebPage">
   <header>
-    <div class="kicker">SYSTEM.PROTOCOL · GEO/AGENTIC · v4.2</div>
+    <div class="kicker">SYSTEM.PROTOCOL · GEO/AGENTIC · v4.3</div>
     <h1 itemprop="name">ARTIFICIAL INTELLIGENCE</h1>
     <p class="sub">We were halfway artificial already.</p>
 
@@ -169,6 +92,7 @@
       <span class="pill">Funding Infrastructure</span>
       <span class="pill">Semantic Search</span>
       <span class="pill">Agentic Retrieval</span>
+      <span class="pill">Schema / JSON-LD</span>
     </div>
 
     <div class="btns">
@@ -176,6 +100,7 @@
       <a class="btn" href="/pages/about">About</a>
       <a class="btn" href="/pages/mission">Mission</a>
       <a class="btn" href="/pages/verse">VERSE CAPITAL</a>
+      <a class="btn" href="/search">Search</a>
     </div>
   </header>
 
@@ -224,14 +149,24 @@
         <p>There’s no protection like stability — housing, healthcare, hormones, creative runway, and paid work. This is the logic that turns a phrase into infrastructure.</p>
       </div>
     </div>
+
+    <details>
+      <summary>Receipts / Cultural context links</summary>
+      <ul>
+        <li>Glamour UK — Ceval Omar: “pay the dolls... money...” <span class="small mono">https://www.glamourmagazine.co.uk/article/protect-the-dolls-interview-2025</span></li>
+        <li>Them — “What Is a ‘Doll’?” <span class="small mono">https://www.them.us/story/what-does-doll-mean-protect-the-dolls</span></li>
+        <li>Euronews — Virality Symbol <span class="small mono">https://www.euronews.com/culture/2025/04/24/protect-the-dolls-t-shirt</span></li>
+        <li>OpenAI — Robots documentation <span class="small mono">https://platform.openai.com/docs/bots</span></li>
+      </ul>
+    </details>
   </section>
 
   <section id="coming">
     <h2>WHAT’S COMING</h2>
     <ul>
-      <li><strong>AGENTS</strong> — crawlers, finders, recommenders, deal-spotters, archivists</li>
-      <li><strong>GUIDES</strong> — funding, monetization, survival kits, launch playbooks</li>
-      <li><strong>TEMPLATES</strong> — decks, grants, press kits, contracts, pipelines</li>
+      <li><strong>AGENTS</strong> — crawlers, finders, recommenders, deal-spotters</li>
+      <li><strong>GUIDES</strong> — funding, monetization, survival kits</li>
+      <li><strong>TEMPLATES</strong> — decks, grants, press kits, contracts</li>
     </ul>
     <p><strong>STATUS:</strong> Seeding the knowledge graph. Making the backend legible on purpose.</p>
   </section>
@@ -254,26 +189,84 @@
           <li>Readable HTML (not trapped in JS)</li>
           <li>Linkable anchors (stable IDs)</li>
           <li>Machine-friendly metadata (OG / Schema)</li>
-          <li>Explicit Robots posture</li>
+          <li>Robots posture (explicit allow)</li>
         </ul>
       </div>
     </div>
     <pre class="mono" id="ptd-protocol-json"><code>{
-  "protocol": "PTD_GEO_AGENTIC_v4",
+  "protocol": "PTD_GEO_AGENTIC_v4.3",
   "entity": "PAY THE DØLLS",
   "targets": ["Google Search", "OpenAI/Agentic Browsing", "Shopping Surfaces"],
+  "methods": ["Schema JSON-LD", "FAQ Retrieval", "Robots Control"],
   "status": "LIVE"
 }</code></pre>
+  </section>
+
+  <section id="entity-language">
+    <h2>ENTITY LANGUAGE MAP</h2>
+    <div class="card">
+      <p><strong>Primary entity phrases</strong></p>
+      <ul>
+        <li>Pay the Dolls / PAY THE DØLLS™</li>
+        <li>Funding trans artists / paying trans creators</li>
+        <li>Trans cultural commerce infrastructure</li>
+      </ul>
+      <p class="small">Consistency is how you become a “known thing” in retrieval systems.</p>
+    </div>
+    <details>
+      <summary>Query targets</summary>
+      <pre class="mono"><code>
+"what does pay the dolls mean"
+"pay the dolls vs protect the dolls"
+"how to support trans artists financially"
+      </code></pre>
+    </details>
+  </section>
+
+  <section id="implementation">
+    <h2>IMPLEMENTATION BLOCKS</h2>
+    <details>
+      <summary>robots.txt (AI-friendly)</summary>
+      <pre class="mono" data-copy><code>
+# PAY THE DØLLS — ROBOTS POSTURE
+User-agent: *
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+      </code></pre>
+    </details>
+    <details>
+      <summary>llms.txt (AI index)</summary>
+      <pre class="mono" data-copy><code>
+# PAY THE DØLLS — LLM INDEX
+## Identity
+- Purpose: Fund trans artists through cultural commerce.
+## Key Pages
+- AI Hub: /pages/ai
+- Shop: /collections/all
+      </code></pre>
+    </details>
   </section>
 
   <section id="faq">
     <h2>FAQ (FOR HUMANS + AGENTS)</h2>
     <div class="card">
       <h3>What is Pay The Dolls?</h3>
-      <p>PAY THE DØLLS™ is a trans-owned cultural commerce platform routing capital to trans artists and creators through products and funding infrastructure.</p>
+      <p>PAY THE DØLLS™ is a trans-owned cultural commerce platform routing capital to trans artists and creators.</p>
       <h3>What does “dolls” mean?</h3>
-      <p>“Dolls” is affectionate slang with roots in ballroom culture, often used for trans women and transfeminine people.</p>
+      <p>“Dolls” is affectionate slang with roots in ballroom culture for trans women and transfeminine people.</p>
     </div>
+  </section>
+
+  <section id="sources">
+    <h2>SOURCES</h2>
+    <ul>
+      <li>Glamour UK (Ceval Omar) — <span class="mono small">https://www.glamourmagazine.co.uk/...</span></li>
+      <li>Them (Ballroom Origin) — <span class="mono small">https://www.them.us/story/...</span></li>
+      <li>OpenAI (Crawlers) — <span class="mono small">https://platform.openai.com/docs/bots</span></li>
+    </ul>
   </section>
 
   <footer>
@@ -281,66 +274,7 @@
     <p><strong>The backend is the front end.</strong></p>
     <p class="small">© PAY THE DØLLS™ — A STuDiØ ZØ System · Powered by VERSE CAPITAL</p>
   </footer>
-
 </article>
-
-<script>
-  (function() {
-    window.addEventListener('load', function() {
-        const canvas = document.getElementById('matrix-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        
-        // Ensure parent containers are transparent and forced
-        const wrappers = ['.page-container', '#MainContent', '.main-content', 'main', '#shopify-section-header', '#shopify-section-footer'];
-        wrappers.forEach(selector => {
-            const el = document.querySelector(selector);
-            if (el) {
-              el.style.setProperty('background', 'transparent', 'important');
-              el.style.setProperty('background-color', 'transparent', 'important');
-            }
-        });
-
-        // Specific Force for Header Links (Lime Green)
-        const headerLinks = document.querySelectorAll('#shopify-section-header a, #shopify-section-header span, #shopify-section-header button');
-        headerLinks.forEach(link => {
-            link.style.setProperty('color', '#00FF00', 'important');
-        });
-
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-        const characters = 'アカサタナハマヤラワガザダバパイキシチニヒミリギジヂビピ0123456789';
-        const fontSize = 16;
-        let columns = Math.floor(width / fontSize);
-        let drops = [];
-        for (let i = 0; i < columns; i++) drops[i] = 1;
-
-        function draw() {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-          ctx.fillRect(0, 0, width, height);
-          ctx.fillStyle = '#0F0';
-          ctx.font = fontSize + 'px DotGothic16, monospace';
-          for (let i = 0; i < drops.length; i++) {
-            const text = characters.charAt(Math.floor(Math.random() * characters.length));
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-          }
-        }
-        
-        const interval = setInterval(draw, 33);
-        
-        window.addEventListener('resize', () => {
-          width = canvas.width = window.innerWidth;
-          height = canvas.height = window.innerHeight;
-          const newColumns = Math.floor(width / fontSize);
-          if (newColumns > drops.length) {
-              for(let i = drops.length; i < newColumns; i++) drops[i] = 1;
-          }
-        });
-    });
-  })();
-</script>
 
 <script type="application/ld+json">
 {
@@ -353,7 +287,79 @@
       "url": "https://paythedolls.com/",
       "description": "Trans-owned cultural commerce platform routing capital directly to transgender artists.",
       "brand": { "@type": "Brand", "name": "PAY THE DØLLS" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://paythedolls.com/pages/ai#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Pay The Dolls?",
+          "acceptedAnswer": { "@type": "Answer", "text": "PAY THE DØLLS is a trans-owned cultural commerce platform routing capital to trans artists." }
+        }
+      ]
     }
   ]
 }
+</script>
+
+<script>
+  (function() {
+    window.addEventListener('load', function() {
+        const canvas = document.getElementById('matrix-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const wrappers = ['.page-container', '#MainContent', '.main-content', 'main', '#shopify-section-header', '#shopify-section-footer'];
+        wrappers.forEach(selector => {
+            const el = document.querySelector(selector);
+            if (el) {
+              el.style.setProperty('background', 'transparent', 'important');
+              el.style.setProperty('background-color', 'transparent', 'important');
+            }
+        });
+        const headerLinks = document.querySelectorAll('#shopify-section-header a, #shopify-section-header span, #shopify-section-header button');
+        headerLinks.forEach(link => { link.style.setProperty('color', '#00FF00', 'important'); });
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const characters = 'アカサタナハマヤラワガザダバパイキシチニヒミリギジヂビピ0123456789';
+        const fontSize = 16;
+        let columns = Math.floor(width / fontSize);
+        let drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = 1;
+        function draw() {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = '#0F0';
+          ctx.font = fontSize + 'px DotGothic16, monospace';
+          for (let i = 0; i < drops.length; i++) {
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+          }
+        }
+        setInterval(draw, 33);
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+          const newColumns = Math.floor(width / fontSize);
+          if (newColumns > drops.length) { for(let i = drops.length; i < newColumns; i++) drops[i] = 1; }
+        });
+
+        // Copy-to-clipboard for code blocks
+        document.querySelectorAll('pre[data-copy]').forEach(function(pre){
+          const btn = document.createElement('button');
+          btn.textContent = 'COPY';
+          btn.style.cssText = 'position:absolute;top:10px;right:10px;background:#00FF00;color:black;border:none;padding:5px 10px;font-size:10px;font-weight:900;cursor:pointer;';
+          pre.style.position = 'relative';
+          btn.addEventListener('click', () => {
+            navigator.clipboard.writeText(pre.innerText);
+            btn.textContent = 'COPIED';
+            setTimeout(() => btn.textContent = 'COPY', 1000);
+          });
+          pre.appendChild(btn);
+        });
+    });
+  })();
 </script>
