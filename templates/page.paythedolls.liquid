@@ -1,16 +1,12 @@
 {% comment %}
-  PAY THE DØLLS™ — Shop Page (v3.1)
+  PAY THE DØLLS™ — Shop Page (v3.2)
   Template: paythedolls.liquid
   
-  FIXES:
-  - Product images FIT inside containers (object-contain, not object-cover)
-  - No more cropping — full product visible
-  - Light background behind images for contrast
-  
-  FEATURES:
-  - Tabbed category navigation
-  - "View All Variants" expands inline
-  - Sort controls
+  STYLING:
+  - White background with thin black border around each card
+  - Product images FIT (object-contain), no cropping
+  - Hover animation: info panel slides up from bottom
+  - Clean, chic, minimal gallery aesthetic
 {% endcomment %}
 
 {% layout 'theme' %}
@@ -19,18 +15,21 @@
   .ptd-scrollbar-hide::-webkit-scrollbar { display: none; }
   .ptd-scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
   
-  /* Product card with CONTAINED image (no crop) */
+  /* Product card: white bg + thin black border */
   .ptd-product-card {
-    display: flex;
-    flex-direction: column;
+    display: block;
     background: white;
+    border: 1px solid black;
+    position: relative;
+    overflow: hidden;
   }
   
+  /* Image container - square with contained image */
   .ptd-product-image-wrapper {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* 1:1 aspect ratio container */
-    background: #f5f5f5;
+    padding-top: 100%; /* 1:1 square */
+    background: white;
     overflow: hidden;
   }
   
@@ -39,8 +38,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 85%;
+    max-height: 85%;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -51,17 +50,50 @@
     transform: translate(-50%, -50%) scale(1.05);
   }
   
-  /* Collage grid variant cards */
+  /* Hover overlay - slides up */
+  .ptd-product-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    border-top: 1px solid black;
+  }
+  
+  .ptd-product-card:hover .ptd-product-overlay {
+    transform: translateY(0);
+  }
+  
+  /* Dark overlay on hover */
+  .ptd-product-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .ptd-product-card:hover::after {
+    background: rgba(0,0,0,0.1);
+  }
+  
+  /* Variant cards for collage view */
   .ptd-variant-card {
     position: relative;
-    background: #f5f5f5;
+    background: white;
+    border: 1px solid black;
+    overflow: hidden;
   }
   
   .ptd-variant-card img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 8%;
+    padding: 10%;
     transition: transform 0.3s ease;
   }
   
@@ -69,33 +101,32 @@
     transform: scale(1.08);
   }
   
-  /* Collage grid for expanded view */
-  .ptd-collage-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 2px;
+  .ptd-variant-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+    opacity: 0;
+    transition: all 0.3s ease;
   }
   
-  @media (min-width: 768px) {
-    .ptd-collage-grid {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
+  .ptd-variant-card:hover .ptd-variant-overlay {
+    background: rgba(0,0,0,0.7);
+    opacity: 1;
   }
   
-  @media (min-width: 1024px) {
-    .ptd-collage-grid {
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    }
-  }
-  
-  /* Standard grid */
+  /* Grid layouts */
   .ptd-standard-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 1px;
+    gap: 16px;
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .ptd-standard-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -104,6 +135,18 @@
   @media (min-width: 1024px) {
     .ptd-standard-grid {
       grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .ptd-collage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  
+  @media (min-width: 768px) {
+    .ptd-collage-grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     }
   }
   
@@ -117,7 +160,7 @@
     animation: ptd-fade-in 0.3s ease-out forwards;
   }
   
-  /* Sort dropdown styling */
+  /* Sort dropdown */
   .ptd-sort-select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
@@ -125,25 +168,10 @@
     background-position: right 12px center;
     padding-right: 36px;
   }
-  
-  /* Hover overlay for product info */
-  .ptd-product-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-  }
-  
-  .ptd-product-card:hover .ptd-product-overlay {
-    transform: translateY(0);
-  }
 </style>
 
 <div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
-  <div class="max-w-[1800px] mx-auto py-24 px-4 md:px-8">
+  <div class="max-w-[1600px] mx-auto py-24 px-6 md:px-12">
     
     <!-- Header -->
     <header class="mb-16 text-center max-w-4xl mx-auto">
@@ -175,7 +203,7 @@
       </button>
     </div>
 
-    <!-- Section Header with Controls -->
+    <!-- Section Header -->
     <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-black mb-8 pb-4 gap-4">
       <div class="flex items-baseline gap-4">
         <h3 id="ptd-section-title" class="text-4xl md:text-5xl font-bold uppercase tracking-tighter">Apparel</h3>
@@ -183,7 +211,6 @@
       </div>
       
       <div class="flex items-center gap-4 flex-wrap">
-        <!-- Sort Dropdown -->
         <div class="flex items-center gap-2">
           <label for="ptd-sort" class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Sort</label>
           <select id="ptd-sort" class="ptd-sort-select border border-black px-3 py-2 text-xs font-bold uppercase tracking-wider bg-white cursor-pointer hover:bg-gray-50 transition-colors">
@@ -196,15 +223,14 @@
           </select>
         </div>
         
-        <!-- View All Toggle -->
         <button id="ptd-view-all-btn" class="text-xs font-mono uppercase tracking-widest border border-black px-4 py-2 hover:bg-black hover:text-white transition-all duration-300">
           View All Variants
         </button>
       </div>
     </div>
 
-    <!-- Product Grid Container -->
-    <div id="ptd-product-grid" class="ptd-standard-grid bg-gray-200 border border-gray-200">
+    <!-- Product Grid -->
+    <div id="ptd-product-grid" class="ptd-standard-grid">
       <!-- Products injected by JS -->
     </div>
     
@@ -221,7 +247,7 @@
 </div>
 
 <script>
-  // PRODUCT DATA — Filtered by Vendor: PAY THE DØLLS
+  // PRODUCT DATA
   const PTD_PRODUCTS = [
     {%- assign first_item = true -%}
     {%- assign product_index = 0 -%}
@@ -238,7 +264,6 @@
         
         {%- assign product_category = '' -%}
         
-        {%- comment -%} APPAREL {%- endcomment -%}
         {%- if all_tags_lower contains '|apparel|' 
             or all_tags_lower contains '|clothing|' 
             or all_tags_lower contains '|tops|' 
@@ -265,7 +290,6 @@
           {%- assign product_category = 'apparel' -%}
         {%- endif -%}
         
-        {%- comment -%} ACCESSORIES {%- endcomment -%}
         {%- if all_tags_lower contains '|accessories|' 
             or all_tags_lower contains '|accessory|'
             or all_tags_lower contains '|hat|'
@@ -287,7 +311,6 @@
           {%- assign product_category = 'accessories' -%}
         {%- endif -%}
         
-        {%- comment -%} ARTIFACTS {%- endcomment -%}
         {%- if all_tags_lower contains '|artifacts|' 
             or all_tags_lower contains '|artifact|'
             or all_tags_lower contains '|collectible|'
@@ -311,7 +334,6 @@
           {%- assign product_category = 'artifacts' -%}
         {%- endif -%}
         
-        {%- comment -%} ART {%- endcomment -%}
         {%- if all_tags_lower contains '|art|'
             or all_tags_lower contains '|print|'
             or all_tags_lower contains '|prints|'
@@ -326,7 +348,6 @@
           {%- assign product_category = 'art' -%}
         {%- endif -%}
         
-        {%- comment -%} AURA {%- endcomment -%}
         {%- if all_tags_lower contains '|aura|'
             or all_tags_lower contains '|fragrance|'
             or all_tags_lower contains '|candle|'
@@ -387,7 +408,6 @@
     {%- endfor -%}
   ];
 
-  // Category metadata
   const PTD_CATEGORIES = {
     apparel: { title: 'Apparel', collection: '/collections/apparel' },
     accessories: { title: 'Accessories', collection: '/collections/accessories' },
@@ -409,12 +429,9 @@
     let expandedView = false;
     let currentSort = 'manual';
 
-    // Debug
-    console.log('=== PAY THE DØLLS v3.1 ===');
-    console.log('Products loaded:', PTD_PRODUCTS.length);
-    console.log('Total variants:', PTD_PRODUCTS.reduce((sum, p) => sum + p.variants.length, 0));
+    console.log('=== PAY THE DØLLS v3.2 ===');
+    console.log('Products:', PTD_PRODUCTS.length);
 
-    // Sort functions
     const sortFunctions = {
       'manual': (a, b) => a.position - b.position,
       'newest': (a, b) => b.createdAt - a.createdAt,
@@ -424,7 +441,7 @@
       'alpha-desc': (a, b) => b.title.localeCompare(a.title)
     };
 
-    // Render standard grid (products only) - WITH OBJECT-CONTAIN
+    // Standard grid with HOVER ANIMATION
     const renderStandardGrid = (category) => {
       let items = PTD_PRODUCTS.filter(item => item.category === category);
       items = items.sort(sortFunctions[currentSort]);
@@ -433,22 +450,21 @@
       sectionTitle.textContent = categoryMeta.title;
       productCount.textContent = `${items.length} products`;
       
-      gridEl.className = 'ptd-standard-grid bg-gray-200 border border-gray-200';
+      gridEl.className = 'ptd-standard-grid';
       backToTop.classList.add('hidden');
       
       if (items.length === 0) {
         gridEl.innerHTML = `
-          <div class="col-span-full py-16 text-center bg-white text-gray-400 font-mono text-sm uppercase tracking-widest">
+          <div class="col-span-full py-16 text-center text-gray-400 font-mono text-sm uppercase tracking-widest border border-black">
             No products found in ${categoryMeta.title}
           </div>`;
         return;
       }
 
-      // NEW: Using ptd-product-card with object-contain image
       gridEl.innerHTML = items.map((item, idx) => `
-        <a href="${item.url}" class="ptd-product-card group ptd-fade-in" style="animation-delay: ${idx * 30}ms">
+        <a href="${item.url}" class="ptd-product-card ptd-fade-in" style="animation-delay: ${idx * 30}ms">
           
-          <!-- Image wrapper with CONTAINED image -->
+          <!-- Image area -->
           <div class="ptd-product-image-wrapper">
             <img 
               src="${item.img}" 
@@ -457,12 +473,12 @@
             />
           </div>
           
-          <!-- Product info below image -->
-          <div class="p-4 border-t border-gray-100">
-            <h4 class="font-bold uppercase tracking-tight text-sm leading-tight mb-2 group-hover:underline">${item.title}</h4>
+          <!-- Slide-up overlay on hover -->
+          <div class="ptd-product-overlay">
+            <h4 class="font-bold uppercase tracking-tight text-sm leading-tight mb-2">${item.title}</h4>
             <div class="flex justify-between items-center">
               <span class="font-mono text-sm">${item.price}</span>
-              <span class="text-[9px] uppercase tracking-widest text-gray-400">${item.variants.length} Options</span>
+              <span class="text-[9px] uppercase tracking-widest bg-black text-white px-2 py-1">${item.variants.length} Options</span>
             </div>
           </div>
           
@@ -470,7 +486,7 @@
       `).join('');
     };
 
-    // Render expanded collage grid (all variants) - WITH OBJECT-CONTAIN
+    // Expanded collage grid
     const renderExpandedGrid = (category) => {
       let items = PTD_PRODUCTS.filter(item => item.category === category);
       items = items.sort(sortFunctions[currentSort]);
@@ -478,7 +494,6 @@
       const categoryMeta = PTD_CATEGORIES[category];
       sectionTitle.textContent = categoryMeta.title + ' — All Variants';
       
-      // Flatten all variants
       const allVariants = [];
       items.forEach(product => {
         product.variants.forEach(variant => {
@@ -495,50 +510,42 @@
       
       productCount.textContent = `${allVariants.length} variants`;
       
-      gridEl.className = 'ptd-collage-grid bg-gray-100';
+      gridEl.className = 'ptd-collage-grid';
       backToTop.classList.remove('hidden');
       
       if (allVariants.length === 0) {
         gridEl.innerHTML = `
-          <div class="col-span-full py-16 text-center bg-white text-gray-400 font-mono text-sm uppercase tracking-widest">
+          <div class="col-span-full py-16 text-center text-gray-400 font-mono text-sm uppercase tracking-widest">
             No variants found
           </div>`;
         return;
       }
 
-      // NEW: Using ptd-variant-card with object-contain
       gridEl.innerHTML = allVariants.map((v, idx) => {
         let variantUrl = v.productUrl;
-        if (v.id) {
-          variantUrl += `?variant=${v.id}`;
-        }
-        
+        if (v.id) variantUrl += `?variant=${v.id}`;
         const optionDisplay = v.option1 || v.title || '';
         
         return `
-          <a href="${variantUrl}" class="ptd-variant-card group aspect-square overflow-hidden block ptd-fade-in" style="animation-delay: ${Math.min(idx * 15, 500)}ms">
+          <a href="${variantUrl}" class="ptd-variant-card aspect-square ptd-fade-in" style="animation-delay: ${Math.min(idx * 15, 500)}ms">
             <img 
               src="${v.img}" 
               alt="${v.productTitle} - ${optionDisplay}"
               loading="lazy"
             />
             
-            <!-- Hover overlay -->
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-colors duration-300 flex flex-col justify-end opacity-0 group-hover:opacity-100">
-              <div class="p-3">
-                <p class="text-white text-[10px] md:text-xs font-bold uppercase tracking-tight leading-tight truncate">${v.productTitle.replace('PAY THE DØLLS ', '')}</p>
-                <p class="text-white/70 text-[9px] uppercase tracking-wider mt-1">${optionDisplay}</p>
-                <p class="text-white font-mono text-[10px] mt-1">${v.price}</p>
-              </div>
+            <div class="ptd-variant-overlay">
+              <p class="text-white text-[10px] font-bold uppercase tracking-tight leading-tight truncate">${v.productTitle.replace('PAY THE DØLLS ', '')}</p>
+              <p class="text-white/70 text-[9px] uppercase tracking-wider mt-1">${optionDisplay}</p>
+              <p class="text-white font-mono text-[10px] mt-1">${v.price}</p>
             </div>
             
-            ${!v.available ? '<div class="absolute top-2 right-2 bg-black/80 text-white text-[8px] px-2 py-1 uppercase tracking-widest">Sold Out</div>' : ''}
+            ${!v.available ? '<div class="absolute top-2 right-2 bg-white text-black text-[8px] px-2 py-1 uppercase tracking-widest border border-black">Sold Out</div>' : ''}
           </a>
         `;
       }).join('');
     };
 
-    // Main render function
     const render = () => {
       if (expandedView) {
         renderExpandedGrid(activeTab);
@@ -551,23 +558,19 @@
       }
     };
 
-    // Initial render
     render();
 
-    // View All toggle
     viewAllBtn.addEventListener('click', () => {
       expandedView = !expandedView;
       render();
       gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    // Sort change
     sortSelect.addEventListener('change', (e) => {
       currentSort = e.target.value;
       render();
     });
 
-    // Tab switching
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const newTab = btn.getAttribute('data-tab');
@@ -591,7 +594,6 @@
       });
     });
 
-    // Show/hide back to top
     window.addEventListener('scroll', () => {
       if (expandedView && window.scrollY > 500) {
         backToTop.classList.remove('hidden');
