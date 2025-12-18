@@ -1,0 +1,212 @@
+{% comment %}
+  ZØVIVAA / STUDIO ZO COMMERCE PROTOCOL v2.0
+  Template: collection.studiozo.liquid
+  Function: Dynamic Single-Page Catalog for STuDiØ ZØ Collection
+  
+  SETUP: In Shopify Admin > Collections > STuDiØ ZØ > Theme template > Select "studiozo"
+{% endcomment %}
+
+{% layout 'theme' %}
+
+<style>
+  /* STuDiØ ZØ Brand System */
+  .sz-text-outline {
+    -webkit-text-stroke: 1px white;
+    color: transparent;
+  }
+  .sz-scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .sz-scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  /* Override any theme defaults */
+  .sz-container * {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .sz-container h1, 
+  .sz-container h2, 
+  .sz-container h3,
+  .sz-container .sz-title {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+</style>
+
+<div class="sz-container bg-[#050505] min-h-screen text-white font-mono relative selection:bg-[#CCFF00] selection:text-black pb-24">
+  
+  <!-- Background Grid Texture -->
+  <div class="pointer-events-none fixed inset-0 opacity-[0.03] z-0"
+       style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;">
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <div class="relative z-10 flex justify-between items-start px-6 pt-6 md:px-12 text-[10px] md:text-[11px] tracking-[0.2em] text-[#666] font-bold">
+     <a href="/" class="text-white italic text-lg tracking-tighter not-italic font-sans no-underline hover:text-[#CCFF00] transition-colors">
+         ZØVIVAA
+     </a>
+     <div class="text-right flex flex-col items-end">
+         <div class="mb-1 text-[#CCFF00]">SYS.ONLINE</div>
+         <div id="sz-clock" class="font-mono tabular-nums text-white">
+           00:00:00.000
+         </div>
+         <a href="/pages/brands" class="mt-6 border border-[#333] px-5 py-2 hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-all duration-300 no-underline text-[#666] hover:text-black">
+           [ RETURN TO DASHBOARD ]
+         </a>
+     </div>
+  </div>
+
+  <!-- Hero Header -->
+  <div class="relative z-10 px-6 md:px-12 mt-12 mb-20">
+     <h1 class="sz-title text-[14vw] md:text-[160px] leading-[0.8] font-bold sz-text-outline tracking-tighter font-sans select-none">
+        STuDiØ ZØ
+     </h1>
+     <div class="mt-6 flex items-center gap-4">
+         <div class="h-[3px] w-32 bg-gradient-to-r from-[#FF3333] to-[#CCFF00]"></div>
+         <span class="text-white font-bold tracking-[0.2em] uppercase text-sm md:text-base">
+            // CØMMERCE
+         </span>
+     </div>
+  </div>
+
+  <!-- Filter Tabs: PRINTS - PAINTINGS - REZØED -->
+  <div class="relative z-10 px-6 md:px-12 mb-12 flex gap-8 border-b border-[#222] overflow-x-auto whitespace-nowrap sz-scrollbar-hide">
+    <button class="sz-tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#CCFF00] border-b-2 border-[#CCFF00]" data-tab="prints">
+      PRINTS
+    </button>
+    <button class="sz-tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white border-b-2 border-transparent" data-tab="paintings">
+      PAINTINGS
+    </button>
+    <button class="sz-tab-btn pb-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-[#555] hover:text-white border-b-2 border-transparent" data-tab="rezoed">
+      REZØED
+    </button>
+  </div>
+
+  <!-- Product Grid -->
+  <div id="sz-artwork-grid" class="relative z-10 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-16">
+    <!-- Items rendered by JS -->
+  </div>
+
+</div>
+
+<script>
+  // PRODUCT DATA FROM COLLECTION
+  const SZ_ARTWORKS = [
+    {%- assign first_item = true -%}
+    {%- for product in collection.products -%}
+      {%- comment -%} Determine category from tags {%- endcomment -%}
+      {%- assign current_category = 'paintings' -%}
+      {%- for tag in product.tags -%}
+        {%- assign tag_lower = tag | downcase -%}
+        {%- if tag_lower == 'prints' or tag_lower == 'print' -%}
+          {%- assign current_category = 'prints' -%}
+        {%- elsif tag_lower == 'rezoed' or tag_lower == 'rezøed' -%}
+          {%- assign current_category = 'rezoed' -%}
+        {%- endif -%}
+      {%- endfor -%}
+      
+      {%- unless first_item -%},{%- endunless -%}
+      {%- assign first_item = false -%}
+      {
+        id: {{ product.id }},
+        code: {{ product.variants.first.sku | default: "ZO-ART" | json }},
+        title: {{ product.title | json }},
+        price: {{ product.price | money_without_currency | json }},
+        img: {{ product.featured_image | image_url: width: 1000 | json }},
+        category: '{{ current_category }}',
+        url: {{ product.url | json }}
+      }
+    {%- endfor -%}
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Live Clock
+    const clockEl = document.getElementById('sz-clock');
+    const updateClock = () => {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', {hour12: false});
+      const ms = now.getMilliseconds().toString().padStart(3, '0');
+      clockEl.textContent = `${timeStr}.${ms}`;
+    };
+    setInterval(updateClock, 53);
+    updateClock();
+
+    // Grid & Tab Logic
+    const gridEl = document.getElementById('sz-artwork-grid');
+    const tabBtns = document.querySelectorAll('.sz-tab-btn');
+    let activeTab = 'prints'; // Default to PRINTS
+
+    const renderGrid = (category) => {
+      const items = SZ_ARTWORKS.filter(item => item.category === category);
+      
+      if (items.length === 0) {
+        gridEl.innerHTML = `
+          <div class="col-span-full py-20 text-[#333] font-bold text-center uppercase tracking-widest">
+            [ NO DATA DETECTED FOR ${category.toUpperCase()} ]
+          </div>`;
+        return;
+      }
+
+      gridEl.innerHTML = items.map(item => `
+        <a href="${item.url}" class="group cursor-pointer block no-underline">
+           <!-- Card Container -->
+           <div class="aspect-square bg-[#111] border border-[#222] relative overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]">
+              
+              <!-- SKU Code Badge -->
+              <span class="absolute top-4 left-4 text-[#CCFF00] text-xs font-mono font-bold tracking-widest z-20 bg-[#050505]/80 px-2 py-1">
+                 ${item.code}
+              </span>
+              
+              <!-- Product Image (Always Visible) -->
+              <img 
+                 src="${item.img}" 
+                 alt="${item.title}"
+                 class="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                 loading="lazy"
+              />
+              
+              <!-- Hover Overlay -->
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                <span class="text-white text-sm font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-white px-4 py-2">
+                  VIEW WORK
+                </span>
+              </div>
+           </div>
+           
+           <!-- Product Info -->
+           <div class="flex justify-between items-baseline mt-4 border-b border-[#222] pb-2 group-hover:border-[#CCFF00] transition-colors duration-300">
+              <h3 class="text-lg md:text-xl font-bold uppercase text-white tracking-tight truncate mr-4">${item.title}</h3>
+              <span class="text-[#666] font-mono text-sm group-hover:text-[#CCFF00] transition-colors whitespace-nowrap">$${item.price}</span>
+           </div>
+        </a>
+      `).join('');
+    };
+
+    // Initial render
+    renderGrid(activeTab);
+
+    // Tab switching
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newTab = btn.getAttribute('data-tab');
+        if (newTab === activeTab) return;
+        
+        activeTab = newTab;
+        
+        // Update tab styling
+        tabBtns.forEach(b => {
+          if (b.getAttribute('data-tab') === activeTab) {
+             b.classList.remove('text-[#555]', 'hover:text-white', 'border-transparent');
+             b.classList.add('text-[#CCFF00]', 'border-b-2', 'border-[#CCFF00]');
+          } else {
+             b.classList.remove('text-[#CCFF00]', 'border-[#CCFF00]');
+             b.classList.add('text-[#555]', 'hover:text-white', 'border-transparent');
+          }
+        });
+
+        renderGrid(activeTab);
+      });
+    });
+  });
+</script>
