@@ -1,16 +1,16 @@
 {% comment %}
-  PAY THE DØLLS™ — Shop Page (v3.0)
+  PAY THE DØLLS™ — Shop Page (v3.1)
   Template: paythedolls.liquid
   
-  FEATURES:
-  - Tabbed category navigation (Apparel, Accessories, Artifacts, Art, Aura)
-  - "View All" expands to show ALL variant colorways inline (no redirect)
-  - Sort controls: Newest, Price Low→High, Price High→Low, A-Z
-  - Collage grid with variant images
+  FIXES:
+  - Product images FIT inside containers (object-contain, not object-cover)
+  - No more cropping — full product visible
+  - Light background behind images for contrast
   
-  REQUIREMENTS:
-  - Vendor must be exactly: PAY THE DØLLS
-  - Products must have category tag: apparel, accessories, artifacts, art, or aura
+  FEATURES:
+  - Tabbed category navigation
+  - "View All Variants" expands inline
+  - Sort controls
 {% endcomment %}
 
 {% layout 'theme' %}
@@ -18,6 +18,56 @@
 <style>
   .ptd-scrollbar-hide::-webkit-scrollbar { display: none; }
   .ptd-scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Product card with CONTAINED image (no crop) */
+  .ptd-product-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+  }
+  
+  .ptd-product-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 aspect ratio container */
+    background: #f5f5f5;
+    overflow: hidden;
+  }
+  
+  .ptd-product-image-wrapper img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+  }
+  
+  .ptd-product-card:hover .ptd-product-image-wrapper img {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  
+  /* Collage grid variant cards */
+  .ptd-variant-card {
+    position: relative;
+    background: #f5f5f5;
+  }
+  
+  .ptd-variant-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8%;
+    transition: transform 0.3s ease;
+  }
+  
+  .ptd-variant-card:hover img {
+    transform: scale(1.08);
+  }
   
   /* Collage grid for expanded view */
   .ptd-collage-grid {
@@ -74,6 +124,21 @@
     background-repeat: no-repeat;
     background-position: right 12px center;
     padding-right: 36px;
+  }
+  
+  /* Hover overlay for product info */
+  .ptd-product-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .ptd-product-card:hover .ptd-product-overlay {
+    transform: translateY(0);
   }
 </style>
 
@@ -143,7 +208,7 @@
       <!-- Products injected by JS -->
     </div>
     
-    <!-- Back to Top (shows in expanded view) -->
+    <!-- Back to Top -->
     <div id="ptd-back-to-top" class="hidden fixed bottom-8 right-8 z-50">
       <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-black text-white p-4 shadow-lg hover:bg-gray-800 transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -157,7 +222,6 @@
 
 <script>
   // PRODUCT DATA — Filtered by Vendor: PAY THE DØLLS
-  // Includes ALL variants with their images
   const PTD_PRODUCTS = [
     {%- assign first_item = true -%}
     {%- assign product_index = 0 -%}
@@ -346,7 +410,7 @@
     let currentSort = 'manual';
 
     // Debug
-    console.log('=== PAY THE DØLLS v3.0 ===');
+    console.log('=== PAY THE DØLLS v3.1 ===');
     console.log('Products loaded:', PTD_PRODUCTS.length);
     console.log('Total variants:', PTD_PRODUCTS.reduce((sum, p) => sum + p.variants.length, 0));
 
@@ -360,7 +424,7 @@
       'alpha-desc': (a, b) => b.title.localeCompare(a.title)
     };
 
-    // Render standard grid (products only)
+    // Render standard grid (products only) - WITH OBJECT-CONTAIN
     const renderStandardGrid = (category) => {
       let items = PTD_PRODUCTS.filter(item => item.category === category);
       items = items.sort(sortFunctions[currentSort]);
@@ -380,30 +444,33 @@
         return;
       }
 
+      // NEW: Using ptd-product-card with object-contain image
       gridEl.innerHTML = items.map((item, idx) => `
-        <a href="${item.url}" class="group bg-white relative aspect-[3/4] overflow-hidden block hover:z-10 ptd-fade-in" style="animation-delay: ${idx * 30}ms">
-          <div class="absolute inset-0">
+        <a href="${item.url}" class="ptd-product-card group ptd-fade-in" style="animation-delay: ${idx * 30}ms">
+          
+          <!-- Image wrapper with CONTAINED image -->
+          <div class="ptd-product-image-wrapper">
             <img 
               src="${item.img}" 
               alt="${item.title}"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
               loading="lazy"
             />
           </div>
-          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 flex flex-col justify-end p-4 md:p-6 transition-colors duration-300">
-            <div class="bg-white text-black p-3 md:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
-              <h4 class="font-bold uppercase tracking-tight text-sm md:text-base leading-tight">${item.title}</h4>
-              <div class="flex justify-between items-center mt-2 border-t border-gray-100 pt-2">
-                <span class="font-mono text-xs md:text-sm">${item.price}</span>
-                <span class="text-[9px] md:text-[10px] uppercase tracking-widest bg-black text-white px-2 py-1">${item.variants.length} Options</span>
-              </div>
+          
+          <!-- Product info below image -->
+          <div class="p-4 border-t border-gray-100">
+            <h4 class="font-bold uppercase tracking-tight text-sm leading-tight mb-2 group-hover:underline">${item.title}</h4>
+            <div class="flex justify-between items-center">
+              <span class="font-mono text-sm">${item.price}</span>
+              <span class="text-[9px] uppercase tracking-widest text-gray-400">${item.variants.length} Options</span>
             </div>
           </div>
+          
         </a>
       `).join('');
     };
 
-    // Render expanded collage grid (all variants)
+    // Render expanded collage grid (all variants) - WITH OBJECT-CONTAIN
     const renderExpandedGrid = (category) => {
       let items = PTD_PRODUCTS.filter(item => item.category === category);
       items = items.sort(sortFunctions[currentSort]);
@@ -439,31 +506,32 @@
         return;
       }
 
+      // NEW: Using ptd-variant-card with object-contain
       gridEl.innerHTML = allVariants.map((v, idx) => {
-        // Build variant URL with option params
         let variantUrl = v.productUrl;
         if (v.id) {
           variantUrl += `?variant=${v.id}`;
         }
         
-        // Get color/option display
         const optionDisplay = v.option1 || v.title || '';
         
         return `
-          <a href="${variantUrl}" class="group bg-white relative aspect-square overflow-hidden block ptd-fade-in" style="animation-delay: ${Math.min(idx * 15, 500)}ms">
+          <a href="${variantUrl}" class="ptd-variant-card group aspect-square overflow-hidden block ptd-fade-in" style="animation-delay: ${Math.min(idx * 15, 500)}ms">
             <img 
               src="${v.img}" 
               alt="${v.productTitle} - ${optionDisplay}"
-              class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" 
               loading="lazy"
             />
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-300 flex flex-col justify-end">
-              <div class="p-2 md:p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+            
+            <!-- Hover overlay -->
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-colors duration-300 flex flex-col justify-end opacity-0 group-hover:opacity-100">
+              <div class="p-3">
                 <p class="text-white text-[10px] md:text-xs font-bold uppercase tracking-tight leading-tight truncate">${v.productTitle.replace('PAY THE DØLLS ', '')}</p>
-                <p class="text-white/70 text-[9px] md:text-[10px] uppercase tracking-wider mt-1">${optionDisplay}</p>
-                <p class="text-white font-mono text-[10px] md:text-xs mt-1">${v.price}</p>
+                <p class="text-white/70 text-[9px] uppercase tracking-wider mt-1">${optionDisplay}</p>
+                <p class="text-white font-mono text-[10px] mt-1">${v.price}</p>
               </div>
             </div>
+            
             ${!v.available ? '<div class="absolute top-2 right-2 bg-black/80 text-white text-[8px] px-2 py-1 uppercase tracking-widest">Sold Out</div>' : ''}
           </a>
         `;
@@ -506,7 +574,7 @@
         if (newTab === activeTab) return;
         
         activeTab = newTab;
-        expandedView = false; // Reset to standard view on tab change
+        expandedView = false;
         
         tabBtns.forEach(b => {
           if (b.getAttribute('data-tab') === activeTab) {
@@ -523,7 +591,7 @@
       });
     });
 
-    // Show/hide back to top based on scroll
+    // Show/hide back to top
     window.addEventListener('scroll', () => {
       if (expandedView && window.scrollY > 500) {
         backToTop.classList.remove('hidden');
