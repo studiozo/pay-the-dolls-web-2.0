@@ -1,73 +1,176 @@
+{% comment %}
+  ZØVIVAA / COOL TRANS GIRL PROTOCOL v1.6
+  Theme: Solid Neon Pink / Thin Signature / Droid Serif
+{% endcomment %}
+
 {% layout 'theme' %}
 
-<div class="bg-[#FFF0F5] min-h-screen text-black font-serif selection:bg-[#FF0099] selection:text-white">
-  
-  <!-- Hero -->
-  <div class="relative h-[80vh] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 z-0">
-      <img 
-        src="https://images.unsplash.com/photo-1616091093729-c0463327ebcc?q=80&w=2000&auto=format&fit=crop" 
-        alt="Aria Background" 
-        class="w-full h-full object-cover opacity-90"
-      />
-      <!-- Darker overlay for text readability -->
-      <div class="absolute inset-0 bg-black/20"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#FFF0F5] via-transparent to-transparent"></div>
-    </div>
+<!-- FONTS IMPORT -->
+<link href="https://fonts.googleapis.com/css2?family=Mr+De+Haviland&family=Droid+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <div class="relative z-10 text-center px-6">
-      <span class="inline-block text-sm md:text-base font-sans font-black tracking-[0.2em] text-[#FF0099] mb-6 uppercase bg-white/90 backdrop-blur-sm px-4 py-2 shadow-lg transform -rotate-2">
-        @CoolTransGirl
-      </span>
-      <h1 class="text-7xl md:text-9xl font-black italic text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)] mb-8 tracking-tighter leading-[0.9]">
-        Aria Brooks
-      </h1>
-      <p class="max-w-3xl mx-auto text-white text-xl md:text-3xl font-bold leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-        Digital Marketing, Community Management <br class="hidden md:block"/> & Social Media Strategy
-      </p>
+<style>
+  :root {
+    --neon-pink: #FF0099;
+    --soft-pink: #FFF0F5;
+  }
+
+  .ctg-wrapper {
+    background-color: var(--soft-pink);
+    color: #000;
+    font-family: 'Droid Serif', serif;
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  .ctg-wrapper ::selection {
+    background: white;
+    color: var(--neon-pink);
+  }
+
+  /* SIGNATURE FONT - THIN & ELEGANT (~100px) */
+  .signature-text {
+    font-family: 'Mr De Haviland', cursive;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(80px, 8vw, 110px);
+    line-height: 1;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  .neon-hero {
+    background-color: var(--neon-pink);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: center;
+    position: relative;
+  }
+
+  .floating-badge {
+    display: inline-block;
+    background: white;
+    color: var(--neon-pink);
+    font-family: sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 10px 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: rotate(-1.5deg);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .floating-badge:hover {
+    transform: rotate(0deg) scale(1.05);
+    background: var(--soft-pink);
+  }
+
+  .neon-button {
+    display: inline-block;
+    background-color: var(--neon-pink);
+    color: white !important;
+    padding: 22px 50px;
+    border-radius: 50px;
+    font-family: sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(255, 0, 153, 0.3);
+    border: 2px solid var(--neon-pink);
+  }
+
+  .neon-button:hover {
+    background-color: #D60080;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(255, 0, 153, 0.5);
+  }
+
+  /* Mobile Grid Fix */
+  .ctg-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .ctg-grid {
+      flex-direction: row;
+      gap: 60px;
+    }
+  }
+</style>
+
+<div class="ctg-wrapper min-h-screen pb-24">
+  
+  <!-- 1. HERO SECTION (SOLID NEON) -->
+  <div class="neon-hero">
+    
+    <h1 class="signature-text text-white">
+      Aria Brooks
+    </h1>
+
+    <div class="mb-8">
+      <a href="https://instagram.com/cooltransgirl" target="_blank" class="floating-badge text-xs md:text-sm">
+        @cooltransgirl
+      </a>
     </div>
+    
+    <p class="text-white/90 text-lg md:text-xl font-bold tracking-tight max-w-xl mx-auto italic mt-4">
+      Digital Marketing, Community Management <br class="hidden md:block"/> & Social Media Strategy
+    </p>
   </div>
 
-  <!-- The Baddie Baseline Section -->
-  <div class="py-24 px-6 md:px-12 max-w-[1200px] mx-auto">
-    <div class="bg-white p-8 md:p-16 shadow-[0_20px_60px_rgba(255,0,153,0.15)] rounded-3xl flex flex-col md:flex-row gap-12 items-center border border-[#FF0099]/10">
+  <!-- 2. BADDIE BASELINE -->
+  <div class="py-16 px-6 md:px-12 max-w-[1100px] mx-auto">
+    <div class="bg-white p-8 md:p-14 shadow-[0_40px_100px_rgba(255,0,153,0.08)] rounded-[40px] ctg-grid border border-[var(--neon-pink)]/10">
       
+      <!-- IMAGE BOX -->
       <div class="w-full md:w-1/2">
-        <div class="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-2xl border-4 border-white ring-1 ring-[#FF0099]/20 transform rotate-1 transition-transform hover:rotate-0 duration-500">
-          <img 
-            src="https://images.unsplash.com/photo-1599693976690-09384777a28e?q=80&w=1000&auto=format&fit=crop" 
-            alt="The Baddie Baseline" 
-            class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-          />
-          <div class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md p-6 border-t-4 border-[#FF0099]">
-             <h3 class="font-serif text-3xl font-black italic text-[#FF0099] leading-none">The Baddie Baseline</h3>
+        <div class="relative transform rotate-1 transition-transform hover:rotate-0 duration-700">
+           <div class="aspect-[4/5] overflow-hidden rounded-[30px] border-4 border-white shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1599693976690-09384777a28e?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" loading="lazy" />
+           </div>
+           <div class="absolute -bottom-4 -right-4 bg-white p-5 shadow-xl border-t-4 border-[var(--neon-pink)] rounded-xl">
+               <h3 class="text-2xl font-bold italic text-[var(--neon-pink)] leading-none">The Baddie Baseline</h3>
+           </div>
+        </div>
+      </div>
+
+      <!-- TEXT BOX -->
+      <div class="w-full md:w-1/2 text-center md:text-left">
+        <h2 class="text-5xl md:text-7xl font-bold italic text-black mb-6 leading-[0.9]">
+          Unlock Your <br/>
+          <span class="text-[var(--neon-pink)] underline decoration-4 underline-offset-4 decoration-[var(--neon-pink)]/10">Potential</span>
+        </h2>
+        
+        <p class="text-base md:text-lg text-[#444] mb-10 max-w-sm mx-auto md:mx-0">
+          A comprehensive guide to elevating your digital presence and stepping into your power. This isn't just a course; it's a transformation.
+        </p>
+
+        <div class="flex flex-col items-center md:items-start gap-5">
+          <a href="https://stan.store/cooltransgirl/p/the-baddie-baseline-" target="_blank" class="neon-button">
+            Get The Guide
+          </a>
+          <div class="flex items-center gap-3 opacity-60">
+            <span class="h-px w-6 bg-[var(--neon-pink)]"></span>
+            <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--neon-pink)]">Secure Checkout via Stan</span>
           </div>
         </div>
       </div>
 
-      <div class="w-full md:w-1/2 text-center md:text-left">
-        <h2 class="text-5xl md:text-7xl font-black italic text-black mb-8 leading-[0.9]">
-          Unlock Your <span class="text-[#FF0099] underline decoration-4 underline-offset-4 decoration-black/10">Potential</span>
-        </h2>
-        <p class="text-lg md:text-xl text-[#222] leading-relaxed mb-10 font-sans font-medium">
-          A comprehensive guide to elevating your digital presence and stepping into your power. This isn't just a course; it's a transformation.
-        </p>
-
-        <div class="flex flex-col gap-4">
-          <a 
-            href="https://stan.store/cooltransgirl/p/the-baddie-baseline-" 
-            target="_blank" 
-            rel="noreferrer"
-            class="inline-block bg-[#FF0099] text-white px-10 py-5 rounded-full font-sans font-black text-base tracking-widest uppercase hover:bg-[#D60080] transition-all transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(255,0,153,0.4)] text-center border-2 border-[#FF0099] no-underline"
-          >
-            Get The Guide
-          </a>
-          <p class="text-xs text-[#FF0099] font-sans font-bold uppercase tracking-widest text-center md:text-left pl-4 border-l-2 border-[#FF0099] ml-4 mt-2">
-            External Link • Stan Store
-          </p>
-        </div>
-      </div>
-
     </div>
   </div>
+
 </div>
