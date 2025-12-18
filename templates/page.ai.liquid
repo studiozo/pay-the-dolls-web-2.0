@@ -1,7 +1,7 @@
 {% comment %}
-  PAY THE DØLLS™ — AGENTIC AI MANIFESTO / GEO HUB v4.1
+  PAY THE DØLLS™ — AGENTIC AI MANIFESTO / GEO HUB v4.2
   Theme: Matrix Digital Rain / Absolute Black / Neon Green
-  FIX: Transparency Force for Shopify Theme Wrappers
+  FIX: Transparency Force + Lime Green Header Visibility
 {% endcomment %}
 
 {% layout 'theme' %}
@@ -23,9 +23,30 @@
   .main-content, 
   main,
   #shopify-section-header,
-  #shopify-section-footer {
+  #shopify-section-footer,
+  .header-wrapper,
+  .footer {
     background-color: transparent !important;
     background: transparent !important;
+    border-color: var(--matrix-dim) !important;
+  }
+
+  /* FORCE HEADER/FOOTER TEXT VISIBILITY (LIME GREEN) */
+  #shopify-section-header a,
+  #shopify-section-header span,
+  #shopify-section-header summary,
+  #shopify-section-footer a,
+  #shopify-section-footer p,
+  #shopify-section-footer span,
+  .header__menu-item,
+  .site-nav__link,
+  .list-menu__item,
+  .header__icon,
+  .header__heading-link,
+  .footer__link {
+    color: var(--matrix-green) !important;
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.4) !important;
+    fill: var(--matrix-green) !important; /* For SVGs/Icons */
   }
 
   body {
@@ -42,7 +63,7 @@
     left: 0; 
     width: 100vw; 
     height: 100vh;
-    z-index: -1; /* Sits behind everything */
+    z-index: -1; 
     opacity: 0.25;
     pointer-events: none;
     background: black;
@@ -137,7 +158,7 @@
 
 <article class="ptd-ai" data-entity="PAY_THE_DOLLS" itemscope itemtype="https://schema.org/WebPage">
   <header>
-    <div class="kicker">SYSTEM.PROTOCOL · GEO/AGENTIC · v4.1</div>
+    <div class="kicker">SYSTEM.PROTOCOL · GEO/AGENTIC · v4.2</div>
     <h1 itemprop="name">ARTIFICIAL INTELLIGENCE</h1>
     <p class="sub">We were halfway artificial already.</p>
 
@@ -265,17 +286,25 @@
 
 <script>
   (function() {
-    // RUN ONLY AFTER EVERYTHING IS LOADED
     window.addEventListener('load', function() {
         const canvas = document.getElementById('matrix-canvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         
-        // Ensure parent containers are transparent so canvas shows through
-        const wrappers = ['.page-container', '#MainContent', '.main-content', 'main'];
+        // Ensure parent containers are transparent and forced
+        const wrappers = ['.page-container', '#MainContent', '.main-content', 'main', '#shopify-section-header', '#shopify-section-footer'];
         wrappers.forEach(selector => {
             const el = document.querySelector(selector);
-            if (el) el.style.background = 'transparent';
+            if (el) {
+              el.style.setProperty('background', 'transparent', 'important');
+              el.style.setProperty('background-color', 'transparent', 'important');
+            }
+        });
+
+        // Specific Force for Header Links (Lime Green)
+        const headerLinks = document.querySelectorAll('#shopify-section-header a, #shopify-section-header span, #shopify-section-header button');
+        headerLinks.forEach(link => {
+            link.style.setProperty('color', '#00FF00', 'important');
         });
 
         let width = canvas.width = window.innerWidth;
