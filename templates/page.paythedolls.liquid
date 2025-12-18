@@ -1,29 +1,19 @@
 {% comment %}
-  PAY THE DØLLS™ — Shop Page (FIXED)
+  PAY THE DØLLS™ — Shop Page (v2.0)
   Template: paythedolls.liquid
-  Function: Tabbed single-page catalog filtered by tags AND product type
   
-  FIX: Now checks BOTH product.tags AND product.type for category matching
-  This catches products categorized via Shopify's product type system
+  REQUIREMENTS:
+  - Vendor must be exactly: PAY THE DØLLS
+  - Products must have category tag: apparel, accessories, artifacts, art, or aura
   
-  CATEGORIES:
-  - Apparel (tags: apparel, clothing, tops, bottoms, tøps, bøttoms | types: apparel, t-shirts, shirts)
-  - Accessories (tags: accessories, accessory | types: accessories)
-  - Artifacts (tags: artifacts, artifact | types: artifacts)
-  - Art (tags: art | types: art, prints, artwork)
-  - Aura (tags: aura | types: aura, fragrance, candles)
+  See PAY-THE-DOLLS-PRODUCT-GUIDELINES.md for full setup instructions
 {% endcomment %}
 
 {% layout 'theme' %}
 
 <style>
-  .ptd-scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .ptd-scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+  .ptd-scrollbar-hide::-webkit-scrollbar { display: none; }
+  .ptd-scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
 <div class="bg-white min-h-screen text-black font-sans selection:bg-black selection:text-white">
@@ -59,7 +49,7 @@
       </button>
     </div>
 
-    <!-- Section Header (Dynamic) -->
+    <!-- Section Header -->
     <div class="flex items-end justify-between border-b border-black mb-12 pb-4">
       <h3 id="ptd-section-title" class="text-5xl font-bold uppercase tracking-tighter">Apparel</h3>
       <a id="ptd-view-all-link" href="/collections/apparel" class="text-xs font-mono uppercase tracking-widest underline decoration-1 underline-offset-4 hover:bg-black hover:text-white px-2 py-1 transition-colors">View All</a>
@@ -74,98 +64,128 @@
 </div>
 
 <script>
-  // PRODUCT DATA — Now checks BOTH tags AND product type
+  // PRODUCT DATA — Filtered by Vendor: PAY THE DØLLS
   const PTD_PRODUCTS = [
     {%- assign first_item = true -%}
     {%- for product in collections.all.products -%}
       
-      {%- comment -%} Get product type lowercase for matching {%- endcomment -%}
-      {%- assign type_lower = product.type | downcase -%}
-      
-      {%- comment -%} Build a combined string of all tags (lowercase) for easier matching {%- endcomment -%}
-      {%- assign all_tags_lower = '' -%}
-      {%- for tag in product.tags -%}
-        {%- assign tag_lower = tag | downcase -%}
-        {%- assign all_tags_lower = all_tags_lower | append: tag_lower | append: '|' -%}
-      {%- endfor -%}
-      
-      {%- comment -%} Determine category by checking tags AND product type {%- endcomment -%}
-      {%- assign product_category = '' -%}
-      
-      {%- comment -%} APPAREL CHECK {%- endcomment -%}
-      {%- if all_tags_lower contains 'apparel' 
-          or all_tags_lower contains 'clothing' 
-          or all_tags_lower contains 'tops' 
-          or all_tags_lower contains 'tøps'
-          or all_tags_lower contains 'bottoms'
-          or all_tags_lower contains 'bøttoms'
-          or all_tags_lower contains 'shirt'
-          or all_tags_lower contains 'tank'
-          or all_tags_lower contains 'hoodie'
-          or type_lower contains 'apparel'
-          or type_lower contains 't-shirt'
-          or type_lower contains 'shirt'
-          or type_lower contains 'clothing'
-          or type_lower contains 'tank'
-          or type_lower contains 'hoodie' -%}
-        {%- assign product_category = 'apparel' -%}
-      {%- endif -%}
-      
-      {%- comment -%} ACCESSORIES CHECK {%- endcomment -%}
-      {%- if all_tags_lower contains 'accessories' 
-          or all_tags_lower contains 'accessory'
-          or all_tags_lower contains 'bag'
-          or all_tags_lower contains 'hat'
-          or type_lower contains 'accessor' -%}
-        {%- assign product_category = 'accessories' -%}
-      {%- endif -%}
-      
-      {%- comment -%} ARTIFACTS CHECK {%- endcomment -%}
-      {%- if all_tags_lower contains 'artifacts' 
-          or all_tags_lower contains 'artifact'
-          or type_lower contains 'artifact' -%}
-        {%- assign product_category = 'artifacts' -%}
-      {%- endif -%}
-      
-      {%- comment -%} ART CHECK {%- endcomment -%}
-      {%- if all_tags_lower contains 'art'
-          or all_tags_lower contains 'print'
-          or all_tags_lower contains 'prints'
-          or all_tags_lower contains 'artwork'
-          or type_lower contains 'art'
-          or type_lower contains 'print' -%}
-        {%- assign product_category = 'art' -%}
-      {%- endif -%}
-      
-      {%- comment -%} AURA CHECK {%- endcomment -%}
-      {%- if all_tags_lower contains 'aura'
-          or all_tags_lower contains 'fragrance'
-          or all_tags_lower contains 'candle'
-          or type_lower contains 'aura'
-          or type_lower contains 'fragrance'
-          or type_lower contains 'candle' -%}
-        {%- assign product_category = 'aura' -%}
-      {%- endif -%}
-      
-      {%- comment -%} Only include products that matched a category {%- endcomment -%}
-      {%- if product_category != '' -%}
-        {%- unless first_item -%},{%- endunless -%}
-        {%- assign first_item = false -%}
-        {
-          id: {{ product.id }},
-          title: {{ product.title | json }},
-          price: {{ product.price | money | json }},
-          img: {{ product.featured_image | img_url: '800x' | json }},
-          url: {{ product.url | json }},
-          category: '{{ product_category }}',
-          tags: {{ product.tags | json }},
-          type: {{ product.type | json }}
-        }
+      {%- comment -%} VENDOR FILTER: Only PAY THE DØLLS products {%- endcomment -%}
+      {%- if product.vendor == 'PAY THE DØLLS' -%}
+        
+        {%- comment -%} Get product type lowercase {%- endcomment -%}
+        {%- assign type_lower = product.type | downcase -%}
+        
+        {%- comment -%} Build lowercase tags string {%- endcomment -%}
+        {%- assign all_tags_lower = '' -%}
+        {%- for tag in product.tags -%}
+          {%- assign tag_l = tag | downcase -%}
+          {%- assign all_tags_lower = all_tags_lower | append: '|' | append: tag_l | append: '|' -%}
+        {%- endfor -%}
+        
+        {%- comment -%} Determine category {%- endcomment -%}
+        {%- assign product_category = '' -%}
+        
+        {%- comment -%} APPAREL {%- endcomment -%}
+        {%- if all_tags_lower contains '|apparel|' 
+            or all_tags_lower contains '|clothing|' 
+            or all_tags_lower contains '|tops|' 
+            or all_tags_lower contains '|tøps|'
+            or all_tags_lower contains '|bottoms|'
+            or all_tags_lower contains '|bøttoms|'
+            or all_tags_lower contains '|shirt|'
+            or all_tags_lower contains '|tee|'
+            or all_tags_lower contains '|hoodie|'
+            or all_tags_lower contains '|tank|'
+            or all_tags_lower contains '|pants|'
+            or all_tags_lower contains '|shorts|'
+            or type_lower contains 'apparel'
+            or type_lower contains 't-shirt'
+            or type_lower contains 'shirt'
+            or type_lower contains 'hoodie'
+            or type_lower contains 'tank'
+            or type_lower contains 'clothing' -%}
+          {%- assign product_category = 'apparel' -%}
+        {%- endif -%}
+        
+        {%- comment -%} ACCESSORIES {%- endcomment -%}
+        {%- if all_tags_lower contains '|accessories|' 
+            or all_tags_lower contains '|accessory|'
+            or all_tags_lower contains '|hat|'
+            or all_tags_lower contains '|cap|'
+            or all_tags_lower contains '|bag|'
+            or all_tags_lower contains '|wallet|'
+            or all_tags_lower contains '|jewelry|'
+            or all_tags_lower contains '|sunglasses|'
+            or type_lower contains 'accessor'
+            or type_lower contains 'hat'
+            or type_lower contains 'bag'
+            or type_lower contains 'jewelry' -%}
+          {%- assign product_category = 'accessories' -%}
+        {%- endif -%}
+        
+        {%- comment -%} ARTIFACTS {%- endcomment -%}
+        {%- if all_tags_lower contains '|artifacts|' 
+            or all_tags_lower contains '|artifact|'
+            or all_tags_lower contains '|collectible|'
+            or all_tags_lower contains '|limited|'
+            or all_tags_lower contains '|zine|'
+            or all_tags_lower contains '|vinyl|'
+            or type_lower contains 'artifact'
+            or type_lower contains 'collectible' -%}
+          {%- assign product_category = 'artifacts' -%}
+        {%- endif -%}
+        
+        {%- comment -%} ART {%- endcomment -%}
+        {%- if all_tags_lower contains '|art|'
+            or all_tags_lower contains '|print|'
+            or all_tags_lower contains '|prints|'
+            or all_tags_lower contains '|painting|'
+            or all_tags_lower contains '|artwork|'
+            or all_tags_lower contains '|canvas|'
+            or type_lower contains 'art'
+            or type_lower contains 'print'
+            or type_lower contains 'painting'
+            or type_lower contains 'poster' -%}
+          {%- assign product_category = 'art' -%}
+        {%- endif -%}
+        
+        {%- comment -%} AURA {%- endcomment -%}
+        {%- if all_tags_lower contains '|aura|'
+            or all_tags_lower contains '|fragrance|'
+            or all_tags_lower contains '|candle|'
+            or all_tags_lower contains '|incense|'
+            or all_tags_lower contains '|wellness|'
+            or all_tags_lower contains '|selfcare|'
+            or all_tags_lower contains '|soap|'
+            or type_lower contains 'aura'
+            or type_lower contains 'fragrance'
+            or type_lower contains 'candle'
+            or type_lower contains 'wellness' -%}
+          {%- assign product_category = 'aura' -%}
+        {%- endif -%}
+        
+        {%- comment -%} Only include if category was assigned {%- endcomment -%}
+        {%- if product_category != '' -%}
+          {%- unless first_item -%},{%- endunless -%}
+          {%- assign first_item = false -%}
+          {
+            id: {{ product.id }},
+            title: {{ product.title | json }},
+            price: {{ product.price | money | json }},
+            img: {{ product.featured_image | img_url: '800x' | json }},
+            url: {{ product.url | json }},
+            category: '{{ product_category }}',
+            vendor: {{ product.vendor | json }},
+            type: {{ product.type | json }},
+            tags: {{ product.tags | json }}
+          }
+        {%- endif -%}
+        
       {%- endif -%}
     {%- endfor -%}
   ];
 
-  // Category metadata — updated collection handles
+  // Category metadata
   const PTD_CATEGORIES = {
     apparel: { title: 'Apparel', collection: '/collections/apparel' },
     accessories: { title: 'Accessories', collection: '/collections/accessories' },
@@ -182,22 +202,25 @@
     
     let activeTab = 'apparel';
 
-    // DEBUG: Log what products were found
-    console.log('PTD Products loaded:', PTD_PRODUCTS.length);
-    console.log('Products by category:', {
+    // Debug logging
+    console.log('=== PAY THE DØLLS Debug ===');
+    console.log('Total PTD products loaded:', PTD_PRODUCTS.length);
+    console.log('By category:', {
       apparel: PTD_PRODUCTS.filter(p => p.category === 'apparel').length,
       accessories: PTD_PRODUCTS.filter(p => p.category === 'accessories').length,
       artifacts: PTD_PRODUCTS.filter(p => p.category === 'artifacts').length,
       art: PTD_PRODUCTS.filter(p => p.category === 'art').length,
       aura: PTD_PRODUCTS.filter(p => p.category === 'aura').length
     });
-    console.log('All products:', PTD_PRODUCTS);
+    if (PTD_PRODUCTS.length > 0) {
+      console.log('Sample product:', PTD_PRODUCTS[0]);
+    }
+    console.log('=========================');
 
     const renderGrid = (category) => {
       const items = PTD_PRODUCTS.filter(item => item.category === category);
       const categoryMeta = PTD_CATEGORIES[category];
       
-      // Update section header
       sectionTitle.textContent = categoryMeta.title;
       viewAllLink.href = categoryMeta.collection;
       
@@ -232,10 +255,8 @@
       `).join('');
     };
 
-    // Initial render
     renderGrid(activeTab);
 
-    // Tab click handling
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const newTab = btn.getAttribute('data-tab');
