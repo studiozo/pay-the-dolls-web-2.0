@@ -1,37 +1,31 @@
+{% comment %}
+  FILENAME: sections/header.liquid 
+  VERSION 8: MOBILE SYNC & SCHEMA FIX
+{% endcomment %}
+
 <style>
-  /* 
-     VERSION 5: CLEANUP & MOBILE MENU FIX
-     - Removes 'hidden' classes that were confusing the theme.
-     - Forces Mobile Menu to be hidden on Desktop.
-  */
-  
-  /* DEFAULT (Mobile): Hide Desktop items, Show Hamburger */
+  /* Navigation display logic */
   .desktop-only { display: none !important; }
   .mobile-only { display: block !important; }
   
-  /* Layout Padding */
   .header-container {
-    padding: 1.5rem 1.5rem; /* 24px */
+    padding: 1.5rem 1.5rem;
   }
   
-  /* Mobile Menu Overlay Logic */
   .mobile-menu-overlay {
-    display: flex; /* Ready to slide in */
+    display: flex;
   }
 
-  /* DESKTOP (Larger screens): Show Desktop items, Hide Hamburger */
   @media (min-width: 768px) {
     .desktop-only { display: flex !important; }
     .mobile-only { display: none !important; }
     
-    /* Force Hide Mobile Menu on Desktop (Prevents "hanging out") */
     .mobile-menu-overlay {
       display: none !important;
     }
     
-    /* Desktop Padding */
     .header-container {
-      padding: 1.5rem 3rem; /* 48px */
+      padding: 1.5rem 3rem;
     }
   }
 </style>
@@ -45,41 +39,24 @@
 
   <!-- Desktop Navigation -->
   <nav class="desktop-only gap-8 text-[13px] font-medium tracking-[0.05em]">
-      <a href="/collections/all" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        SHOP
-      </a>
-      <a href="/pages/brands" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        BRANDS
-      </a>
-      <a href="/pages/verse-capital" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        VC
-      </a>
-      <a href="/pages/ai" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        AI
-      </a>
-      <a href="/pages/mission" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        MISSION
-      </a>
-      <a href="/pages/submit" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        SUBMIT
-      </a>
-      <a href="/pages/about" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">
-        ABOUT
-      </a>
+      <a href="/collections/all" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">SHOP</a>
+      <a href="/pages/brands" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">BRANDS</a>
+      <a href="/pages/verse-capital" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">VC</a>
+      <a href="/pages/ai" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">AI</a>
+      <a href="/pages/mission" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">MISSION</a>
+      <a href="/pages/submit" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">SUBMIT</a>
+      <a href="/pages/about" style="color: black !important;" class="hover:text-brand-neon transition-colors duration-200 bg-transparent border-none cursor-pointer no-underline uppercase">ABOUT</a>
   </nav>
 
   <!-- Right Actions -->
   <div class="flex items-center gap-4 text-[13px] text-brand-dark">
-    
-    <!-- ZO ACTIVE Pill -->
     {% if template.suffix == 'studiozo' %}
-      <span class="desktop-only text-xs border border-black px-2 py-1 rounded-full items-center">
+      <span class="desktop-only text-xs border border-black px-2 py-1 rounded-full flex items-center">
         <span class="w-2 h-2 bg-black rounded-full mr-2"></span>
         ZO ACTIVE
       </span>
     {% endif %}
 
-    <!-- Cart -->
     <a href="/cart" class="no-underline hover:text-brand-neon transition-colors text-brand-dark font-medium">
       Cart ({% if cart.item_count > 0 %}{{ cart.item_count }}{% else %}0{% endif %})
     </a>
@@ -95,16 +72,15 @@
   </div>
 
   <!-- Mobile Menu Overlay -->
-  <!-- We added 'mobile-menu-overlay' class to strictly control visibility -->
   <div id="MobileMenu" class="mobile-menu-overlay fixed inset-0 bg-white z-40 flex-col items-center justify-center gap-8 transition-transform duration-300 translate-x-full h-screen w-screen">
     <nav class="flex flex-col items-center gap-8 text-center">
-      <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Shop</a>
-      <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Brands</a>
-      <a href="/pages/verse-capital" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Verse</a>
-      <a href="/pages/mission" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Mission</a>
-      <a href="/pages/submit" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Submit</a>
-      <a href="/pages/about" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">About</a>
-      <a href="/pages/contact" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">Contact</a>
+      <a href="/collections/all" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">SHOP</a>
+      <a href="/pages/brands" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">BRANDS</a>
+      <a href="/pages/verse-capital" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">VC</a>
+      <a href="/pages/ai" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">AI</a>
+      <a href="/pages/mission" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">MISSION</a>
+      <a href="/pages/submit" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">SUBMIT</a>
+      <a href="/pages/about" class="mobile-link text-2xl font-bold uppercase tracking-[0.05em] text-brand-dark no-underline hover:text-brand-neon transition-transform hover:scale-110">ABOUT</a>
     </nav>
   </div>
 </header>
@@ -117,16 +93,12 @@
     const links = document.querySelectorAll('.mobile-link');
     let isOpen = false;
 
-    if (toggle) {
+    if (toggle && menu) {
         toggle.addEventListener('click', () => {
         isOpen = !isOpen;
-        
-        // Toggle Menu Visibility
         if (isOpen) {
             menu.classList.remove('translate-x-full');
-            document.body.style.overflow = 'hidden'; // Lock Scroll
-            
-            // Animate Hamburger to X
+            document.body.style.overflow = 'hidden';
             if(spans.length === 3) {
                 spans[0].style.transform = 'rotate(45deg) translateY(6px)';
                 spans[1].style.opacity = '0';
@@ -134,9 +106,7 @@
             }
         } else {
             menu.classList.add('translate-x-full');
-            document.body.style.overflow = ''; // Unlock Scroll
-            
-            // Reset Hamburger
+            document.body.style.overflow = '';
             if(spans.length === 3) {
                 spans[0].style.transform = 'none';
                 spans[1].style.opacity = '1';
@@ -146,7 +116,6 @@
         });
     }
 
-    // Close menu when a link is clicked
     links.forEach(link => {
       link.addEventListener('click', () => {
         isOpen = false;
