@@ -1,7 +1,7 @@
 {% comment %}
-  PTD™ PITCH PROTOCOL v2.1
+  PTD™ PITCH PROTOCOL v2.2
+  FIX: Resolved "Note is invalid" error by flattening contact attributes.
   Optimized for Shopify Custom Liquid Section
-  Standard Shopify Contact Form Handler
 {% endcomment %}
 
 {% layout 'theme' %}
@@ -125,10 +125,8 @@
       </p>
     </header>
 
-    <!-- FORM START -->
     {% form 'contact', id: 'ptd-contact-form' %}
       
-      <!-- SUCCESS STATE -->
       {% if form.posted_successfully? %}
         <div class="bg-[#F0FFF0] border border-green-500 p-12 text-center">
           <h2 class="text-xl font-bold uppercase tracking-widest mb-4">Transmission Received</h2>
@@ -170,7 +168,7 @@
                 </div>
                 <div class="field-group">
                     <label class="field-label" for="Social">Social Handle</label>
-                    <input type="text" id="Social" name="contact[note][Social]" class="ptd-input" placeholder="@instagram">
+                    <input type="text" id="Social" name="contact[Social Handle]" class="ptd-input" placeholder="@instagram">
                 </div>
             </div>
         </div>
@@ -181,7 +179,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="field-group">
                     <label class="field-label">Interest</label>
-                    <select name="contact[note][Interest]" class="ptd-select">
+                    <select name="contact[Interest]" class="ptd-select">
                         <option disabled selected>Select Path...</option>
                         <option value="Verse Capital (Funding)">Verse Capital (Funding)</option>
                         <option value="Brand Collaboration">Brand Collaboration</option>
@@ -191,7 +189,7 @@
                 </div>
                 <div class="field-group">
                     <label class="field-label">Category</label>
-                    <select name="contact[note][Category]" class="ptd-select">
+                    <select name="contact[Category]" class="ptd-select">
                         <option disabled selected>Select Category...</option>
                         <option value="Fashion">Fashion / Merch</option>
                         <option value="Music">Music / Audio</option>
@@ -212,7 +210,7 @@
             </div>
             <div class="field-group">
                 <label class="field-label" for="Assets">Asset Link (Drive/Dropbox)</label>
-                <input type="url" id="Assets" name="contact[note][Assets]" class="ptd-input" placeholder="https://...">
+                <input type="url" id="Assets" name="contact[Asset Link]" class="ptd-input" placeholder="https://...">
             </div>
         </div>
 
