@@ -124,6 +124,10 @@
   .ptd-bio-p { font-size: 16px; color: var(--ptd-medium-gray); margin-bottom: 30px; }
   .ptd-bio-p span { display: block; font-weight: 800; color: var(--ptd-phthalo); text-transform: uppercase; margin-top: 10px; }
   
+  .ptd-social-links { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; }
+  .ptd-social-link { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ptd-phthalo); text-decoration: none; border: 1px solid var(--ptd-border); padding: 8px 14px; transition: 0.3s; }
+  .ptd-social-link:hover { background: var(--ptd-phthalo); color: var(--ptd-white); border-color: var(--ptd-phthalo); }
+
   .ptd-signal { font-family: monospace; font-size: 11px; text-transform: uppercase; border-top: 1px solid var(--ptd-border); padding-top: 20px; color: #999; }
   .ptd-signal strong { color: var(--ptd-phthalo); margin-right: 15px; }
 
@@ -188,16 +192,27 @@
         <div class="ptd-founder-card">
           <div class="img-wrap">
             <img src="https://cdn.shopify.com/s/files/1/0651/6411/6099/files/zo_about_headshot.jpg?v=1765937724" alt="Zoe">
-            <div class="ptd-tag mint">Warehouse Raves in Bushwick</div>
+            <div class="ptd-tag mint">Wall St to Warehouse</div>
           </div>
           <h3 style="font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Zoe Touloupis</h3>
           <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #999; letter-spacing: 0.2em; margin-bottom: 30px;">Founder / Creative Director</p>
+          
           <div class="ptd-bio-title">Zoe is force.</div>
           <div class="ptd-bio-p">
-            Industrial. Confrontational. Unpolished by design. Underground art, brutalist systems, neon chaos, and momentum that doesn’t wait for approval.
+            Industrial. Confrontational. Unpolished (ish).
             <span>She makes it move.</span>
             <span>She makes it unavoidable.</span>
           </div>
+
+          <!-- SOCIAL LINKS -->
+          <div class="ptd-social-links">
+            <a href="https://studiozonyc.com/" target="_blank" class="ptd-social-link">Website</a>
+            <a href="https://www.instagram.com/zovivaa/" target="_blank" class="ptd-social-link">Instagram</a>
+            <a href="https://soundcloud.com/z-vivll" target="_blank" class="ptd-social-link">SoundCloud</a>
+            <a href="https://open.spotify.com/artist/34JldDsXc97d7ZmNOyYR01" target="_blank" class="ptd-social-link">Spotify</a>
+            <a href="https://www.youtube.com/@studio-zo" target="_blank" class="ptd-social-link">YouTube</a>
+          </div>
+
           <div class="ptd-signal"><strong>Signal:</strong> BRUTALIST · WAREHOUSE · NEON · DIY</div>
         </div>
       </div>
