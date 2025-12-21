@@ -1,6 +1,6 @@
-`{% comment %}
+{% comment %}
   PTD™ UNIFIED BRAND PROTOCOL v1.6
-  Consolidated About + Identity System
+  Consolidated About + Identity System (Solo Founder Version)
   Optimized for Shopify Custom Liquid Section
 {% endcomment %}
 
@@ -43,7 +43,7 @@
 
   .ptd-h1 {
     font-size: clamp(50px, 9vw, 90px);
-    font-weight: 800; /* Adjusted from 900 to prevent 'bleeding' */
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: -0.05em;
     line-height: 0.85;
@@ -89,32 +89,15 @@
     line-height: 1.3;
   }
 
-  .ptd-yin-yang {
-    text-align: center;
-    border-top: 1px solid var(--ptd-border);
-    border-bottom: 1px solid var(--ptd-border);
-    padding: 100px 0;
-    margin: 100px 0;
-  }
-
-  .ptd-yin-yang em {
-    font-family: Georgia, serif;
-    font-style: italic;
-    font-size: 22px;
-    color: var(--ptd-medium-gray);
-    display: block;
-    margin-top: 20px;
-  }
-
   .ptd-founder-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 100px;
     margin-bottom: 140px;
   }
 
-  @media (min-width: 768px) {
-    .ptd-founder-grid { grid-template-columns: 1fr 1fr; }
+  .ptd-founder-card {
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .ptd-founder-card .img-wrap {
@@ -190,7 +173,7 @@
       <span class="ptd-label">00 // About</span>
       <h1 class="ptd-h1">PAY THE DØLLS™</h1>
       <p class="ptd-intro">
-        Founded by <strong>Zoe Touloupis</strong> and <strong>Aria Brooks</strong> to build financial infrastructure for transgender artists, creators, and entrepreneurs.
+        Founded by <strong>Zoe Touloupis</strong> to build financial infrastructure for transgender artists, creators, and entrepreneurs.
       </p>
 
       <div class="ptd-quote-box">
@@ -200,38 +183,15 @@
         </div>
       </div>
 
-      <div class="ptd-yin-yang">
-        <h2 class="ptd-h2">The Yin & Yang</h2>
-        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; color: #999;">Two aesthetics. One agenda.</p>
-        <em>Difference isn’t a branding exercise — it’s the mechanism.</em>
-      </div>
-
       <div class="ptd-founder-grid">
-        <!-- ARIA -->
-        <div class="ptd-founder-card">
-          <div class="img-wrap">
-            <img src="https://cdn.shopify.com/s/files/1/0651/6411/6099/files/aria_about_headshot.png?v=1765937727" alt="Aria">
-            <div class="ptd-tag phthalo">West Village Girl</div>
-          </div>
-          <h3 style="font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Aria Brooks</h3>
-          <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #999; letter-spacing: 0.2em; margin-bottom: 30px;">Co-Founder / Operations Lead</p>
-          <div class="ptd-bio-title">Aria is structure.</div>
-          <div class="ptd-bio-p">
-            Tasteful. Controlled. Meticulous. Soft palettes, editorial restraint, and systems that don’t break under pressure. Vintage sensibility with modern discipline.
-            <span>She makes it legible.</span>
-            <span>She makes it last.</span>
-          </div>
-          <div class="ptd-signal"><strong>Signal:</strong> SOFT · EDITORIAL · CURATED · PRECISE</div>
-        </div>
-
         <!-- ZOE -->
         <div class="ptd-founder-card">
           <div class="img-wrap">
             <img src="https://cdn.shopify.com/s/files/1/0651/6411/6099/files/zo_about_headshot.jpg?v=1765937724" alt="Zoe">
-            <div class="ptd-founder-tag mint">Warehouse Raves in Bushwick</div>
+            <div class="ptd-tag mint">Warehouse Raves in Bushwick</div>
           </div>
           <h3 style="font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Zoe Touloupis</h3>
-          <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #999; letter-spacing: 0.2em; margin-bottom: 30px;">Co-Founder / Creative Director</p>
+          <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #999; letter-spacing: 0.2em; margin-bottom: 30px;">Founder / Creative Director</p>
           <div class="ptd-bio-title">Zoe is force.</div>
           <div class="ptd-bio-p">
             Industrial. Confrontational. Unpolished by design. Underground art, brutalist systems, neon chaos, and momentum that doesn’t wait for approval.
@@ -370,7 +330,7 @@
           </div>
           <div>
             <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #999; margin-bottom: 15px;">Body / Regular 400</p>
-            <p style="font-size: 19px; line-height: 1.5; color: #666; font-weight: 400;">Avenir represents the bridge between geometric perfection and human readability. It provides the editorial restraint Aria requires for the brand's long-term legacy.</p>
+            <p style="font-size: 19px; line-height: 1.5; color: #666; font-weight: 400;">Avenir represents the bridge between geometric perfection and human readability. It provides the editorial restraint required for the brand's long-term legacy.</p>
           </div>
         </div>
       </div>
@@ -381,4 +341,4 @@
     </footer>
 
   </div>
-</div>`;
+</div>
