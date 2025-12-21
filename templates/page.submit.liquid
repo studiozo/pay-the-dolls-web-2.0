@@ -1,7 +1,10 @@
-{% layout 'theme' %}
+{% comment %}
+  PTD™ PITCH PROTOCOL v2.1
+  Optimized for Shopify Custom Liquid Section
+  Standard Shopify Contact Form Handler
+{% endcomment %}
 
-<!-- PTD™ PITCH PROTOCOL -->
-<!-- STYLE: Avenir / Off-White / Neon Green -->
+{% layout 'theme' %}
 
 <style>
   :root {
@@ -16,7 +19,6 @@
     background-color: var(--ptd-white);
     color: var(--ptd-black);
     min-height: 100vh;
-    /* User Requested Font: Avenir */
     font-family: 'Avenir Next', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
@@ -36,7 +38,6 @@
     margin-bottom: 30px;
   }
 
-  /* INPUT STYLING - OFF WHITE & CLEAN */
   .field-group {
     margin-bottom: 24px;
   }
@@ -53,13 +54,12 @@
 
   .ptd-input {
     width: 100%;
-    /* Force Off-White to override any dark theme defaults */
     background-color: var(--ptd-off-white) !important; 
     border: 1px solid var(--ptd-border) !important;
     padding: 16px;
     font-size: 14px;
     color: var(--ptd-black) !important;
-    font-family: 'Courier New', Courier, monospace; /* Tech feel for data */
+    font-family: 'Courier New', Courier, monospace;
     border-radius: 0;
     appearance: none;
     transition: all 0.2s ease;
@@ -82,18 +82,12 @@
     font-family: 'Courier New', Courier, monospace;
     border-radius: 0;
     cursor: pointer;
-    /* Custom Arrow */
     background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
     appearance: none;
   }
-  .ptd-select:focus {
-    border-color: var(--ptd-neon) !important;
-    outline: none;
-  }
 
-  /* BUTTON */
   .submit-btn {
     display: block;
     width: 100%;
@@ -120,7 +114,6 @@
 <div class="submit-wrapper">
   <div class="submit-container">
     
-    <!-- HEADER -->
     <header class="text-center mb-16">
       <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
         OPEN A POSITION
@@ -132,8 +125,8 @@
       </p>
     </header>
 
-    <!-- FORM -->
-    {% form 'contact' %}
+    <!-- FORM START -->
+    {% form 'contact', id: 'ptd-contact-form' %}
       
       <!-- SUCCESS STATE -->
       {% if form.posted_successfully? %}
@@ -166,7 +159,7 @@
                     <input type="text" id="Name" name="contact[name]" class="ptd-input" placeholder="Name or Brand" required>
                 </div>
                 <div class="field-group">
-                    <label class="field-label" for="Email">Email Frequency</label>
+                    <label class="field-label" for="Email">Email Address</label>
                     <input type="email" id="Email" name="contact[email]" class="ptd-input" placeholder="email@address.com" required>
                 </div>
             </div>
@@ -220,13 +213,10 @@
             <div class="field-group">
                 <label class="field-label" for="Assets">Asset Link (Drive/Dropbox)</label>
                 <input type="url" id="Assets" name="contact[note][Assets]" class="ptd-input" placeholder="https://...">
-                <p class="text-[10px] text-gray-400 mt-2 font-mono uppercase">
-                    * Security Protocol: External links only.
-                </p>
             </div>
         </div>
 
-        <button type="submit" class="submit-btn">
+        <button type="submit" class="submit-btn" id="SubmitBtn">
             Transmit Application
         </button>
 
